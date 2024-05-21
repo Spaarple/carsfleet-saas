@@ -14,7 +14,7 @@ services:
     volumes:
       - db-data:/var/lib/mysql:rw
     networks:
-      - carsfleet
+      - carsfleet-saas
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -26,7 +26,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: toor
     networks:
-      - carsfleet
+      - carsfleet-saas
 
   www:
     build:
@@ -39,7 +39,7 @@ services:
       - ./:/var/www
     restart: always
     networks:
-      - carsfleet
+      - carsfleet-saas
 
   mailhog:
     image: mailhog/mailhog
@@ -47,10 +47,19 @@ services:
       - '1025:1025'
       - '8025:8025'
     networks:
-      - carsfleet
+      - carsfleet-saas
+
+  node:
+    image: node:lts-alpine
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    tty: true
+    networks:
+      - carsfleet-saas
 
 networks:
-  carsfleet:
+  carsfleet-saas:
     driver: bridge
 
 volumes:
