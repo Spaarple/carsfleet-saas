@@ -1,0 +1,59 @@
+{% extends 'base_app.html.twig' %}
+
+{% block title %}Historique de vos accident{% endblock %}
+
+{% block body %}
+    <div class="page-wrapper">
+    <div class="page-header d-print-none">
+        <div class="container-xl">
+            <div class="row g-2 align-items-center">
+                <div class="col">
+                    <h2 class="page-title">
+                        Historique de mes accidents
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-cards">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="table table-vcenter card-table table-hover">
+                                <thead>
+                                <tr class="align-middle">
+                                    <th scope="col">Voitures</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for accident_history in accidents_history %}
+                                    <tr class="align-middle">
+                                        <td colspan="row">{{ accident_history.car.brand }} - {{ accident_history.car.model }}</td>
+                                        <td colspan="row">
+                                            <p class="text-secondary">{{ accident_history.description }}
+                                            </p>
+                                        </td>
+                                        <td colspan="row">
+                                            <span class="status status-success">{{ accident_history.date|date('d/m/Y') }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="6" class="text-center fs-3">Aucun historique</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

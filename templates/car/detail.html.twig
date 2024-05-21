@@ -1,0 +1,111 @@
+{% extends 'base_app.html.twig' %}
+
+{% block title %}Car: {{ car.model }} - {{ car.brand }}{% endblock %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="page-header d-print-none">
+        <div class="container-xl">
+            <div class="row g-2 align-items-center">
+                <div class="col">
+                    <h2 class="page-title">
+                        {{ car.model }} - {{ car.brand }}
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page body -->
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Informations</h3>
+                </div>
+                <div class="card-body">
+                    <div class="datagrid">
+
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">Numéro de serie</div>
+                            <div class="datagrid-content">
+                                 <span class="status status-purple">
+                                    {{ car.serialNumber }}
+                            </div>
+                        </div>
+
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">Marque</div>
+                            <div class="datagrid-content">{{ car.brand }}</div>
+                        </div>
+
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">Modèle</div>
+                            <div class="datagrid-content">
+                                 <span class="status status-dark">
+                                    {{ car.model }}
+                                 </span>
+                            </div>
+                        </div>
+
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">Quantité de passager</div>
+                            <div class="datagrid-content">
+                                 <span class="status status-blue">
+                                    {{ car.passengerQuantity }}
+                                 </span>
+                            </div>
+                        </div>
+
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">Plaque d'immatriculation</div>
+                            <div class="datagrid-content">
+                                 <span class="status status-indigo">
+                                    {{ car.registrationNumber }}
+                                 </span>
+                            </div>
+                        </div>
+
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">Statut</div>
+                            <div class="datagrid-content">
+                                 <span class="status status-success">
+                                    {{ car.status.value }}
+                                 </span>
+                            </div>
+                        </div>
+
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">Couleur</div>
+                            <div class="datagrid-content">
+                                <div class="avatar " style="background-color: {{ car.color }}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto ms-auto d-print-none mt-3">
+                <div class="d-flex float-end">
+                    <a href="{{ path('app_borrow_index', {'id': car.id }) }}" class="btn btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="icon icon-tabler icon-tabler-car mx-1"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             stroke-width="2"
+                             stroke="currentColor"
+                             fill="none"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                            <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                            <path d="M5 17h-2v-6l2 -5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6m-6 -6h15m-6 0v-5"></path>
+                        </svg>
+                        Emprunter le véhicule
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

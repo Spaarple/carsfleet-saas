@@ -1,0 +1,10 @@
+App\Entity\Car:
+  car{1..200}:
+    serial_number: '<numberBetween(100000, 900000)>'
+    brand: '<brand()>'
+    model: '<model()>'
+    color: '<color()>'
+    registration_number: '<numberBetween(100000, 900000)>'
+    status: '<status()>'
+    passenger_quantity: '<numberBetween(1, 5)>'
+    site: '@site*'

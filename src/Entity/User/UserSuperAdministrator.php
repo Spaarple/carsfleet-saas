@@ -1,0 +1,44 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Entity\User;
+
+use App\Entity\HeadOffice;
+use App\Enum\Role;
+use App\Repository\User\UserAdministratorRepository;
+use App\Repository\User\UserSuperAdministratorRepository;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity(repositoryClass: UserSuperAdministratorRepository::class)]
+class UserSuperAdministrator extends AbstractUser
+{
+    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'userSuperAdministrators')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?HeadOffice $headOffice = null;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setRoles([Role::ROLE_SUPER_ADMINISTRATOR->name]);
+    }
+
+    /**
+     * @return HeadOffice|null
+     */
+    public function getHeadOffice(): ?HeadOffice
+    {
+        return $this->headOffice;
+    }
+
+    /**
+     * @param HeadOffice|null $headOffice
+     * @return $this
+     */
+    public function setHeadOffice(?HeadOffice $headOffice): static
+    {
+        $this->headOffice = $headOffice;
+
+        return $this;
+    }
+}

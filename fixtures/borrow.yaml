@@ -1,0 +1,8 @@
+App\Entity\Borrow:
+  borrow{1..50}:
+    startDate: '<startDate()>'
+    endDate: '<endDate($startDate)>'
+    car: '@car*'
+    driver: '@employed*'
+    userEmployed: ['@employed*']
+    borrowMeet: '@borrowMeet*'

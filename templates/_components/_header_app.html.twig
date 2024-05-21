@@ -1,0 +1,145 @@
+{% set route_name = app.request.attributes.get('_route') %}
+
+<div class="sticky-top">
+    <header class="navbar navbar-expand-md navbar-light sticky-top d-print-none">
+        <div class="container-xl">
+            <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbar-menu"
+                    aria-controls="navbar-menu"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+                <a href="{{ path('app_home') }}">
+                    CarsFleet
+                </a>
+            </h1>
+        </div>
+    </header>
+    <header class="navbar-expand-md sticky-top d-print-none">
+        <div class="collapse navbar-collapse" id="navbar-menu">
+            <div class="navbar">
+                <div class="container-xl">
+                    <div class="row flex-fill align-items-center">
+                        <div class="col">
+                            <ul class="navbar-nav">
+                                <li class="nav-item {% if route_name == "app_profile_index" %} active {% endif %}">
+                                    <a class="nav-link" href="{{ path('app_profile_index') }}">
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                         <svg xmlns="http://www.w3.org/2000/svg"
+                                              class="icon icon-tabler icon-tabler-user"
+                                              width="24"
+                                              height="24"
+                                              viewBox="0 0 24 24"
+                                              stroke-width="2"
+                                              stroke="currentColor"
+                                              fill="none"
+                                              stroke-linecap="round"
+                                              stroke-linejoin="round">
+                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                             <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                             <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                                         </svg>
+                                        </span>
+                                        <span class="nav-link-title">Mon compte</span>
+                                    </a>
+                                </li>
+                                {% if app.user.drivingLicense == true %}
+                                    <li class="nav-item {% if route_name == "app_car_index" %} active {% endif %}">
+                                        <a class="nav-link" href="{{ path('app_car_index') }}">
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-car"
+                                               width="24"
+                                               height="24"
+                                               viewBox="0 0 24 24"
+                                               stroke-width="2"
+                                               stroke="currentColor"
+                                               fill="none"
+                                               stroke-linecap="round"
+                                               stroke-linejoin="round">
+                                              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                              <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                              <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                              <path d="M5 17h-2v-6l2 -5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6m-6 -6h15m-6 0v-5"></path>
+                                          </svg>
+                                        </span>
+                                            <span class="nav-link-title">Emprunter un véhicule</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                <li class="nav-item {% if route_name == "app_borrow_passenger" %} active {% endif %}">
+                                    <a class="nav-link " href="{{ path('app_borrow_passenger') }}">
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                          <svg xmlns="http://www.w3.org/2000/svg"
+                                               class="icon icon-tabler icon-tabler-route"
+                                               width="24"
+                                               height="24"
+                                               viewBox="0 0 24 24"
+                                               stroke-width="1.5"
+                                               stroke="currentColor"
+                                               fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                              <path d="M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
+                                              <path d="M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4z"></path>
+                                              <path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5"></path>
+                                          </svg>
+                                        </span>
+                                        <span class="nav-link-title">Participer à un trajet</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item {% if route_name == "app_borrow_history" %} active {% endif %}">
+                                    <a class="nav-link" href="{{ path('app_borrow_history') }}">
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-history"
+                                              width="24"
+                                              height="24"
+                                              viewBox="0 0 24 24"
+                                              stroke-width="2"
+                                              stroke="currentColor"
+                                              fill="none"
+                                              stroke-linecap="round"
+                                              stroke-linejoin="round">
+                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                             <path d="M12 8l0 4l2 2"></path>
+                                             <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"></path>
+                                         </svg>
+                                        </span>
+                                        <span class="nav-link-title">Historique des emprunts</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item {% if route_name == "app_accident_history" %} active {% endif %}">
+                                    <a class="nav-link" href="{{ path('app_accident_history') }}">
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                 class="icon icon-tabler icon-tabler-car-crash"
+                                                 width="24"
+                                                 height="24"
+                                                 viewBox="0 0 24 24"
+                                                 stroke-width="2"
+                                                 stroke="currentColor"
+                                                 fill="none"
+                                                 stroke-linecap="round"
+                                                 stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M10 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                                <path d="M7 6l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-5m0 -6h8m-6 0v-5m2 0h-4"></path>
+                                                <path d="M14 8v-2"></path>
+                                                <path d="M19 12h2"></path>
+                                                <path d="M17.5 15.5l1.5 1.5"></path>
+                                                <path d="M17.5 8.5l1.5 -1.5"></path>
+                                            </svg>
+                                        </span>
+                                        <span class="nav-link-title">Historique des accidents</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+</div>

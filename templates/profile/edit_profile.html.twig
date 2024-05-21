@@ -1,0 +1,58 @@
+{% extends 'base_app.html.twig' %}
+
+{% block title %}CarsFleet | Account Settings{% endblock %}
+
+{% block body %}
+    <div class="page-header d-print-none">
+        <div class="container-xl">
+            <div class="row g-2 align-items-center">
+                <div class="col">
+                    <h2 class="page-title">
+                        Paramètres du compte
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="card">
+                <div class="row g-0">
+                    {{ include('profile/_navigation_account.html.twig') }}
+                    <div class="col-12 col-md-9 d-flex flex-column">
+                        <div class="card-body">
+                            <h2 class="mb-4">Edit Profile</h2>
+                            <div class="row g-3">
+                                {{ form_start(form) }}
+                                <div class="row row-cards">
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="mb-3">
+                                            {{ form_row(form.lastname) }}
+                                            {{ form_row(form.email) }}
+                                            {{ form_row(form.service) }}
+                                            {{ form_row(form.drivingLicense) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="mb-3">
+                                            {{ form_row(form.firstname) }}
+                                            {{ form_row(form.matricule) }}
+                                            {{ form_row(form.site) }}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button type="submit" class="btn btn-lime float-end">
+                                            Enregistrer les modifications
+                                        </button>
+                                    </div>
+                                </div>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

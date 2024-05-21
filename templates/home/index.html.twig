@@ -1,0 +1,162 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CarsFleet{% endblock %}
+
+{% block body %}
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="px-4 pt-5 my-5 text-center">
+                <h1 class="display-4 fw-bold text-body-emphasis">Votre parc devient magique avec Carsfleet</h1>
+                <div class="col-lg-6 mx-auto">
+                    <p class="lead mb-4">Optimisez votre flotte pour vos sites. Notre boîte à outils est incontournable.</p>
+                </div>
+                <div class="overflow-hidden" style="max-height: 40vh;">
+                    <div class="container px-5">
+                        <img src="{{ asset('images/preview-web-site.png') }}" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Interface d'administrateur" loading="lazy">
+                    </div>
+                </div>
+            </div>
+
+            <div class="container px-4 py-5">
+                <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+                    <div class="col-10 col-sm-8 col-lg-6">
+                        <img src="{{ asset('images/preview-web-site.png') }}" class="d-block mx-lg-auto img-fluid" alt="preview app" width="500" height="500" loading="lazy">
+                    </div>
+                    <div class="col-lg-6">
+                        <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Rien ne vous arrête. Surtout pas nous.</h1>
+                        <p class="lead">
+                            Transformez votre flotte automobile en un atout stratégique pour vos multiples
+                            sites avec notre boîte à outils personnalisée, conçue pour répondre à vos besoins spécifiques.
+                            Découvrez pourquoi elle est plébiscitée par tant d'utilisateurs et prenez dès maintenant
+                            une longueur d'avance.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tarification" class="my-5 py-2 bg-white rounded-5">
+                <div class="text-center">
+                    <div class="container py-5">
+                        <h1 class="display-6 fw-bold text-body-emphasis lh-1 mb-3">Vous allez en avoir pour votre temps.</h1>
+                        <div class="display-6 fw-bold my-3">19.99 € /mois</div>
+                        <ul class="list-unstyled lh-lg">
+                            <li>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="icon me-1 text-success"
+                                     width="24"
+                                     height="24"
+                                     viewBox="0 0 24 24"
+                                     stroke-width="2"
+                                     stroke="currentColor"
+                                     fill="none"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M5 12l5 5l10 -10"></path>
+                                </svg>
+                                Utilisateurs <strong>illimité</strong>
+                            </li>
+                            <li>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="icon me-1 text-success"
+                                     width="24"
+                                     height="24"
+                                     viewBox="0 0 24 24"
+                                     stroke-width="2"
+                                     stroke="currentColor"
+                                     fill="none"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M5 12l5 5l10 -10"></path>
+                                </svg>
+                                Gestion des accès par rôle
+                            </li>
+                            <li>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="icon me-1 text-success"
+                                     width="24"
+                                     height="24"
+                                     viewBox="0 0 24 24"
+                                     stroke-width="2"
+                                     stroke="currentColor"
+                                     fill="none"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M5 12l5 5l10 -10"></path>
+                                </svg>
+                                Sites <strong>illimité</strong>
+                            </li>
+                            <li>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="icon me-1 text-success"
+                                     width="24"
+                                     height="24"
+                                     viewBox="0 0 24 24"
+                                     stroke-width="2"
+                                     stroke="currentColor"
+                                     fill="none"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M5 12l5 5l10 -10"></path>
+                                </svg>
+                                Voitures <strong>illimité</strong>
+                            </li>
+                            <li>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="icon me-1 text-success"
+                                     width="24"
+                                     height="24"
+                                     viewBox="0 0 24 24"
+                                     stroke-width="2"
+                                     stroke="currentColor"
+                                     fill="none"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M5 12l5 5l10 -10"></path>
+                                </svg>
+                                Gestion des clés
+                            </li>
+                            <li>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="icon me-1 text-success"
+                                     width="24"
+                                     height="24"
+                                     viewBox="0 0 24 24"
+                                     stroke-width="2"
+                                     stroke="currentColor"
+                                     fill="none"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M5 12l5 5l10 -10"></path>
+                                </svg>
+                                Gestion des accidents
+                            </li>
+                            <li>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="icon me-1 text-success"
+                                     width="24"
+                                     height="24"
+                                     viewBox="0 0 24 24"
+                                     stroke-width="2"
+                                     stroke="currentColor"
+                                     fill="none"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M5 12l5 5l10 -10"></path>
+                                </svg>
+                                Gestion des emprunts de véhicules & des trajets professionnels
+                            </li>
+                        </ul>
+                        <a href="{{ path('app_register_index') }}" class="btn btn-outline-primary">S'abonner a Carsfleet</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

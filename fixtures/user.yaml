@@ -1,0 +1,29 @@
+App\Entity\User\UserSuperAdministrator:
+  superAdministrator{1..10}:
+    email: '<email()>'
+    password: '<hashPassword("123abcABC%", "ROLE_SUPER_ADMINISTRATOR")>'
+    first_name: '<fr_FR:firstname()>'
+    last_name: '<fr_FR:lastname()>'
+    roles: [ROLE_SUPER_ADMINISTRATOR]
+    head_office: '@headOffice*'
+
+App\Entity\User\UserAdministrator:
+  administrator{1..20}:
+    email: '<email()>'
+    password: '<hashPassword("123abcABC%", "ROLE_ADMINISTRATOR")>'
+    first_name: '<fr_FR:firstname()>'
+    last_name: '<fr_FR:lastname()>'
+    roles: [ROLE_ADMINISTRATOR]
+    site: '@site*'
+
+App\Entity\User\UserEmployed:
+  employed{1..100}:
+    email: '<email()>'
+    password: '<hashPassword("123abcABC%", "ROLE_EMPLOYED")>'
+    first_name: '<fr_FR:firstname()>'
+    last_name: '<fr_FR:lastname()>'
+    roles: [ROLE_EMPLOYED]
+    site: '@site*'
+    matricule: '<numberBetween(1000, 9000)>'
+    service: '<service()>'
+    driving_license: '<boolval(1)>'

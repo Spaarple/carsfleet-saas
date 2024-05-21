@@ -1,0 +1,7 @@
+App\Entity\HeadOffice:
+  headOffice{1..5}:
+    name: '<nameHeadOffice()>'
+    address: '10 rue du siège social'
+    postal_code: '<numberBetween(00001, 99999)>'
+    country: 'FR'
+    region: 'Ma region'

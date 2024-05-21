@@ -1,0 +1,80 @@
+{% extends 'base_app.html.twig' %}
+
+{% block title %}CarsFleet - Cars{% endblock %}
+
+{% block body %}
+    <div class="page-wrapper">
+    <div class="page-header d-print-none">
+        <div class="container-xl">
+            <div class="row g-2 align-items-center">
+                <div class="col">
+                    <h2 class="page-title">
+                        <span class="text-light badge badge-pill bg-azure mx-2">{{ cars | length }}</span> Voiture(s)
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-cards">
+                {% for car in cars %}
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card">
+                            <div class="card-body p-4 text-center">
+                                <h3 class="m-0 mb-1">
+                                    <a href="#">
+                                        {{ car.brand }} - {{ car.model }}
+                                    </a>
+                                </h3>
+                                <div class="avatar " style="background-color: {{ car.color }}"></div>
+                                <div class="text-muted">Nombre de passager: {{ car.passengerQuantity }}</div>
+                                <div class="mt-3">
+                                    <span class="badge bg-success-lt">{{ car.status.value }}</span>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <a href="{{ path('app_car_detail', {'id': car.id}) }}" class="card-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         class="icon icon-tabler icon-tabler-eye mx-1"
+                                         width="24"
+                                         height="24"
+                                         viewBox="0 0 24 24"
+                                         stroke-width="2"
+                                         stroke="currentColor"
+                                         fill="none"
+                                         stroke-linecap="round"
+                                         stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
+                                        <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"></path>
+                                    </svg>
+                                    Consulter
+                                </a>
+                                <a href="{{ path('app_borrow_index', {'id': car.id }) }}" class="card-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         class="icon icon-tabler icon-tabler-car mx-1"
+                                         width="24"
+                                         height="24"
+                                         viewBox="0 0 24 24"
+                                         stroke-width="2"
+                                         stroke="currentColor"
+                                         fill="none"
+                                         stroke-linecap="round"
+                                         stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                        <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                        <path d="M5 17h-2v-6l2 -5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6m-6 -6h15m-6 0v-5"></path>
+                                    </svg>
+                                    Emprunter
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
