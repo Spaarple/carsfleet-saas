@@ -24,7 +24,7 @@
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     {% if is_granted('ROLE_EMPLOYED') %}
                         <a href="{{ path('app_profile_index') }}"
-                           class="transform hover:scale-110 transition-transform duration-200 hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-900 py-4 pl-5 pr-4 rounded-full flex flex-row gap-2 items-center justify-center">
+                           class="transform hover:scale-110 transition-transform duration-200 hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-900 py-4 pl-5 pr-4 rounded-xl flex flex-row gap-2 items-center justify-center">
                            My Account
                         </a>
                     {% else %}
@@ -34,12 +34,12 @@
                     {% endif %}
                 {% else %}
                     <a href="{{ path('app_login') }}"
-                       class="transform hover:scale-110 transition-transform duration-200 hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-900 py-4 pl-5 pr-4 rounded-full flex flex-row gap-2 items-center justify-center">
-                        Sign In
+                       class="transform hover:scale-110 transition-transform duration-200 hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-900 py-4 pl-5 pr-4 rounded-xl flex flex-row gap-2 items-center justify-center">
+                        Se connecter
                     </a>
                     <a href="{{ path('app_register_index') }}"
-                       class="transform hover:scale-110 transition-transform duration-200 hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-700 py-4 pl-5 pr-4 rounded-full flex flex-row gap-2 items-center justify-center">
-                        Sign Up
+                       class="transform hover:scale-110 transition-transform duration-200 hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-700 py-4 pl-5 pr-4 rounded-xl flex flex-row gap-2 items-center justify-center">
+                        S'inscrire
                     </a>
                 {% endif %}
             </div>
