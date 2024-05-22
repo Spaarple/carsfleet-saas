@@ -30,6 +30,11 @@ module.exports = {
         600: "#29D2D3",
         100: "#CFFAFE",
       },
+      darkness: {
+        200: "#E3E3E5",
+        400: "#D0D0D0",
+        500: "#2B2B2B",
+      },
       neutral: {
         900: "#111827",
         800: "#1F2937",
@@ -141,5 +146,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin')
+  ],
 };
