@@ -23,7 +23,7 @@ class HeadOfficeFormType extends AbstractType
                 'label' => 'Nom',
                 'required' => true,
                 'attr' => [
-                    'placeholder' => 'Nom',
+                    'placeholder' => 'Nom de votre siège social',
                 ],
             ])
             ->add('address', TextType::class, [
@@ -37,7 +37,7 @@ class HeadOfficeFormType extends AbstractType
                 'label' => 'Code postal',
                 'required' => true,
                 'attr' => [
-                    'placeholder' => 'Code postal',
+                    'placeholder' => 'Code postal (44000)',
                 ],
             ])
             ->add('country', CountryType::class, [
