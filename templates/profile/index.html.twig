@@ -1,81 +1,98 @@
 {% extends 'base_app.html.twig' %}
 
-{% block title %}CarsFleet |Account Settings{% endblock %}
+{% block title %}CarsFleet | Account Settings{% endblock %}
 
 {% block body %}
-    <div class="page-header d-print-none">
-        <div class="container-xl">
-            <div class="row g-2 align-items-center">
-                <div class="col">
-                    <h2 class="page-title">
-                        Paramètres du compte
-                    </h2>
-                </div>
+    <div class="container mx-auto p-4 shadow rounded-xl">
+        <h1 class="text-display-xs font-semibold mb-5">
+            Paramètres du compte
+        </h1>
+        <div class="md:flex">
+            <div class="flex-2">
+                {{ include('profile/_navigation_account.html.twig') }}
             </div>
-        </div>
-    </div>
-
-    <div class="page-body">
-        <div class="container-xl">
-            <div class="card">
-                <div class="row g-0">
-                    {{ include('profile/_navigation_account.html.twig') }}
-                    <div class="col-12 col-md-9 d-flex flex-column">
-                        <div class="card-body">
-                            <h2 class="mb-4">Mon compte</h2>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label for="first-name" class="form-label">Prénom</label>
-                                    <input name="first-name" type="text" class="form-control"
-                                           value="{{ app.user.firstName }}" disabled>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="last-name" class="form-label">Nom de Famille</label>
-                                    <input name="last-name" type="text" class="form-control"
-                                           value="{{ app.user.lastName }}" disabled>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input name="email" type="email" class="form-control"
-                                           value="{{ app.user.email }}" disabled>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="matricule" class="form-label">Matricule</label>
-                                    <input name="matricule" type="email" class="form-control"
-                                           value="{{ app.user.matricule }}" disabled>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="service" class="form-label">Service</label>
-                                    <input name="service" type="text" class="form-control"
-                                           value="{{ app.user.service.name|lower }}" disabled/>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="service" class="form-label">Site</label>
-                                    <input name="service" type="text" class="form-control"
-                                           value="{{ app.user.site.name }}" disabled/>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" disabled
-                                               {{ app.user.drivingLicense is same as true ? 'checked' : '' }}>
-                                        <span class="form-check-label">Permis de conduire (B)</span>
-                                    </label>
-                                </div>
-                                <div>
-                                    <a href="{{ path('app_profile_edit_profile') }}" class="btn btn-lime float-end">
-                                        Modifier le profil
-                                    </a>
-                                </div>
+            <div class="flex-1 p-6 bg-gray-100 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-xl w-full">
+                <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Mon compte</h2>
+                <div class="sm:mx-auto sm:w-full sm:max-w-5xl">
+                    <div class="mt-5 grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-6">
+                        <div class="sm:col-span-3">
+                           <div class="mb-5">
+                               <label for="first-name" class="text-base font-semibold leading-7 text-gray-900 required">Prénom</label>
+                               <input type="text" id="first-name" name="first-name" value="{{ app.user.firstName }}" disabled class="bg-neutral-200 border border-gray-300 text-gray-500 text-sm rounded-xl
+                           focus:ring-neutral-900 focus:border-darkness-500 block w-full p-2.5 dark:bg-gray-700
+                           dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+                           dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                           </div>
+                            <div class="mb-5">
+                                <label for="email" class="text-base font-semibold leading-7 text-gray-900 required">E-mail</label>
+                                <input type="email" id="email" name="email" value="{{ app.user.email }}" disabled
+                                       class="bg-neutral-200 border border-gray-300 text-gray-500 text-sm rounded-xl
+                            focus:ring-neutral-900 focus:border-darkness-500 block w-full p-2.5 dark:bg-gray-700
+                           dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+                           dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             </div>
-                            <h3 class="card-title mt-4">Mot de passe</h3>
-                            <p class="card-subtitle">Vous pouvez définir un nouveau mot de passe pour accéder à votre compte.</p>
+                            <div class="mb-5">
+                                <label for="service" class="text-base font-semibold leading-7 text-gray-900 required">Service</label>
+                                <input type="text" id="service" name="service" value="{{ app.user.service.name|lower }}" disabled
+                                       class="bg-neutral-200 border border-gray-300 text-gray-500 text-sm rounded-xl
+                           focus:ring-neutral-900 focus:border-darkness-500 block w-full p-2.5 dark:bg-gray-700
+                           dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+                           dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            </div>
+                            <label class="inline-flex items-center mb-5 cursor-pointer">
+                                <input type="checkbox" value="" class="sr-only peer" disabled {{ app.user.drivingLicense is same as true ? 'checked' : '' }}>
+                                <div class="relative w-11 h-6 bg-gray-200
+                                rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full
+                                peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px]
+                                after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all
+                                dark:border-gray-600 peer-checked:bg-neutral-700"></div>
+                                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Permis de conduire (B)</span>
+                            </label>
+                        </div>
+                        <div class="sm:col-span-3">
+                            <div class="mb-5">
+                                <label for="last-name" class="text-base font-semibold leading-7 text-gray-900 required">Nom</label>
+                                <input type="text" id="last-name" name="last-name" value="{{ app.user.lastname }}" disabled
+                                       class="bg-neutral-200 border border-gray-300 text-gray-500 text-sm rounded-xl
+                           focus:ring-neutral-900 focus:border-darkness-500 block w-full p-2.5 dark:bg-gray-700
+                           dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+                           dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            </div>
+                            <div class="mb-5">
+                                <label for="matricule" class="text-base font-semibold leading-7 text-gray-900 required">Matricule</label>
+                                <input type="text" id="matricule" name="matricule" value="{{ app.user.matricule }}" disabled
+                                       class="bg-neutral-200 border border-gray-300 text-gray-500 text-sm rounded-xl
+                           focus:ring-neutral-900 focus:border-darkness-500 block w-full p-2.5 dark:bg-gray-700
+                           dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+                           dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            </div>
+                            <div class="mb-5">
+                                <label for="site" class="text-base font-semibold leading-7 text-gray-900 required">Site associé</label>
+                                <input type="text" id="site" name="site" value="{{ app.user.site.name }}" disabled
+                                       class="bg-neutral-200 border border-gray-300 text-gray-500 text-sm rounded-xl
+                           focus:ring-neutral-900 focus:border-darkness-500 block w-full p-2.5 dark:bg-gray-700
+                           dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+                           dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            </div>
                             <div>
-                                <a href="{{ path('app_profile_change_password') }}" class="btn">
-                                    Changer le mot de passe
+                                <a href="{{ path('app_profile_edit_profile') }}" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4
+                   focus:ring-gray-100 font-medium rounded-xl text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white
+                   dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 float-end">
+                                    Editer mon profil
                                 </a>
                             </div>
                         </div>
                     </div>
+                </div>
+                <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Mot de passe</h2>
+                <p class="my-5">Vous pouvez définir un nouveau mot de passe pour accéder à votre compte.</p>
+                <div>
+                    <a href="{{ path('app_profile_change_password') }}"
+                       class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4
+                       focus:ring-gray-100 font-medium rounded-xl text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white
+                       dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                        Changer le mot de passe
+                    </a>
                 </div>
             </div>
         </div>
