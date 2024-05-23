@@ -22,6 +22,9 @@ module.exports = {
       current: "currentColor",
       white: "#FFFFFF",
       black: "#000000",
+      red: {
+        600: "#EF4444",
+      },
       primary: {
         600: "#0876DD",
         100: "#E0F2FE",
