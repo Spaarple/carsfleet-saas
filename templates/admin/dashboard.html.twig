@@ -1,0 +1,69 @@
+{# templates/admin/dashboard.html.twig #}
+{% extends '@EasyAdmin/layout.html.twig' %}
+
+{% block body_javascript %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('dashboard-ea') }}
+    <script>
+        window.chartData = {{ chart|json_encode|raw }};
+    </script>
+{% endblock body_javascript %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('dashboard-ea') }}
+{% endblock head_stylesheets %}
+
+     {% block content %}
+         <div>
+             <h1 class="text-display-md font-semibold my-3">
+                 Dashboard
+             </h1>
+
+             <div class="grid grid-cols-2 gap-4 my-3">
+                 <a href="#" class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ cars }}</h5>
+                     <p class="font-normal text-gray-700 dark:text-gray-400">Nombre de voitures</p>
+                 </a>
+                 <a href="#" class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ sites }}</h5>
+                     <p class="font-normal text-gray-700 dark:text-gray-400">Nombre de sites</p>
+                 </a>
+             </div>
+
+             <div class="grid grid-cols-2 gap-4">
+                 <div id="chart1" class="p-4 border border-gray-200 rounded-lg">
+                     <!-- Le graphique ApexCharts sera rendu ici -->
+                     <div class="bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+                         <div class="flex justify-between">
+                             <div>
+                                 <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">32.4k</h5>
+                                 <p class="text-base font-normal text-gray-500 dark:text-gray-400">Users this week</p>
+                             </div>
+                             <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
+                                 12%
+                             </div>
+                         </div>
+                         <div id="area-chart"></div>
+                     </div>
+                     <!-- Le graphique ApexCharts sera rendu ici -->
+                 </div>
+                 <div id="chart3" class="p-4 border border-gray-200 rounded-lg">
+                     <!-- Le graphique ApexCharts sera rendu ici -->
+                     <div class="bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+                         <div class="flex justify-between">
+                             <div>
+                                 <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">32.4k</h5>
+                                 <p class="text-base font-normal text-gray-500 dark:text-gray-400">Users this week</p>
+                             </div>
+                             <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
+                                 12%
+                             </div>
+                         </div>
+                         <div id="area-chart3"></div>
+                     </div>
+                     <!-- Le graphique ApexCharts sera rendu ici -->
+                 </div>
+             </div>
+         </div>
+     {% endblock %}

@@ -61,10 +61,17 @@ class DashboardController extends AbstractDashboardController
     {
         $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
 
-        return $this->redirect(
-            $adminUrlGenerator->setController(UserCrudController::class)
-            ->generateUrl()
-        );
+        if (!$this->isGranted(Role::ROLE_SUPER_ADMINISTRATOR->name)) {
+            return $this->redirect($adminUrlGenerator->setController(UserCrudController::class)->generateUrl());
+        }
+
+
+        return $this->render('admin/dashboard.html.twig', [
+            'chart' => [10, 20, 30, 40, 10, 23, 30, 400],
+            'cars' => count($this->carRepository->findAll()),
+            'sites' => count($this->siteRepository->findAll()),
+        ]);
+
     }
 
     /**
