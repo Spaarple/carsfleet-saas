@@ -55,6 +55,9 @@ class KeyCrudController extends AbstractCrudController
         return $this->keyRepository->getKeysByUser($user);
     }
 
+    /**
+     * @return string
+     */
     public static function getEntityFqcn(): string
     {
         return Key::class;

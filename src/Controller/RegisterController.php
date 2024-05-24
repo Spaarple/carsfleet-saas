@@ -56,6 +56,10 @@ class RegisterController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/payment', name: '_payment')]
     public function payment(Request $request): Response
     {

@@ -81,6 +81,10 @@ class HeadOfficeCrudController extends AbstractCrudController
         ->setPageTitle('edit', 'Modification du siège social');
     }
 
+    /**
+     * @param Actions $actions
+     * @return Actions
+     */
     public function configureActions(Actions $actions): Actions
     {
         $actions

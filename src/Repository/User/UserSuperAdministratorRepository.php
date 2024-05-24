@@ -34,17 +34,9 @@ class UserSuperAdministratorRepository extends ServiceEntityRepository
      */
     public function getSuperAdmin(UserSuperAdministrator $user): QueryBuilder
     {
-        $queryBuilder = $this->createQueryBuilder('u')
-            ->innerJoin('u.headOffice', 'h');
-
-        $queryBuilder
+        return $this->createQueryBuilder('u')
+            ->innerJoin('u.headOffice', 'h')
             ->where('h.id = :headOfficeId')
-            ->setParameter(
-                'headOfficeId',
-                $user->getHeadOffice()?->getId(),
-                UuidType::NAME
-            );
-
-        return $queryBuilder;
+            ->setParameter('headOfficeId', $user->getHeadOffice()?->getId(), UuidType::NAME);
     }
 }
