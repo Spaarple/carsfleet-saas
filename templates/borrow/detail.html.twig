@@ -3,13 +3,73 @@
 {% block title %}Détail du trajet: {{ borrow.car.model }} - {{ borrow.car.brand }}{% endblock %}
 
 {% block body %}
-    <div class="page-wrapper">
-        <div class="page-header d-print-none">
-            <div class="container-xl">
+    <div class="bg-white">
+        <div class="pt-6">
+            <nav aria-label="Breadcrumb">
+            </nav>
 
-                <div class="col-auto ms-auto d-print-none mt-3">
-                    <div class="d-flex float-end">
-                        <a href="{{ path('app_borrow_index_passenger', {'id': borrow.id }) }}" class="btn btn-primary">
+            <div class="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
+                <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
+                    <h1 class="text-body-xl font-semibold mb-5">
+                        Trajet du
+                        <span class="bg-neutral-300 text-neutral-800 text-xs font-medium px-2.5 py-0.5 rounded
+                         dark:bg-purple-900 dark:text-purple-300">{{ borrow.borrowMeet.date|date('d/m/y H:i') }}</span>
+                        départ du
+                        <span class="bg-neutral-300 text-neutral-800 text-xs font-medium px-2.5 py-0.5 rounded
+                         dark:bg-purple-900 dark:text-purple-300">{{ borrow.borrowMeet.site.name }}</span>
+                        pour le
+                        <span class="bg-neutral-300 text-neutral-800 text-xs font-medium px-2.5 py-0.5 rounded
+                         dark:bg-purple-900 dark:text-purple-300">{{ borrow.borrowMeet.tripDestination.name }}</span>
+                    </h1>
+                </div>
+
+                <div class="mt-4 lg:row-span-3 lg:mt-0">
+                    <h2 class="text-body-xl font-semibold">Information du véhicule</h2>
+                    <div class="mt-5">
+                        <div class="my-10">
+                            <div class="flex items-center justify-between my-3">
+                                <p class="text-sm text-neutral-800">Marque du véhicule</p>
+                                <p class="text-sm text-neutral-800">{{ borrow.car.brand }}</p>
+                            </div>
+                            <div class="flex items-center justify-between my-3">
+                                <p class="text-sm text-neutral-800">Modèle</p>
+                                <p class="text-sm text-neutral-800">{{ borrow.car.model }}</p>
+                            </div>
+                            <div class="flex items-center justify-between my-3">
+                                <p class="text-sm text-neutral-800">Quantité de passager</p>
+                                <span class="bg-gray-100 text-gray-800 text-sm font-medium me-2 px-2.5 py-0.5
+                                 rounded dark:bg-gray-700 dark:text-gray-300">{{ borrow.car.passengerQuantity }}
+                                </span>
+                            </div>
+                            <div class="flex items-center justify-between my-3">
+                                <p class="text-sm text-neutral-800">Couleur du véhicule</p>
+                                <div class="flex items-center space-x-3">
+                                    <label class="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full
+                                    p-0.5 focus:outline-none ring-gray-400">
+                                        <span  class="h-8 w-8 rounded-full border border-black border-opacity-10"
+                                               style="background-color: {{ borrow.car.color }}">
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between my-3">
+                                <p class="text-sm text-neutral-800">Numéro de série</p>
+                                <span class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5
+                                 rounded dark:bg-green-900 dark:text-green-300">{{ borrow.car.serialNumber }}
+                                </span>
+                            </div>
+                            <div class="flex items-center justify-between my-3">
+                                <p class="text-sm text-neutral-800">Plaque d'immatriculation</p>
+                                <span class="bg-indigo-100 text-indigo-800 text-sm font-medium me-2 px-2.5 py-0.5
+                                 rounded dark:bg-indigo-900 dark:text-indigo-300">{{ borrow.car.registrationNumber }}
+                                </span>
+                            </div>
+                        </div>
+                        <a href="{{ path('app_borrow_index_passenger', {'id': borrow.id }) }}"
+                           class=" px-8 py-3 focus:ring-neutral-900 focus:ring-offset-2
+                        transform hover:scale-110 focus:outline-none focus:ring-2 transition-transform duration-200
+                         hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-900 pl-5 pr-4 rounded-xl
+                          flex flex-row gap-2 items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg"
                                  class="icon icon-tabler icon-tabler-car mx-1"
                                  width="24"
@@ -25,103 +85,33 @@
                                 <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
                                 <path d="M5 17h-2v-6l2 -5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6m-6 -6h15m-6 0v-5"></path>
                             </svg>
-                            Confirmer la participation
+                            Participer au trajet
                         </a>
                     </div>
                 </div>
 
-                <div class="row g-2 align-items-center">
-                    <div class="col">
-                        <h2 class="page-title">Trajet du
-                            <span class="badge bg-danger-lt mx-1"> {{ borrow.borrowMeet.date|date('d/m/y H:i') }}</span>
-                            départ du<span class="badge bg-purple-lt mx-1"> {{ borrow.borrowMeet.site.name }}</span>
-                            pour le
-                            <span class="badge bg-purple-lt mx-1"> {{ borrow.borrowMeet.tripDestination.name }}</span>
-                        </h2>
+                <div class="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
+                    <h1 class="text-body-xl font-semibold mb-5">Personne(s) participant au trajet</h1>
+
+                    <div class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                                Conducteur
+                            </span>
+                            {{ borrow.driver.firstname|capitalize }} {{ borrow.driver.lastname|upper }}
+                        </h5>
                     </div>
-                </div>
-            </div>
-        </div>
-        <!-- Page body -->
-        <div class="page-body">
-            <div class="container-xl">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            {{ borrow.car.model }} - {{ borrow.car.brand }}
-                        </h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="datagrid">
 
-                            <div class="datagrid-item">
-                                <div class="datagrid-title">Numéro de serie</div>
-                                <div class="datagrid-content">
-                                 <span class="status status-purple">
-                                    {{ borrow.car.serialNumber }}
-                                </div>
-                            </div>
-
-                            <div class="datagrid-item">
-                                <div class="datagrid-title">Marque</div>
-                                <div class="datagrid-content">{{ borrow.car.brand }}</div>
-                            </div>
-
-                            <div class="datagrid-item">
-                                <div class="datagrid-title">Modèle</div>
-                                <div class="datagrid-content">
-                                 <span class="status status-dark">
-                                    {{ borrow.car.model }}
-                                 </span>
-                                </div>
-                            </div>
-
-                            <div class="datagrid-item">
-                                <div class="datagrid-title">Quantité de passager</div>
-                                <div class="datagrid-content">
-                                 <span class="status status-blue">
-                                    {{ borrow.car.passengerQuantity }}
-                                 </span>
-                                </div>
-                            </div>
-
-                            <div class="datagrid-item">
-                                <div class="datagrid-title">Plaque d'immatriculation</div>
-                                <div class="datagrid-content">
-                                 <span class="status status-indigo">
-                                    {{ borrow.car.registrationNumber }}
-                                 </span>
-                                </div>
-                            </div>
-
-                            <div class="datagrid-item">
-                                <div class="datagrid-title">Couleur</div>
-                                <div class="datagrid-content">
-                                    <div class="avatar " style="background-color: {{ borrow.car.color }}"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 mt-3">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Personne(s) participant au trajet</h3>
-                        </div>
-                        <div class="list-group list-group-flush">
-                            <a href="#" class="list-group-item list-group-item-action">
-                                <span class="badge bg-indigo-lt mx-1">Conducteur </span>{{ borrow.driver.firstname|capitalize }} {{ borrow.driver.lastname|upper }}
-                            </a>
-                        {% for member in borrow.userEmployed %}
-                            {% if member.id != borrow.driver.id %}
-                                <a href="#" class="list-group-item list-group-item-action">
+                    {% for member in borrow.userEmployed %}
+                        {% if member.id != borrow.driver.id %}
+                            <div class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                                     {{ member.firstname|capitalize }} {{ member.lastname|upper }}
-                                </a>
-                            {% endif %}
-                        {% endfor %}
-                        </div>
-                    </div>
+                                </h5>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
                 </div>
             </div>
         </div>
