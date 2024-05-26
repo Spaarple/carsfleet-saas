@@ -10,7 +10,7 @@
 
             <div class="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
                 <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-                    <h1 class="text-body-xl font-semibold mb-5">
+                    <h1 class="text-body-xl font-semibold">
                         Trajet du
                         <span class="bg-neutral-300 text-neutral-800 text-xs font-medium px-2.5 py-0.5 rounded
                          dark:bg-purple-900 dark:text-purple-300">{{ borrow.borrowMeet.date|date('d/m/y H:i') }}</span>
@@ -38,7 +38,7 @@
                             <div class="flex items-center justify-between my-3">
                                 <p class="text-sm text-neutral-800">Quantité de passager</p>
                                 <span class="bg-gray-100 text-gray-800 text-sm font-medium me-2 px-2.5 py-0.5
-                                 rounded dark:bg-gray-700 dark:text-gray-300">{{ borrow.car.passengerQuantity }}
+                                 rounded-xl dark:bg-gray-700 dark:text-gray-300">{{ borrow.car.passengerQuantity }}
                                 </span>
                             </div>
                             <div class="flex items-center justify-between my-3">
@@ -55,13 +55,13 @@
                             <div class="flex items-center justify-between my-3">
                                 <p class="text-sm text-neutral-800">Numéro de série</p>
                                 <span class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5
-                                 rounded dark:bg-green-900 dark:text-green-300">{{ borrow.car.serialNumber }}
+                                 rounded-xl dark:bg-green-900 dark:text-green-300">{{ borrow.car.serialNumber }}
                                 </span>
                             </div>
                             <div class="flex items-center justify-between my-3">
                                 <p class="text-sm text-neutral-800">Plaque d'immatriculation</p>
                                 <span class="bg-indigo-100 text-indigo-800 text-sm font-medium me-2 px-2.5 py-0.5
-                                 rounded dark:bg-indigo-900 dark:text-indigo-300">{{ borrow.car.registrationNumber }}
+                                 rounded-xl dark:bg-indigo-900 dark:text-indigo-300">{{ borrow.car.registrationNumber }}
                                 </span>
                             </div>
                         </div>
@@ -91,11 +91,17 @@
                 </div>
 
                 <div class="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
-                    <h1 class="text-body-xl font-semibold mb-5">Personne(s) participant au trajet</h1>
-
-                    <div class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                            <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                    <p class="mb-5">Le trajet du <b>{{ borrow.borrowMeet.date|date('d/m/y') }}</b> à <b>{{ borrow.borrowMeet.date|date('H:i') }}</b>
+                        est prévu pour partir du <b>{{ borrow.borrowMeet.site.name }}</b>
+                        en direction du <b>{{ borrow.borrowMeet.tripDestination.name }}</b>.
+                        Ce déplacement  reliera les deux sites en traversant diverses payasages, assurant une connexion
+                        efficace et rapide. Préparez-vous pour un voyage fluide et bien organisé, reliant deux pôles
+                        dynamiques de la France.
+                    </p>
+                    <h2 class="text-body-xl font-semibold my-3">Personne(s) participant au trajet</h2>
+                    <div class="block p-6 bg-white border border-gray-200 rounded-xl shadow-xl dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                        <h5 class=" text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-1 rounded-xl dark:bg-blue-900 dark:text-blue-300">
                                 Conducteur
                             </span>
                             {{ borrow.driver.firstname|capitalize }} {{ borrow.driver.lastname|upper }}
@@ -104,8 +110,8 @@
 
                     {% for member in borrow.userEmployed %}
                         {% if member.id != borrow.driver.id %}
-                            <div class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                            <div class="block p-6 bg-white border border-gray-200 rounded-xl shadow-xl dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                                <h5 class=" text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                                     {{ member.firstname|capitalize }} {{ member.lastname|upper }}
                                 </h5>
                             </div>
