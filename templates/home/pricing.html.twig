@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CarsFleet | Tarification{% endblock %}
+
+{% block body %}
+    <div class="bg-white py-24 sm:py-10">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mx-auto max-w-xl sm:text-center">
+                <h1 class="lg:text-display-md md:text-display-lg text-display-md font-semibold text-center">
+                    Tarification
+                </h1>
+                <p class="mt-6 text-lg leading-8 text-gray-600">
+                    Découvrez tous les détails sur notre tarif, rassemblés ici pour vous offrir une assistance complète et détaillée.
+                </p>
+            </div>
+            <div class="mx-auto mt-16 max-w-2xl rounded-3xl ring-1 ring-gray-200 sm:mt-20 lg:mx-0 lg:flex lg:max-w-none">
+                <div class="p-8 sm:p-10 lg:flex-auto">
+                    <h3 class="text-2xl font-bold tracking-tight text-gray-900">Un Abonnement, pour un accès illimité a notre service</h3>
+                    <p class="mt-6 text-base leading-7 text-gray-600">
+                        Profitez d'une expérience sans limites avec notre abonnement tout-en-un, conçu pour vous offrir un accès illimité à tous nos services.
+                    </p>
+                    <div class="mt-10 flex items-center gap-x-4">
+                        <h4 class="flex-none text-sm font-semibold leading-6 text-neutral-900">Les fonctionnalitées principales</h4>
+                        <div class="h-px flex-auto bg-gray-100"></div>
+                    </div>
+                    <ul role="list" class="mt-8 grid grid-cols-1 gap-4 text-sm leading-6 text-gray-600 sm:grid-cols-2 sm:gap-6">
+                        <li class="flex gap-x-3">
+                            <svg class="h-6 w-5 flex-none text-success-500"
+                                 viewBox="0 0 20 20"
+                                 fill="currentColor"
+                                 aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                      d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                                      clip-rule="evenodd">
+                                </path>
+                            </svg>
+                            Voitures illimitées
+                        </li>
+                        <li class="flex gap-x-3">
+                            <svg class="h-6 w-5 flex-none text-success-500"
+                                 viewBox="0 0 20 20"
+                                 fill="currentColor"
+                                 aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                      d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                                      clip-rule="evenodd">
+                                </path>
+                            </svg>
+                           Ajout d'employé illimité
+                        </li>
+                        <li class="flex gap-x-3">
+                            <svg class="h-6 w-5 flex-none text-success-500"
+                                 viewBox="0 0 20 20"
+                                 fill="currentColor"
+                                 aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                      d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                                      clip-rule="evenodd">
+                                </path>
+                            </svg>
+                            Gestion des accidents
+                        </li>
+                        <li class="flex gap-x-3">
+                            <svg class="h-6 w-5 flex-none text-success-500"
+                                 viewBox="0 0 20 20"
+                                 fill="currentColor"
+                                 aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                      d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                                      clip-rule="evenodd">
+                                </path>
+                            </svg>
+                            Gestion des différents sites
+                        </li>
+                    </ul>
+                </div>
+                <div class="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
+                    <div class="rounded-2xl bg-gray-50 py-10 text-center ring-1 shadow-2xl ring-inset ring-gray-900/5 lg:flex lg:flex-col lg:justify-center lg:py-16">
+                        <div class="mx-auto max-w-xs px-8">
+                            <p class="text-base font-semibold text-neutral-900">Abonnement Unique</p>
+                            <p class="mt-6 flex items-baseline justify-center gap-x-2">
+                                <span class="text-5xl font-bold tracking-tight text-gray-900 lg:text-display-md md:text-display-lg text-display-md">$349</span>
+                                <span class="text-sm font-semibold leading-6 tracking-wide text-gray-600">USD</span>
+                            </p>
+                            <a href="#" class="hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-900
+                               py-4 pl-5 pr-4 rounded-xl flex flex-row gap-2 items-center justify-center">
+                                Get Started
+                            </a>
+                            <p class="mt-6 text-xs leading-5 text-gray-600">
+                                Rien n'a été aussi simple que maintenant de gérer sa flotte automobile
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
