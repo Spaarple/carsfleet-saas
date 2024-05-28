@@ -25,6 +25,9 @@ module.exports = {
       red: {
         600: "#EF4444",
       },
+      success: {
+        500: "#10B981",
+      },
       primary: {
         600: "#0876DD",
         100: "#E0F2FE",

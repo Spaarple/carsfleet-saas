@@ -8,24 +8,24 @@
             </div>
             <div class="flex flex-row gap-6">
                 <div class="md:flex hidden flex-row gap-6 items-center">
-                    <a href="{{ app.request.getSchemeAndHttpHost() }}#expertises" class="text-body-sm font-medium text-neutral-700 hover:text-neutral-900 px-4 hover:underline">
+                    <a href="{{ path('app_about') }}" class="text-body-sm font-medium text-neutral-700 hover:text-neutral-900 px-4 hover:underline">
                         A propos
                     </a>
-                    <a href="{{ app.request.getSchemeAndHttpHost() }}#services" class="text-body-sm font-medium text-neutral-700 hover:text-neutral-900 px-4 hover:underline">
+                    <a href="{{ path('app_pricing') }}" class="text-body-sm font-medium text-neutral-700 hover:text-neutral-900 px-4 hover:underline">
                         Tarification
                     </a>
-                    <a href="{{ app.request.getSchemeAndHttpHost() }}#integration" class="text-body-sm font-medium text-neutral-700 hover:text-neutral-900 px-4 hover:underline">
+                    <a href="#" class="text-body-sm font-medium text-neutral-700 hover:text-neutral-900 px-4 hover:underline">
                         Fonctionnalités
                     </a>
-                    <a href="{{ app.request.getSchemeAndHttpHost() }}#faq" class="text-body-sm font-medium text-neutral-700 hover:text-neutral-900 px-4 hover:underline">
+                    <a href="{{ path('app_faq') }}" class="text-body-sm font-medium text-neutral-700 hover:text-neutral-900 px-4 hover:underline">
                         FAQ
                     </a>
                 </div>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     {% if is_granted('ROLE_EMPLOYED') %}
                         <a href="{{ path('app_profile_index') }}"
-                           class="transform hover:scale-110 transition-transform duration-200 hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-900 py-4 pl-5 pr-4 rounded-xl flex flex-row gap-2 items-center justify-center">
-                           My Account
+                           class="transform hover:scale-110 transition-transform duration-200 hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-900 pl-5 pr-4  px-4 py-3 rounded-xl flex flex-row gap-2 items-center justify-center">
+                           Mon compte
                         </a>
                     {% else %}
                         <a href="{{ path('admin') }}" class="btn btn-outline-primary me-2">
@@ -34,11 +34,11 @@
                     {% endif %}
                 {% else %}
                     <a href="{{ path('app_login') }}"
-                       class="transform hover:scale-110 transition-transform duration-200 hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-900 py-4 pl-5 pr-4 rounded-xl flex flex-row gap-2 items-center justify-center">
+                       class="transform hover:scale-110 transition-transform duration-200 hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-900 pl-5 pr-4  px-4 py-3 rounded-xl flex flex-row gap-2 items-center justify-center">
                         Se connecter
                     </a>
                     <a href="{{ path('app_register_index') }}"
-                       class="transform hover:scale-110 transition-transform duration-200 hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-700 py-4 pl-5 pr-4 rounded-xl flex flex-row gap-2 items-center justify-center">
+                       class="transform hover:scale-110 transition-transform duration-200 hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-700 pl-5 pr-4  px-4 py-3 rounded-xl flex flex-row gap-2 items-center justify-center">
                         S'inscrire
                     </a>
                 {% endif %}

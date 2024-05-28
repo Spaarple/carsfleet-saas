@@ -26,6 +26,7 @@ class AccidentType extends AbstractType
                 ],
             ])
             ->add('date', DateTimeType::class, [
+                'label' => 'Date de l\'accident',
                 'widget' => 'single_text',
                 'compound' => false,
                 'input' => 'datetime_immutable',
