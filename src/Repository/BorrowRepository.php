@@ -64,6 +64,26 @@ class BorrowRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param UserSuperAdministrator|UserAdministrator $user
+     * @return array<Borrow>
+     */
+    public function getBorrowUserByDate(UserSuperAdministrator|UserAdministrator $user): array
+    {
+        $borrowings = $this->getBorrowByUser($user)->getQuery()->getResult();
+
+        $borrowByDate = [];
+        foreach ($borrowings as $borrowing) {
+            $borrowDate = $borrowing->getStartDate()->format('Y');
+            if (!isset($borrowByDate[$borrowDate])) {
+                $borrowByDate[$borrowDate] = 0;
+            }
+            $borrowByDate[$borrowDate]++;
+        }
+
+        return $borrowByDate;
+    }
+
+    /**
      * @param UserEmployed $user
      * @return array<Borrow>
      */

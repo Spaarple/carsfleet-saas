@@ -23,6 +23,7 @@ module.exports = {
       white: "#FFFFFF",
       black: "#000000",
       red: {
+        100: "#E63946",
         600: "#EF4444",
       },
       success: {
