@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: UserAdministratorHeadOfficeRepository::class)]
 class UserAdministratorHeadOffice extends AbstractUser
 {
-    #[ORM\ManyToOne(inversedBy: 'administratorsHeadOffice')]
+    #[ORM\ManyToOne(inversedBy: 'userAdministratorHeadOffices')]
     #[ORM\JoinColumn(nullable: false)]
     private ?HeadOffice $headOffice = null;
 

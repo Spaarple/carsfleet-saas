@@ -54,7 +54,7 @@ class Site
     private Collection $employees;
 
     #[ORM\OneToMany(mappedBy: 'site', targetEntity: UserAdministratorSite::class, orphanRemoval: true)]
-    private Collection $administrators;
+    private Collection $userAdministratorSite;
 
     #[ORM\OneToMany(mappedBy: 'site', targetEntity: Car::class, orphanRemoval: true)]
     private Collection $cars;
@@ -68,7 +68,7 @@ class Site
     public function __construct()
     {
         $this->employees = new ArrayCollection();
-        $this->administrators = new ArrayCollection();
+        $this->userAdministratorSite = new ArrayCollection();
         $this->cars = new ArrayCollection();
         $this->borrowMeets = new ArrayCollection();
         $this->borrowMeetsTripDestination = new ArrayCollection();
@@ -244,7 +244,7 @@ class Site
      */
     public function getAdministrators(): Collection
     {
-        return $this->administrators;
+        return $this->userAdministratorSite;
     }
 
     /**
@@ -253,8 +253,8 @@ class Site
      */
     public function addAdministrator(UserAdministratorSite $administrator): static
     {
-        if (!$this->administrators->contains($administrator)) {
-            $this->administrators->add($administrator);
+        if (!$this->userAdministratorSite->contains($administrator)) {
+            $this->userAdministratorSite->add($administrator);
             $administrator->setSite($this);
         }
 
@@ -267,7 +267,7 @@ class Site
      */
     public function removeAdministrator(UserAdministratorSite $administrator): static
     {
-        if ($this->administrators->removeElement($administrator) && $administrator->getSite() === $this) {
+        if ($this->userAdministratorSite->removeElement($administrator) && $administrator->getSite() === $this) {
             $administrator->setSite(null);
         }
 
