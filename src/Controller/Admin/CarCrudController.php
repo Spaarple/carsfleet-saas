@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Car;
+use App\Enum\Role;
 use App\Enum\StatusCars;
 use App\Form\Admin\Field\EnumField;
 use App\Repository\CarRepository;
@@ -24,7 +25,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_ADMINISTRATOR')]
+#[IsGranted('ROLE_ADMINISTRATOR_SITE')]
 class CarCrudController extends AbstractCrudController
 {
 
@@ -53,6 +54,9 @@ class CarCrudController extends AbstractCrudController
     ): QueryBuilder
     {
         $user = $this->security->getUser();
+        if (in_array(Role::ROLE_SUPER_ADMINISTRATOR->name, $user?->getRoles(), true)) {
+            return $this->carRepository->createQueryBuilder('c');
+        }
 
         return $this->carRepository->getCarsByUser($user);
     }

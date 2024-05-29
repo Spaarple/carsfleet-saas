@@ -3,8 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Car;
-use App\Entity\User\UserAdministrator;
-use App\Entity\User\UserSuperAdministrator;
+use App\Entity\User\UserAdministratorSite;
+use App\Entity\User\UserAdministratorHeadOffice;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -29,15 +29,15 @@ class CarRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param UserSuperAdministrator|UserAdministrator $user
+     * @param UserAdministratorHeadOffice|UserAdministratorSite $user
      * @return QueryBuilder
      */
-    public function getCarsByUser(UserSuperAdministrator|UserAdministrator $user): QueryBuilder
+    public function getCarsByUser(UserAdministratorHeadOffice|UserAdministratorSite $user): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('c')
             ->innerJoin('c.site', 's');
 
-        if ($user instanceof UserSuperAdministrator) {
+        if ($user instanceof UserAdministratorHeadOffice) {
             $queryBuilder
                 ->innerJoin('s.headOffice', 'h')
                 ->where('h.id = :headOfficeId')
@@ -48,7 +48,7 @@ class CarRepository extends ServiceEntityRepository
                 );
         }
 
-        if ($user instanceof UserAdministrator) {
+        if ($user instanceof UserAdministratorSite) {
             $queryBuilder
                 ->where('s.id = :siteId')
                 ->setParameter(

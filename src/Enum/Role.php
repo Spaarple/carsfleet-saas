@@ -10,8 +10,9 @@ enum Role: string
 {
     use EnumTrait;
 
-    case ROLE_SUPER_ADMINISTRATOR = 'Super administrateur';
-    case ROLE_ADMINISTRATOR = 'administrateur';
+    case ROLE_SUPER_ADMINISTRATOR = 'Administrateur Général';
+    case ROLE_ADMINISTRATOR_HEAD_OFFICE = 'Responsable de l\'entreprise';
+    case ROLE_ADMINISTRATOR_SITE = 'administrateur du site';
     case ROLE_EMPLOYED = 'employé';
     case ROLE_USER = 'utilisateur';
 }

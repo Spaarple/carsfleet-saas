@@ -2,7 +2,8 @@
 
 namespace App\Entity;
 
-use App\Entity\User\UserSuperAdministrator;
+use AllowDynamicProperties;
+use App\Entity\User\UserAdministratorHeadOffice;
 use App\Repository\HeadOfficeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,7 +12,7 @@ use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: HeadOfficeRepository::class)]
+#[AllowDynamicProperties] #[ORM\Entity(repositoryClass: HeadOfficeRepository::class)]
 class HeadOffice
 {
     #[ORM\Id]
@@ -40,8 +41,8 @@ class HeadOffice
     #[ORM\OneToMany(mappedBy: 'headOffice', targetEntity: Site::class, orphanRemoval: true)]
     private Collection $sites;
 
-    #[ORM\OneToMany(mappedBy: 'headOffice', targetEntity: UserSuperAdministrator::class)]
-    private Collection $userSuperAdministrators;
+    #[ORM\OneToMany(mappedBy: 'headOffice', targetEntity: UserAdministratorHeadOffice::class)]
+    private Collection $userAdministratorHeadOffices;
 
     #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
@@ -50,7 +51,7 @@ class HeadOffice
     public function __construct()
     {
         $this->sites = new ArrayCollection();
-        $this->userSuperAdministrators = new ArrayCollection();
+        $this->userAdministratorHeadOffices = new ArrayCollection();
     }
 
     /**
@@ -181,35 +182,35 @@ class HeadOffice
     }
 
     /**
-     * @return Collection<int, UserSuperAdministrator>
+     * @return Collection<int, UserAdministratorHeadOffice>
      */
-    public function getUserSuperAdministrators(): Collection
+    public function getUserAdministratorHeadOffices(): Collection
     {
-        return $this->userSuperAdministrators;
+        return $this->userAdministratorHeadOffices;
     }
 
     /**
-     * @param UserSuperAdministrator $userSuperAdministrator
+     * @param UserAdministratorHeadOffice $userAdministratorHeadOffices
      * @return $this
      */
-    public function addUserSuperAdministrator(UserSuperAdministrator $userSuperAdministrator): static
+    public function addUserAdministratorHeadOffice(UserAdministratorHeadOffice $userAdministratorHeadOffices): static
     {
-        if (!$this->userSuperAdministrators->contains($userSuperAdministrator)) {
-            $this->userSuperAdministrators->add($userSuperAdministrator);
-            $userSuperAdministrator->setHeadOffice($this);
+        if (!$this->userAdministratorHeadOffices->contains($userAdministratorHeadOffices)) {
+            $this->userAdministratorHeadOffices->add($userAdministratorHeadOffices);
+            $userAdministratorHeadOffices->setHeadOffice($this);
         }
 
         return $this;
     }
 
     /**
-     * @param UserSuperAdministrator $userSuperAdministrator
+     * @param UserAdministratorHeadOffice $userAdministratorHeadOffices
      * @return $this
      */
-    public function removeUserSuperAdministrator(UserSuperAdministrator $userSuperAdministrator): static
+    public function removeUserAdministratorHeadOffice(UserAdministratorHeadOffice $userAdministratorHeadOffices): static
     {
-        if ($this->userSuperAdministrators->removeElement($userSuperAdministrator) && $userSuperAdministrator->getHeadOffice() === $this) {
-            $userSuperAdministrator->setHeadOffice(null);
+        if ($this->userAdministratorHeadOffices->removeElement($userAdministratorHeadOffices) && $userAdministratorHeadOffices->getHeadOffice() === $this) {
+            $userAdministratorHeadOffices->setHeadOffice(null);
         }
 
         return $this;

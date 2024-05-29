@@ -33,7 +33,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_ADMINISTRATOR')]
+#[IsGranted('ROLE_ADMINISTRATOR_SITE')]
 class UserEmployedCrudController extends AbstractCrudController
 {
 
@@ -64,6 +64,9 @@ class UserEmployedCrudController extends AbstractCrudController
     ): QueryBuilder
     {
         $user = $this->security->getUser();
+        if (in_array(Role::ROLE_SUPER_ADMINISTRATOR->name, $user?->getRoles(), true)) {
+            return $this->userEmployedRepository->createQueryBuilder('u');
+        }
 
         return $this->userEmployedRepository->getEmployees($user);
     }
@@ -84,8 +87,8 @@ class UserEmployedCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Utilisateur')
-            ->setEntityLabelInPlural('Utilisateurs');
+            ->setEntityLabelInSingular('Employé')
+            ->setEntityLabelInPlural('Employés');
     }
 
     /**

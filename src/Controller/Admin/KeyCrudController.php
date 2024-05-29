@@ -3,8 +3,10 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Key;
-use App\Entity\User\UserAdministrator;
+use App\Entity\User\UserAdministratorHeadOffice;
+use App\Entity\User\UserAdministratorSite;
 use App\Entity\User\UserSuperAdministrator;
+use App\Enum\Role;
 use App\Enum\StatusKey;
 use App\Form\Admin\Field\EnumField;
 use App\Repository\KeyRepository;
@@ -23,7 +25,7 @@ use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_ADMINISTRATOR')]
+#[IsGranted('ROLE_ADMINISTRATOR_SITE')]
 class KeyCrudController extends AbstractCrudController
 {
     /**
@@ -51,6 +53,9 @@ class KeyCrudController extends AbstractCrudController
     ): QueryBuilder
     {
         $user = $this->security->getUser();
+        if (in_array(Role::ROLE_SUPER_ADMINISTRATOR->name, $user?->getRoles(), true)) {
+            return $this->keyRepository->createQueryBuilder('k');
+        }
 
         return $this->keyRepository->getKeysByUser($user);
     }
@@ -97,7 +102,7 @@ class KeyCrudController extends AbstractCrudController
             AssociationField::new('car', 'Clé de la voiture')
                 ->setFormTypeOptions([
                     'query_builder' => function (EntityRepository $er) use ($user) {
-                        if ($user instanceof UserSuperAdministrator) {
+                        if ($user instanceof UserAdministratorHeadOffice) {
                             return $er->createQueryBuilder('c')
                                 ->innerJoin('c.site', 's')
                                 ->innerJoin('s.headOffice', 'h')
@@ -107,7 +112,7 @@ class KeyCrudController extends AbstractCrudController
                                 );
                         }
 
-                        if ($user instanceof UserAdministrator) {
+                        if ($user instanceof UserAdministratorSite) {
                             return $er->createQueryBuilder('c')
                                 ->innerJoin('c.site', 's')
                                 ->where('s.id = :siteId')

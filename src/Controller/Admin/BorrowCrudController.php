@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Borrow;
+use App\Enum\Role;
 use App\Repository\BorrowRepository;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -19,7 +20,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_ADMINISTRATOR')]
+#[IsGranted('ROLE_ADMINISTRATOR_SITE')]
 class BorrowCrudController extends AbstractCrudController
 {
     /**
@@ -47,6 +48,9 @@ class BorrowCrudController extends AbstractCrudController
     ): QueryBuilder
     {
         $user = $this->security->getUser();
+        if (in_array(Role::ROLE_SUPER_ADMINISTRATOR->name, $user?->getRoles(), true)) {
+            return $this->borrowRepository->createQueryBuilder('b');
+        }
 
         return $this->borrowRepository->getBorrowByUser($user);
     }

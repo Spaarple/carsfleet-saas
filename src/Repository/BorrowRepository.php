@@ -3,9 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Borrow;
-use App\Entity\User\UserAdministrator;
+use App\Entity\User\UserAdministratorSite;
 use App\Entity\User\UserEmployed;
-use App\Entity\User\UserSuperAdministrator;
+use App\Entity\User\UserAdministratorHeadOffice;
 use App\Enum\StatusCars;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -31,16 +31,16 @@ class BorrowRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param UserSuperAdministrator|UserAdministrator $user
+     * @param UserAdministratorHeadOffice|UserAdministratorSite $user
      * @return QueryBuilder
      */
-    public function getBorrowByUser(UserSuperAdministrator|UserAdministrator $user): QueryBuilder
+    public function getBorrowByUser(UserAdministratorHeadOffice|UserAdministratorSite $user): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('b')
             ->innerJoin('b.car', 'c')
             ->innerJoin('c.site', 's');
 
-        if ($user instanceof UserSuperAdministrator) {
+        if ($user instanceof UserAdministratorHeadOffice) {
             $queryBuilder
                 ->innerJoin('s.headOffice', 'h')
                 ->where('h.id = :headOfficeId')
@@ -50,7 +50,7 @@ class BorrowRepository extends ServiceEntityRepository
                     UuidType::NAME
                 );
         }
-        if ($user instanceof UserAdministrator) {
+        if ($user instanceof UserAdministratorSite) {
             $queryBuilder
                 ->where('s.id = :siteId')
                 ->setParameter(
@@ -64,16 +64,35 @@ class BorrowRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param UserSuperAdministrator|UserAdministrator $user
+     * @param UserAdministratorHeadOffice|UserAdministratorSite $user
      * @return array<Borrow>
      */
-    public function getBorrowUserByDate(UserSuperAdministrator|UserAdministrator $user): array
+    public function getBorrowUserByDate(UserAdministratorHeadOffice|UserAdministratorSite $user): array
     {
         $borrowings = $this->getBorrowByUser($user)->getQuery()->getResult();
 
         $borrowByDate = [];
         foreach ($borrowings as $borrowing) {
             $borrowDate = $borrowing->getStartDate()->format('Y');
+            if (!isset($borrowByDate[$borrowDate])) {
+                $borrowByDate[$borrowDate] = 0;
+            }
+            $borrowByDate[$borrowDate]++;
+        }
+
+        return $borrowByDate;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllBorrowByDate(): array
+    {
+        $borrowings = $this->findAll();
+
+        $borrowByDate = [];
+        foreach ($borrowings as $borrowing) {
+            $borrowDate = $borrowing->getStartDate()?->format('Y');
             if (!isset($borrowByDate[$borrowDate])) {
                 $borrowByDate[$borrowDate] = 0;
             }

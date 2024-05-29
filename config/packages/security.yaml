@@ -35,14 +35,20 @@ security:
             # switch_user: true
     role_hierarchy:
         ROLE_EMPLOYED: [ ROLE_USER ]
-        ROLE_ADMINISTRATOR: [ ROLE_USER ]
-        ROLE_SUPER_ADMINISTRATOR: [ ROLE_ADMINISTRATOR, ROLE_USER ]
+        ROLE_ADMINISTRATOR_SITE: [ ROLE_ADMINISTRATOR_SITE, ROLE_USER ]
+        ROLE_ADMINISTRATOR_HEAD_OFFICE: [ ROLE_ADMINISTRATOR_SITE, ROLE_ADMINISTRATOR_HEAD_OFFICE, ROLE_USER ]
+        ROLE_SUPER_ADMINISTRATOR: [
+            ROLE_SUPER_ADMINISTRATOR ,
+            ROLE_ADMINISTRATOR_HEAD_OFFICE,
+            ROLE_ADMINISTRATOR_SITE,
+            ROLE_USER
+        ]
 
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/admin, roles: [ROLE_ADMINISTRATOR, ROLE_SUPER_ADMINISTRATOR] }
+        - { path: ^/admin, roles: [ROLE_SUPER_ADMINISTRATOR, ROLE_ADMINISTRATOR_HEAD_OFFICE, ROLE_ADMINISTRATOR_SITE] }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

@@ -20,7 +20,9 @@ class SecurityController extends AbstractController
     {
         $user = $this->getUser()?->getRoles()[0];
 
-        if ($user === Role::ROLE_ADMINISTRATOR->name || $user === Role::ROLE_SUPER_ADMINISTRATOR->name) {
+        if ($user === Role::ROLE_ADMINISTRATOR_SITE->name
+            || $user === Role::ROLE_ADMINISTRATOR_HEAD_OFFICE->name
+            || $user === Role::ROLE_SUPER_ADMINISTRATOR) {
             return $this->redirectToRoute('admin');
         }
 

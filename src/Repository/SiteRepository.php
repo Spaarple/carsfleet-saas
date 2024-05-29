@@ -3,7 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Site;
-use App\Entity\User\UserAdministrator;
+use App\Entity\User\UserAdministratorHeadOffice;
+use App\Entity\User\UserAdministratorSite;
 use App\Entity\User\UserSuperAdministrator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -29,15 +30,15 @@ class SiteRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param UserSuperAdministrator|UserAdministrator $user
+     * @param UserAdministratorHeadOffice|UserAdministratorSite $user
      * @return QueryBuilder
      */
-    public function getSitesByHeadOffice(UserSuperAdministrator|UserAdministrator $user): QueryBuilder
+    public function getSitesByHeadOffice(UserAdministratorHeadOffice|UserAdministratorSite $user): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('s')
             ->innerJoin('s.headOffice', 'h');
 
-        if ($user instanceof UserSuperAdministrator) {
+        if ($user instanceof UserAdministratorHeadOffice) {
             $queryBuilder
                 ->where('h.id = :headOfficeId')
                 ->setParameter(
@@ -47,9 +48,9 @@ class SiteRepository extends ServiceEntityRepository
                 );
         }
 
-        if ($user instanceof UserAdministrator) {
+        if ($user instanceof UserAdministratorSite) {
             $queryBuilder
-                ->innerJoin('s.administrators', 'a')
+                ->innerJoin('s.userAdministratorSite', 'a')
                 ->where('a.id = :administratorId')
                 ->setParameter(
                     'administratorId',

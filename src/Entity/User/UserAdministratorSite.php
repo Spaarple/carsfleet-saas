@@ -6,20 +6,20 @@ namespace App\Entity\User;
 
 use App\Entity\Site;
 use App\Enum\Role;
-use App\Repository\User\UserAdministratorRepository;
+use App\Repository\User\UserAdministratorSiteRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: UserAdministratorRepository::class)]
-class UserAdministrator extends AbstractUser
+#[ORM\Entity(repositoryClass: UserAdministratorSiteRepository::class)]
+class UserAdministratorSite extends AbstractUser
 {
-    #[ORM\ManyToOne(inversedBy: 'administrators')]
+    #[ORM\ManyToOne(inversedBy: 'userAdministratorSite')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Site $site = null;
 
     public function __construct()
     {
         parent::__construct();
-        $this->setRoles([Role::ROLE_ADMINISTRATOR->name]);
+        $this->setRoles([Role::ROLE_ADMINISTRATOR_SITE->name]);
     }
 
     /**

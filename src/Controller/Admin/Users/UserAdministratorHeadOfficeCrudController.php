@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Users;
 
-use App\Entity\User\UserSuperAdministrator;
+use App\Entity\User\UserAdministratorHeadOffice;
 use App\Enum\Role;
 use App\Helper\GeneratePasswordHelper;
-use App\Repository\User\UserSuperAdministratorRepository;
+use App\Repository\User\UserAdministratorHeadOfficeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -27,18 +27,18 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_ADMINISTRATOR')]
-class UserSuperAdminCrudController extends AbstractCrudController
+#[IsGranted('ROLE_ADMINISTRATOR_SITE')]
+class UserAdministratorHeadOfficeCrudController extends AbstractCrudController
 {
     /**
      * @param GeneratePasswordHelper $generatePasswordHelper
      * @param Security $security
-     * @param UserSuperAdministratorRepository $superAdministratorRepository
+     * @param UserAdministratorHeadOfficeRepository $administratorHeadOfficeRepository
      */
     public function __construct(
         private readonly GeneratePasswordHelper $generatePasswordHelper,
         private readonly Security $security,
-        private readonly UserSuperAdministratorRepository $superAdministratorRepository
+        private readonly UserAdministratorHeadOfficeRepository $administratorHeadOfficeRepository
     ) {
     }
 
@@ -57,8 +57,11 @@ class UserSuperAdminCrudController extends AbstractCrudController
     ): QueryBuilder
     {
         $user = $this->security->getUser();
+        if (in_array(Role::ROLE_SUPER_ADMINISTRATOR->name, $user?->getRoles(), true)) {
+            return $this->administratorHeadOfficeRepository->createQueryBuilder('u');
+        }
 
-        return $this->superAdministratorRepository->getSuperAdmin($user);
+        return $this->administratorHeadOfficeRepository->getSuperAdmin($user);
     }
 
     /**
@@ -66,7 +69,7 @@ class UserSuperAdminCrudController extends AbstractCrudController
      */
     public static function getEntityFqcn(): string
     {
-        return UserSuperAdministrator::class;
+        return UserAdministratorHeadOffice::class;
     }
 
     /**
@@ -77,8 +80,8 @@ class UserSuperAdminCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Super Administrateur')
-            ->setEntityLabelInPlural('Super Administrateurs');
+            ->setEntityLabelInSingular('Administrateur de l\'Entreprise')
+            ->setEntityLabelInPlural('Administrateurs de l\'Entreprise');
     }
 
     /**
@@ -116,7 +119,7 @@ class UserSuperAdminCrudController extends AbstractCrudController
                 ->setValue(Role::ROLE_SUPER_ADMINISTRATOR->name)
                 ->allowMultipleChoices()
                 ->setChoices([
-                    ucfirst(Role::ROLE_SUPER_ADMINISTRATOR->value) => Role::ROLE_SUPER_ADMINISTRATOR->name,
+                    ucfirst(Role::ROLE_ADMINISTRATOR_HEAD_OFFICE->value) => Role::ROLE_ADMINISTRATOR_HEAD_OFFICE->name,
                 ])->onlyOnDetail(),
         ];
     }
@@ -129,8 +132,8 @@ class UserSuperAdminCrudController extends AbstractCrudController
      */
     public function persistEntity(EntityManagerInterface $entityManager, mixed $entityInstance): void
     {
-        /** @var UserSuperAdministrator $entityInstance */
-        if (!$entityInstance instanceof UserSuperAdministrator) {
+        /** @var UserAdministratorHeadOffice $entityInstance */
+        if (!$entityInstance instanceof UserAdministratorHeadOffice) {
             return;
         }
 
