@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Key;
-use App\Entity\User\UserAdministrator;
+use App\Entity\User\UserAdministratorSite;
 use App\Entity\User\UserSuperAdministrator;
 use App\Enum\StatusKey;
 use App\Form\Admin\Field\EnumField;
@@ -107,7 +107,7 @@ class KeyCrudController extends AbstractCrudController
                                 );
                         }
 
-                        if ($user instanceof UserAdministrator) {
+                        if ($user instanceof UserAdministratorSite) {
                             return $er->createQueryBuilder('c')
                                 ->innerJoin('c.site', 's')
                                 ->where('s.id = :siteId')

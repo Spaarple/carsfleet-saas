@@ -8,7 +8,7 @@ use App\Entity\Borrow;
 use App\Entity\Car;
 use App\Entity\Key;
 use App\Entity\Site;
-use App\Entity\User\UserAdministrator;
+use App\Entity\User\UserAdministratorSite;
 use App\Entity\User\UserEmployed;
 use App\Entity\User\UserSuperAdministrator;
 use App\Entity\HeadOffice;
@@ -135,7 +135,7 @@ class DashboardController extends AbstractDashboardController
         $nbEmployed = $this->userEmployed->getEmployees($user)->getQuery()->getResult();
 
         $subItems = [
-            MenuItem::linkToCrud('Administrateurs', null, UserAdministrator::class)
+            MenuItem::linkToCrud('Administrateurs', null, UserAdministratorSite::class)
                 ->setBadge(count($nbAdmin)),
             MenuItem::linkToCrud('Employé(e)s', null, UserEmployed::class)
                 ->setBadge(count($nbEmployed)),
