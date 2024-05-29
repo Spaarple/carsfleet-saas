@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Site;
+use App\Enum\Role;
 use App\Repository\SiteRepository;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -49,6 +50,9 @@ class SiteCrudController extends AbstractCrudController
     ): QueryBuilder
     {
         $user = $this->security->getUser();
+        if (in_array(Role::ROLE_SUPER_ADMINISTRATOR->name, $user?->getRoles(), true)) {
+            return $this->siteRepository->createQueryBuilder('s');
+        }
 
         return $this->siteRepository->getSitesByHeadOffice($user);
     }

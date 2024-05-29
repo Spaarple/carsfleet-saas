@@ -6,6 +6,7 @@ use App\Entity\Key;
 use App\Entity\User\UserAdministratorHeadOffice;
 use App\Entity\User\UserAdministratorSite;
 use App\Entity\User\UserSuperAdministrator;
+use App\Enum\Role;
 use App\Enum\StatusKey;
 use App\Form\Admin\Field\EnumField;
 use App\Repository\KeyRepository;
@@ -52,6 +53,9 @@ class KeyCrudController extends AbstractCrudController
     ): QueryBuilder
     {
         $user = $this->security->getUser();
+        if (in_array(Role::ROLE_SUPER_ADMINISTRATOR->name, $user?->getRoles(), true)) {
+            return $this->keyRepository->createQueryBuilder('k');
+        }
 
         return $this->keyRepository->getKeysByUser($user);
     }

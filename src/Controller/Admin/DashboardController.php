@@ -139,9 +139,9 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Emprunts', 'fa fa-route', Borrow::class);
         yield MenuItem::linkToCrud('Accidents', 'fa fa-car-crash', Accident::class);
         yield MenuItem::subMenu('Utilisateurs', 'fas fa-users')->setSubItems([
-            MenuItem::linkToCrud('Administrateurs Site', null, UserAdministratorSite::class),
+            MenuItem::linkToCrud('Administrateurs général', null, UserAdministratorHeadOffice::class),
+            MenuItem::linkToCrud('Administrateurs des Site', null, UserAdministratorSite::class),
             MenuItem::linkToCrud('Employé(e)s', null, UserEmployed::class),
-            MenuItem::linkToCrud('Administrateurs général', null, UserAdministratorHeadOffice::class)
         ]);
     }
 

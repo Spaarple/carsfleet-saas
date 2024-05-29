@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Accident;
+use App\Enum\Role;
 use App\Repository\AccidentRepository;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -46,6 +47,9 @@ class AccidentCrudController extends AbstractCrudController
     ): QueryBuilder
     {
         $user = $this->security->getUser();
+        if (in_array(Role::ROLE_SUPER_ADMINISTRATOR->name, $user?->getRoles(), true)) {
+            return $this->accidentRepository->createQueryBuilder('a');
+        }
 
         return $this->accidentRepository->getAccidentByUser($user);
     }

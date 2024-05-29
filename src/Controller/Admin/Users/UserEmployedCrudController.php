@@ -64,6 +64,9 @@ class UserEmployedCrudController extends AbstractCrudController
     ): QueryBuilder
     {
         $user = $this->security->getUser();
+        if (in_array(Role::ROLE_SUPER_ADMINISTRATOR->name, $user?->getRoles(), true)) {
+            return $this->userEmployedRepository->createQueryBuilder('u');
+        }
 
         return $this->userEmployedRepository->getEmployees($user);
     }

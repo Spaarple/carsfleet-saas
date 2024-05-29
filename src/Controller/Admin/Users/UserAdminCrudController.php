@@ -58,6 +58,9 @@ class UserAdminCrudController extends AbstractCrudController
     ): QueryBuilder
     {
         $user = $this->security->getUser();
+        if(in_array(Role::ROLE_SUPER_ADMINISTRATOR->name, $user?->getRoles(), true)) {
+            return $this->administratorRepository->createQueryBuilder('u');
+        }
 
         return $this->administratorRepository->getAdmin($user);
     }
