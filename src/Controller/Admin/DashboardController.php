@@ -61,10 +61,28 @@ class DashboardController extends AbstractDashboardController
     {
         $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
 
-        return $this->redirect(
-            $adminUrlGenerator->setController(UserCrudController::class)
-            ->generateUrl()
-        );
+        if (!$this->isGranted(Role::ROLE_SUPER_ADMINISTRATOR->name)) {
+            return $this->redirect($adminUrlGenerator->setController(UserCrudController::class)->generateUrl());
+        }
+
+        $user = $this->security->getUser();
+        $dataBorrowByYears = $this->borrowRepository->getBorrowUserByDate($user);
+        $dataAccidentByYears = $this->accidentRepository->getAccidentUserByDate($user);
+
+        $nbCar = $this->carRepository->getCarsByUser($user)->getQuery()->getResult();
+        $nbSite = $this->siteRepository->getSitesByHeadOffice($user)->getQuery()->getResult();
+        $nbBorrow = $this->borrowRepository->getBorrowByUser($user)->getQuery()->getResult();
+        $nbAccident = $this->accidentRepository->getAccidentByUser($user)->getQuery()->getResult();
+
+        return $this->render('admin/dashboard.html.twig', [
+            'borrow_chart' => $dataBorrowByYears,
+            'accident_chart' => $dataAccidentByYears,
+            'cars' => count($nbCar),
+            'sites' => count($nbSite),
+            'accidents' => count($nbAccident),
+            'borrows' => count($nbBorrow),
+        ]);
+
     }
 
     /**

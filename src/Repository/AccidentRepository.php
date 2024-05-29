@@ -60,4 +60,24 @@ class AccidentRepository extends ServiceEntityRepository
 
         return $queryBuilder;
     }
+
+    /**
+     * @param UserSuperAdministrator|UserAdministrator $user
+     * @return array<Accident>
+     */
+    public function getAccidentUserByDate(UserSuperAdministrator|UserAdministrator $user): array
+    {
+        $borrowings = $this->getAccidentByUser($user)->getQuery()->getResult();
+
+        $accidentByDate = [];
+        foreach ($borrowings as $borrowing) {
+            $accidentDate = $borrowing->getDate()->format('Y');
+            if (!isset($accidentByDate[$accidentDate])) {
+                $accidentByDate[$accidentDate] = 0;
+            }
+            $accidentByDate[$accidentDate]++;
+        }
+
+        return $accidentByDate;
+    }
 }

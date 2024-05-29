@@ -28,7 +28,8 @@
                            Mon compte
                         </a>
                     {% else %}
-                        <a href="{{ path('admin') }}" class="btn btn-outline-primary me-2">
+                        <a href="{{ path('admin') }}"
+                           class="transform hover:scale-110 transition-transform duration-200 hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-900 pl-5 pr-4  px-4 py-3 rounded-xl flex flex-row gap-2 items-center justify-center">
                             Panneau d'administration
                         </a>
                     {% endif %}
