@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Accident;
 use App\Entity\User\UserAdministratorSite;
 use App\Entity\User\UserAdministratorHeadOffice;
+use App\Entity\User\UserSuperAdministrator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -68,6 +69,25 @@ class AccidentRepository extends ServiceEntityRepository
     public function getAccidentUserByDate(UserAdministratorHeadOffice|UserAdministratorSite $user): array
     {
         $borrowings = $this->getAccidentByUser($user)->getQuery()->getResult();
+
+        $accidentByDate = [];
+        foreach ($borrowings as $borrowing) {
+            $accidentDate = $borrowing->getDate()->format('Y');
+            if (!isset($accidentByDate[$accidentDate])) {
+                $accidentByDate[$accidentDate] = 0;
+            }
+            $accidentByDate[$accidentDate]++;
+        }
+
+        return $accidentByDate;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllAccidentByDate(): array
+    {
+        $borrowings = $this->findAll();
 
         $accidentByDate = [];
         foreach ($borrowings as $borrowing) {

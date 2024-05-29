@@ -84,6 +84,25 @@ class BorrowRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return array
+     */
+    public function getAllBorrowByDate(): array
+    {
+        $borrowings = $this->findAll();
+
+        $borrowByDate = [];
+        foreach ($borrowings as $borrowing) {
+            $borrowDate = $borrowing->getStartDate()?->format('Y');
+            if (!isset($borrowByDate[$borrowDate])) {
+                $borrowByDate[$borrowDate] = 0;
+            }
+            $borrowByDate[$borrowDate]++;
+        }
+
+        return $borrowByDate;
+    }
+
+    /**
      * @param UserEmployed $user
      * @return array<Borrow>
      */
