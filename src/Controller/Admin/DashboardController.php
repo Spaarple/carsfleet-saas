@@ -8,10 +8,10 @@ use App\Entity\Borrow;
 use App\Entity\Car;
 use App\Entity\Key;
 use App\Entity\Site;
+use App\Entity\User\AbstractUser;
 use App\Entity\User\UserAdministratorHeadOffice;
 use App\Entity\User\UserAdministratorSite;
 use App\Entity\User\UserEmployed;
-use App\Entity\User\UserSuperAdministrator;
 use App\Entity\HeadOffice;
 use App\Enum\Role;
 use App\Repository\AccidentRepository;
@@ -45,7 +45,7 @@ class DashboardController extends AbstractDashboardController
         private readonly BorrowRepository $borrowRepository,
         private readonly KeyRepository $keyRepository,
         private readonly CarRepository $carRepository,
-        private readonly UserAdministratorHeadOfficeRepository $superAdministratorRepository,
+        private readonly UserAdministratorHeadOfficeRepository $userAdministratorHeadOffice,
         private readonly UserAdministratorSiteRepository $administrator,
         private readonly UserEmployedRepository $userEmployed,
     )
@@ -61,12 +61,15 @@ class DashboardController extends AbstractDashboardController
     public function index(): Response
     {
         $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-
         if (!$this->isGranted(Role::ROLE_SUPER_ADMINISTRATOR->name)) {
-            return $this->redirect($adminUrlGenerator->setController(UserCrudController::class)->generateUrl());
+            return $this->redirect(
+                $adminUrlGenerator->setController(UserCrudController::class)->generateUrl()
+            );
         }
 
+        /* @var AbstractUser $user */
         $user = $this->security->getUser();
+
         $dataBorrowByYears = $this->borrowRepository->getBorrowUserByDate($user);
         $dataAccidentByYears = $this->accidentRepository->getAccidentUserByDate($user);
 
@@ -93,8 +96,7 @@ class DashboardController extends AbstractDashboardController
     {
         return Dashboard::new()
             ->setTitle('CarsFleet')
-            ->setTranslationDomain('admin')
-            ->disableUrlSignatures();
+            ->setTranslationDomain('admin');
     }
 
     /**
@@ -131,18 +133,18 @@ class DashboardController extends AbstractDashboardController
             ->setBadge(count($nbAccident), 'danger');
 
 
-        $nbSuperAdmin = $this->superAdministratorRepository->getSuperAdmin($user)->getQuery()->getResult();
         $nbAdmin = $this->administrator->getAdmin($user)->getQuery()->getResult();
         $nbEmployed = $this->userEmployed->getEmployees($user)->getQuery()->getResult();
 
         $subItems = [
-            MenuItem::linkToCrud('Administrateurs', null, UserAdministratorSite::class)
+            MenuItem::linkToCrud('Administrateurs Site', null, UserAdministratorSite::class)
                 ->setBadge(count($nbAdmin)),
             MenuItem::linkToCrud('Employé(e)s', null, UserEmployed::class)
                 ->setBadge(count($nbEmployed)),
         ];
 
         if ($this->getUser()?->getRoles()[0] !== Role::ROLE_ADMINISTRATOR_SITE->name) {
+            $nbSuperAdmin = $this->userAdministratorHeadOffice->getSuperAdmin($user)->getQuery()->getResult();
             array_unshift($subItems,
                 MenuItem::linkToCrud('Administrateurs général', null, UserAdministratorHeadOffice::class)
                     ->setBadge(count($nbSuperAdmin))

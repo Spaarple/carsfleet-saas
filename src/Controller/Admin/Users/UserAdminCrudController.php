@@ -78,8 +78,8 @@ class UserAdminCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Administrateur')
-            ->setEntityLabelInPlural('Administrateurs');
+            ->setEntityLabelInSingular('Administrateur du site')
+            ->setEntityLabelInPlural('Administrateurs du/de vos sites');
     }
 
     /**

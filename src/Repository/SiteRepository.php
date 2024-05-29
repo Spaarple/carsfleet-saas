@@ -50,7 +50,7 @@ class SiteRepository extends ServiceEntityRepository
 
         if ($user instanceof UserAdministratorSite) {
             $queryBuilder
-                ->innerJoin('s.administrators', 'a')
+                ->innerJoin('s.userAdministratorSite', 'a')
                 ->where('a.id = :administratorId')
                 ->setParameter(
                     'administratorId',

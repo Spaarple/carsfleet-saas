@@ -28,7 +28,7 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_ADMINISTRATOR_SITE')]
-class UserSuperAdminCrudController extends AbstractCrudController
+class UserAdministratorHeadOfficeCrudController extends AbstractCrudController
 {
     /**
      * @param GeneratePasswordHelper $generatePasswordHelper
@@ -77,8 +77,8 @@ class UserSuperAdminCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Administrateur Entreprise')
-            ->setEntityLabelInPlural('Administrateurs Entreprise');
+            ->setEntityLabelInSingular('Administrateur de l\'Entreprise')
+            ->setEntityLabelInPlural('Administrateurs de l\'Entreprise');
     }
 
     /**

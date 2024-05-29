@@ -37,7 +37,7 @@ class UserCrudController extends AbstractCrudController
     {
         return $crud
             ->setEntityLabelInSingular('Utilisateur')
-            ->setEntityLabelInPlural('Utilisateurs');
+            ->setEntityLabelInPlural('Tous vos utilisateurs');
     }
 
     /**
