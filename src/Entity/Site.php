@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Entity\User\UserAdministrator;
+use App\Entity\User\UserAdministratorSite;
 use App\Entity\User\UserEmployed;
 use App\Repository\SiteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -53,7 +53,7 @@ class Site
     #[ORM\OneToMany(mappedBy: 'site', targetEntity: UserEmployed::class, orphanRemoval: true)]
     private Collection $employees;
 
-    #[ORM\OneToMany(mappedBy: 'site', targetEntity: UserAdministrator::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'site', targetEntity: UserAdministratorSite::class, orphanRemoval: true)]
     private Collection $administrators;
 
     #[ORM\OneToMany(mappedBy: 'site', targetEntity: Car::class, orphanRemoval: true)]
@@ -240,7 +240,7 @@ class Site
     }
 
     /**
-     * @return Collection<int, UserAdministrator>
+     * @return Collection<int, UserAdministratorSite>
      */
     public function getAdministrators(): Collection
     {
@@ -248,10 +248,10 @@ class Site
     }
 
     /**
-     * @param UserAdministrator $administrator
+     * @param UserAdministratorSite $administrator
      * @return $this
      */
-    public function addAdministrator(UserAdministrator $administrator): static
+    public function addAdministrator(UserAdministratorSite $administrator): static
     {
         if (!$this->administrators->contains($administrator)) {
             $this->administrators->add($administrator);
@@ -262,10 +262,10 @@ class Site
     }
 
     /**
-     * @param UserAdministrator $administrator
+     * @param UserAdministratorSite $administrator
      * @return $this
      */
-    public function removeAdministrator(UserAdministrator $administrator): static
+    public function removeAdministrator(UserAdministratorSite $administrator): static
     {
         if ($this->administrators->removeElement($administrator) && $administrator->getSite() === $this) {
             $administrator->setSite(null);

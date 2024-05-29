@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures\Providers;
 
-use App\Entity\User\UserAdministrator;
+use App\Entity\User\UserAdministratorSite;
 use App\Entity\User\UserEmployed;
 use App\Entity\User\UserSuperAdministrator;
 use App\Enum\Role;
@@ -32,8 +32,8 @@ class UserProvider
     {
         $user = match ($role) {
             Role::ROLE_EMPLOYED->name => new UserEmployed(),
-            Role::ROLE_ADMINISTRATOR->name => new UserAdministrator(),
-            Role::ROLE_SUPER_ADMINISTRATOR->name => new UserSuperAdministrator(),
+            Role::ROLE_ADMINISTRATOR_SITE->name => new UserAdministratorSite(),
+            Role::ROLE_ADMINISTRATOR_HEAD_OFFICE->name => new UserSuperAdministrator(),
             default => throw new Exception('Role unknown.'),
         };
 

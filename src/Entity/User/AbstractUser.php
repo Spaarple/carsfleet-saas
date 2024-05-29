@@ -21,7 +21,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
 #[ORM\DiscriminatorMap([
     'super_administrator' => 'UserSuperAdministrator',
-    'administrator' => 'UserAdministrator',
+    'administrator_head_office' => 'UserAdministratorHeadOffice',
+    'administrator_site' => 'UserAdministratorSite',
     'employed' => 'UserEmployed',
 ])]
 #[UniqueEntity(

@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Accident;
-use App\Entity\User\UserAdministrator;
+use App\Entity\User\UserAdministratorSite;
 use App\Entity\User\UserSuperAdministrator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -29,10 +29,10 @@ class AccidentRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param UserSuperAdministrator|UserAdministrator $user
+     * @param UserSuperAdministrator|UserAdministratorSite $user
      * @return QueryBuilder
      */
-    public function getAccidentByUser(UserSuperAdministrator|UserAdministrator $user): QueryBuilder
+    public function getAccidentByUser(UserSuperAdministrator|UserAdministratorSite $user): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('a')
             ->innerJoin('a.car', 'c')
@@ -48,7 +48,7 @@ class AccidentRepository extends ServiceEntityRepository
                     UuidType::NAME
                 );
         }
-        if ($user instanceof UserAdministrator) {
+        if ($user instanceof UserAdministratorSite) {
             $queryBuilder
                 ->where('s.id = :siteId')
                 ->setParameter(
@@ -62,10 +62,10 @@ class AccidentRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param UserSuperAdministrator|UserAdministrator $user
+     * @param UserSuperAdministrator|UserAdministratorSite $user
      * @return array<Accident>
      */
-    public function getAccidentUserByDate(UserSuperAdministrator|UserAdministrator $user): array
+    public function getAccidentUserByDate(UserSuperAdministrator|UserAdministratorSite $user): array
     {
         $borrowings = $this->getAccidentByUser($user)->getQuery()->getResult();
 

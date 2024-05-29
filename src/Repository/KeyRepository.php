@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Key;
-use App\Entity\User\UserAdministrator;
+use App\Entity\User\UserAdministratorSite;
 use App\Entity\User\UserSuperAdministrator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -29,10 +29,10 @@ class KeyRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param UserSuperAdministrator|UserAdministrator $user
+     * @param UserSuperAdministrator|UserAdministratorSite $user
      * @return QueryBuilder
      */
-    public function getKeysByUser(UserSuperAdministrator|UserAdministrator $user): QueryBuilder
+    public function getKeysByUser(UserSuperAdministrator|UserAdministratorSite $user): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('k')
             ->innerJoin('k.car', 'c')
@@ -49,7 +49,7 @@ class KeyRepository extends ServiceEntityRepository
                 );
         }
 
-        if ($user instanceof UserAdministrator) {
+        if ($user instanceof UserAdministratorSite) {
             $queryBuilder
                 ->where('s.id = :siteId')
                 ->setParameter(

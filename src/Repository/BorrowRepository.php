@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Borrow;
-use App\Entity\User\UserAdministrator;
+use App\Entity\User\UserAdministratorSite;
 use App\Entity\User\UserEmployed;
 use App\Entity\User\UserSuperAdministrator;
 use App\Enum\StatusCars;
@@ -31,10 +31,10 @@ class BorrowRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param UserSuperAdministrator|UserAdministrator $user
+     * @param UserSuperAdministrator|UserAdministratorSite $user
      * @return QueryBuilder
      */
-    public function getBorrowByUser(UserSuperAdministrator|UserAdministrator $user): QueryBuilder
+    public function getBorrowByUser(UserSuperAdministrator|UserAdministratorSite $user): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('b')
             ->innerJoin('b.car', 'c')
@@ -50,7 +50,7 @@ class BorrowRepository extends ServiceEntityRepository
                     UuidType::NAME
                 );
         }
-        if ($user instanceof UserAdministrator) {
+        if ($user instanceof UserAdministratorSite) {
             $queryBuilder
                 ->where('s.id = :siteId')
                 ->setParameter(
@@ -64,10 +64,10 @@ class BorrowRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param UserSuperAdministrator|UserAdministrator $user
+     * @param UserSuperAdministrator|UserAdministratorSite $user
      * @return array<Borrow>
      */
-    public function getBorrowUserByDate(UserSuperAdministrator|UserAdministrator $user): array
+    public function getBorrowUserByDate(UserSuperAdministrator|UserAdministratorSite $user): array
     {
         $borrowings = $this->getBorrowByUser($user)->getQuery()->getResult();
 
