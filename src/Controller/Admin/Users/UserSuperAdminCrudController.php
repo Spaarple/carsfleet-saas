@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Users;
 
 use App\Entity\User\UserAdministratorHeadOffice;
-use App\Entity\User\UserSuperAdministrator;
 use App\Enum\Role;
 use App\Helper\GeneratePasswordHelper;
 use App\Repository\User\UserAdministratorHeadOfficeRepository;
@@ -34,12 +33,12 @@ class UserSuperAdminCrudController extends AbstractCrudController
     /**
      * @param GeneratePasswordHelper $generatePasswordHelper
      * @param Security $security
-     * @param UserAdministratorHeadOfficeRepository $superAdministratorRepository
+     * @param UserAdministratorHeadOfficeRepository $administratorHeadOfficeRepository
      */
     public function __construct(
         private readonly GeneratePasswordHelper $generatePasswordHelper,
         private readonly Security $security,
-        private readonly UserAdministratorHeadOfficeRepository $superAdministratorRepository
+        private readonly UserAdministratorHeadOfficeRepository $administratorHeadOfficeRepository
     ) {
     }
 
@@ -59,7 +58,7 @@ class UserSuperAdminCrudController extends AbstractCrudController
     {
         $user = $this->security->getUser();
 
-        return $this->superAdministratorRepository->getSuperAdmin($user);
+        return $this->administratorHeadOfficeRepository->getSuperAdmin($user);
     }
 
     /**
@@ -67,7 +66,7 @@ class UserSuperAdminCrudController extends AbstractCrudController
      */
     public static function getEntityFqcn(): string
     {
-        return UserSuperAdministrator::class;
+        return UserAdministratorHeadOffice::class;
     }
 
     /**
@@ -78,8 +77,8 @@ class UserSuperAdminCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Super Administrateur')
-            ->setEntityLabelInPlural('Super Administrateurs');
+            ->setEntityLabelInSingular('Administrateur Entreprise')
+            ->setEntityLabelInPlural('Administrateurs Entreprise');
     }
 
     /**

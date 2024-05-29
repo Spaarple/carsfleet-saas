@@ -8,6 +8,7 @@ use App\Entity\Borrow;
 use App\Entity\Car;
 use App\Entity\Key;
 use App\Entity\Site;
+use App\Entity\User\UserAdministratorHeadOffice;
 use App\Entity\User\UserAdministratorSite;
 use App\Entity\User\UserEmployed;
 use App\Entity\User\UserSuperAdministrator;
@@ -143,7 +144,7 @@ class DashboardController extends AbstractDashboardController
 
         if ($this->getUser()?->getRoles()[0] !== Role::ROLE_ADMINISTRATOR_SITE->name) {
             array_unshift($subItems,
-                MenuItem::linkToCrud('Administrateurs général', null, UserSuperAdministrator::class)
+                MenuItem::linkToCrud('Administrateurs général', null, UserAdministratorHeadOffice::class)
                     ->setBadge(count($nbSuperAdmin))
             );
         }
