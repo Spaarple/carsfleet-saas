@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures\Providers;
 
+use App\Entity\User\UserAdministratorHeadOffice;
 use App\Entity\User\UserAdministratorSite;
 use App\Entity\User\UserEmployed;
 use App\Entity\User\UserSuperAdministrator;
@@ -10,13 +11,13 @@ use App\Enum\Service;
 use Exception;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserProvider
+readonly class UserProvider
 {
     /**
      * @param UserPasswordHasherInterface $passwordHasher
      */
     public function __construct(
-        private readonly UserPasswordHasherInterface $passwordHasher
+        private UserPasswordHasherInterface $passwordHasher
     ) {}
 
 
@@ -33,7 +34,8 @@ class UserProvider
         $user = match ($role) {
             Role::ROLE_EMPLOYED->name => new UserEmployed(),
             Role::ROLE_ADMINISTRATOR_SITE->name => new UserAdministratorSite(),
-            Role::ROLE_ADMINISTRATOR_HEAD_OFFICE->name => new UserSuperAdministrator(),
+            Role::ROLE_ADMINISTRATOR_HEAD_OFFICE->name => new UserAdministratorHeadOffice(),
+            Role::ROLE_SUPER_ADMINISTRATOR->name => new UserSuperAdministrator(),
             default => throw new Exception('Role unknown.'),
         };
 

@@ -6,14 +6,13 @@ namespace App\Entity\User;
 
 use App\Entity\HeadOffice;
 use App\Enum\Role;
-use App\Repository\User\UserAdministratorRepository;
-use App\Repository\User\UserSuperAdministratorRepository;
+use App\Repository\User\UserAdministratorHeadOfficeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: UserSuperAdministratorHeadOfficeRepository::class)]
-class UserSuperAdministratorHeadOffice extends AbstractUser
+#[ORM\Entity(repositoryClass: UserAdministratorHeadOfficeRepository::class)]
+class UserAdministratorHeadOffice extends AbstractUser
 {
-    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'userSuperAdministratorsHeadOffice')]
+    #[ORM\ManyToOne(inversedBy: 'administratorsHeadOffice')]
     #[ORM\JoinColumn(nullable: false)]
     private ?HeadOffice $headOffice = null;
 

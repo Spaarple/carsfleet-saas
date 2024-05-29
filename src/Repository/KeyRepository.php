@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Key;
 use App\Entity\User\UserAdministratorSite;
-use App\Entity\User\UserSuperAdministrator;
+use App\Entity\User\UserAdministratorHeadOffice;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -29,16 +29,16 @@ class KeyRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param UserSuperAdministrator|UserAdministratorSite $user
+     * @param UserAdministratorHeadOffice|UserAdministratorSite $user
      * @return QueryBuilder
      */
-    public function getKeysByUser(UserSuperAdministrator|UserAdministratorSite $user): QueryBuilder
+    public function getKeysByUser(UserAdministratorHeadOffice|UserAdministratorSite $user): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('k')
             ->innerJoin('k.car', 'c')
             ->innerJoin('c.site', 's');
 
-        if ($user instanceof UserSuperAdministrator) {
+        if ($user instanceof UserAdministratorHeadOffice) {
             $queryBuilder
                 ->innerJoin('s.headOffice', 'h')
                 ->where('h.id = :headOfficeId')

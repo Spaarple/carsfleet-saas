@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Users;
 
+use App\Entity\User\UserAdministratorHeadOffice;
 use App\Entity\User\UserSuperAdministrator;
 use App\Enum\Role;
 use App\Helper\GeneratePasswordHelper;
-use App\Repository\User\UserSuperAdministratorRepository;
+use App\Repository\User\UserAdministratorHeadOfficeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -27,18 +28,18 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_ADMINISTRATOR')]
+#[IsGranted('ROLE_ADMINISTRATOR_SITE')]
 class UserSuperAdminCrudController extends AbstractCrudController
 {
     /**
      * @param GeneratePasswordHelper $generatePasswordHelper
      * @param Security $security
-     * @param UserSuperAdministratorRepository $superAdministratorRepository
+     * @param UserAdministratorHeadOfficeRepository $superAdministratorRepository
      */
     public function __construct(
         private readonly GeneratePasswordHelper $generatePasswordHelper,
         private readonly Security $security,
-        private readonly UserSuperAdministratorRepository $superAdministratorRepository
+        private readonly UserAdministratorHeadOfficeRepository $superAdministratorRepository
     ) {
     }
 
@@ -116,7 +117,7 @@ class UserSuperAdminCrudController extends AbstractCrudController
                 ->setValue(Role::ROLE_SUPER_ADMINISTRATOR->name)
                 ->allowMultipleChoices()
                 ->setChoices([
-                    ucfirst(Role::ROLE_SUPER_ADMINISTRATOR->value) => Role::ROLE_SUPER_ADMINISTRATOR->name,
+                    ucfirst(Role::ROLE_ADMINISTRATOR_HEAD_OFFICE->value) => Role::ROLE_ADMINISTRATOR_HEAD_OFFICE->name,
                 ])->onlyOnDetail(),
         ];
     }
@@ -129,8 +130,8 @@ class UserSuperAdminCrudController extends AbstractCrudController
      */
     public function persistEntity(EntityManagerInterface $entityManager, mixed $entityInstance): void
     {
-        /** @var UserSuperAdministrator $entityInstance */
-        if (!$entityInstance instanceof UserSuperAdministrator) {
+        /** @var UserAdministratorHeadOffice $entityInstance */
+        if (!$entityInstance instanceof UserAdministratorHeadOffice) {
             return;
         }
 

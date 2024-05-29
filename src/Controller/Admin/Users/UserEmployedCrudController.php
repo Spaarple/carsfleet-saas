@@ -33,7 +33,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_ADMINISTRATOR')]
+#[IsGranted('ROLE_ADMINISTRATOR_SITE')]
 class UserEmployedCrudController extends AbstractCrudController
 {
 

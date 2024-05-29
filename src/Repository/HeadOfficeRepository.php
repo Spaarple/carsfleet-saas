@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\HeadOffice;
-use App\Entity\User\UserSuperAdministrator;
+use App\Entity\User\UserAdministratorHeadOffice;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -28,16 +28,16 @@ class HeadOfficeRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param UserSuperAdministrator $userSuperAdministrator
+     * @param UserAdministratorHeadOffice $UserAdministratorHeadOffice
      * @return QueryBuilder
      */
-    public function getHeadOfficeByUser(UserSuperAdministrator $userSuperAdministrator): QueryBuilder
+    public function getHeadOfficeByUser(UserAdministratorHeadOffice $UserAdministratorHeadOffice): QueryBuilder
     {
         return $this->createQueryBuilder('h')
             ->where('h.id = :headOfficeId')
             ->setParameter(
                 'headOfficeId',
-                $userSuperAdministrator->getHeadOffice()?->getId(),
+                $UserAdministratorHeadOffice->getHeadOffice()?->getId(),
                 UuidType::NAME
             );
     }

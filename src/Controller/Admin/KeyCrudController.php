@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Key;
+use App\Entity\User\UserAdministratorHeadOffice;
 use App\Entity\User\UserAdministratorSite;
 use App\Entity\User\UserSuperAdministrator;
 use App\Enum\StatusKey;
@@ -97,7 +98,7 @@ class KeyCrudController extends AbstractCrudController
             AssociationField::new('car', 'Clé de la voiture')
                 ->setFormTypeOptions([
                     'query_builder' => function (EntityRepository $er) use ($user) {
-                        if ($user instanceof UserSuperAdministrator) {
+                        if ($user instanceof UserAdministratorHeadOffice) {
                             return $er->createQueryBuilder('c')
                                 ->innerJoin('c.site', 's')
                                 ->innerJoin('s.headOffice', 'h')

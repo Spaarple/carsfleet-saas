@@ -18,9 +18,9 @@ use App\Repository\BorrowRepository;
 use App\Repository\CarRepository;
 use App\Repository\KeyRepository;
 use App\Repository\SiteRepository;
-use App\Repository\User\UserAdministratorRepository;
+use App\Repository\User\UserAdministratorSiteRepository;
 use App\Repository\User\UserEmployedRepository;
-use App\Repository\User\UserSuperAdministratorRepository;
+use App\Repository\User\UserAdministratorHeadOfficeRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
@@ -30,11 +30,11 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_ADMINISTRATOR')]
+#[IsGranted('ROLE_ADMINISTRATOR_SITE')]
 class DashboardController extends AbstractDashboardController
 {
     public function __construct(
@@ -44,8 +44,8 @@ class DashboardController extends AbstractDashboardController
         private readonly BorrowRepository $borrowRepository,
         private readonly KeyRepository $keyRepository,
         private readonly CarRepository $carRepository,
-        private readonly UserSuperAdministratorRepository $superAdministratorRepository,
-        private readonly UserAdministratorRepository $administrator,
+        private readonly UserAdministratorHeadOfficeRepository $superAdministratorRepository,
+        private readonly UserAdministratorSiteRepository $administrator,
         private readonly UserEmployedRepository $userEmployed,
     )
     {
@@ -105,7 +105,7 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
 
-        if ($this->getUser()?->getRoles()[0] === Role::ROLE_SUPER_ADMINISTRATOR->name) {
+        if ($this->getUser()?->getRoles()[0] === Role::ROLE_ADMINISTRATOR_HEAD_OFFICE->name) {
             yield MenuItem::linkToCrud('Siège Social', 'fa fa-building', HeadOffice::class);
         }
 
@@ -141,7 +141,7 @@ class DashboardController extends AbstractDashboardController
                 ->setBadge(count($nbEmployed)),
         ];
 
-        if ($this->getUser()?->getRoles()[0] !== Role::ROLE_ADMINISTRATOR->name) {
+        if ($this->getUser()?->getRoles()[0] !== Role::ROLE_ADMINISTRATOR_SITE->name) {
             array_unshift($subItems,
                 MenuItem::linkToCrud('Administrateurs général', null, UserSuperAdministrator::class)
                     ->setBadge(count($nbSuperAdmin))

@@ -21,7 +21,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_ADMINISTRATOR')]
+#[IsGranted('ROLE_ADMINISTRATOR_HEAD_OFFICE')]
 class HeadOfficeCrudController extends AbstractCrudController
 {
     /**

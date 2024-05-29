@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\User\UserAdministratorHeadOffice;
 use App\Entity\User\UserSuperAdministrator;
 use App\Form\RegisterType;
 use App\Service\AlertServiceInterface;
@@ -36,7 +37,7 @@ class RegisterController extends AbstractController
     #[Route('/', name: '_index')]
     public function registerByRole(Request $request, UserPasswordHasherInterface $userPasswordHasher,): Response
     {
-        $user = new UserSuperAdministrator();
+        $user = new UserAdministratorHeadOffice();
         $form = $this->createForm(RegisterType::class, $user);
 
         $form->handleRequest($request);

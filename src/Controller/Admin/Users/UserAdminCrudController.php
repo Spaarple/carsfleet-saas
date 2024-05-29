@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Users;
 
-use App\Entity\User\UserAdministrator;
+use App\Entity\User\UserAdministratorSite;
 use App\Enum\Role;
 use App\Helper\GeneratePasswordHelper;
 use App\Repository\User\UserAdministratorRepository;
+use App\Repository\User\UserAdministratorSiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -27,18 +28,18 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_ADMINISTRATOR')]
+#[IsGranted('ROLE_ADMINISTRATOR_SITE')]
 class UserAdminCrudController extends AbstractCrudController
 {
     /**
      * @param GeneratePasswordHelper $generatePasswordHelper
      * @param Security $security
-     * @param UserAdministratorRepository $administratorRepository
+     * @param UserAdministratorSiteRepository $administratorRepository
      */
     public function __construct(
         private readonly GeneratePasswordHelper $generatePasswordHelper,
         private readonly Security $security,
-        private readonly UserAdministratorRepository $administratorRepository
+        private readonly UserAdministratorSiteRepository $administratorRepository
     ) {
     }
 
@@ -66,7 +67,7 @@ class UserAdminCrudController extends AbstractCrudController
      */
     public static function getEntityFqcn(): string
     {
-        return UserAdministrator::class;
+        return UserAdministratorSite::class;
     }
 
     /**
@@ -111,10 +112,10 @@ class UserAdminCrudController extends AbstractCrudController
             FormField::addColumn(6),
             TextField::new('lastName', 'Nom'),
             ChoiceField::new('roles', 'Roles')
-                ->setValue(Role::ROLE_ADMINISTRATOR->name)
+                ->setValue(Role::ROLE_ADMINISTRATOR_SITE->name)
                 ->allowMultipleChoices()
                 ->setChoices([
-                    ucfirst(Role::ROLE_ADMINISTRATOR->value) => Role::ROLE_ADMINISTRATOR->name,
+                    ucfirst(Role::ROLE_ADMINISTRATOR_SITE->value) => Role::ROLE_ADMINISTRATOR_SITE->name,
                 ])->onlyOnDetail(),
         ];
     }
@@ -128,8 +129,8 @@ class UserAdminCrudController extends AbstractCrudController
      */
     public function persistEntity(EntityManagerInterface $entityManager, mixed $entityInstance): void
     {
-        /** @var UserAdministrator $entityInstance */
-        if (!$entityInstance instanceof UserAdministrator) {
+        /** @var UserAdministratorSite $entityInstance */
+        if (!$entityInstance instanceof UserAdministratorSite) {
             return;
         }
 
