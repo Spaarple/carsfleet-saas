@@ -117,68 +117,103 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
 
         if (in_array(Role::ROLE_SUPER_ADMINISTRATOR->name, $user?->getRoles(), true)) {
-            yield MenuItem::linkToCrud('Siège Social', 'fa fa-building', HeadOffice::class);
-            yield MenuItem::linkToCrud('Site', 'fa fa-building', Site::class);
-            yield MenuItem::linkToCrud('Voitures', 'fa fa-car', Car::class);
-            yield MenuItem::linkToCrud('Clés', 'fa fa-key', Key::class);
-            yield MenuItem::linkToCrud('Emprunts', 'fa fa-route', Borrow::class);
-            yield MenuItem::linkToCrud('Accidents', 'fa fa-car-crash', Accident::class);
-            yield MenuItem::subMenu('Utilisateurs', 'fas fa-users')->setSubItems([
-                MenuItem::linkToCrud('Administrateurs Site', null, UserAdministratorSite::class),
-                MenuItem::linkToCrud('Employé(e)s', null, UserEmployed::class),
-                MenuItem::linkToCrud('Administrateurs général', null, UserAdministratorHeadOffice::class)
-            ]);
+            yield from $this->getMenuItemsForSuperAdmin();
         } else {
-
-            if (in_array(Role::ROLE_ADMINISTRATOR_HEAD_OFFICE->name, $user?->getRoles(), true)) {
-                yield MenuItem::linkToCrud('Siège Social', 'fa fa-building', HeadOffice::class);
-            }
-
-            $nbSite = $this->siteRepository->getSitesByHeadOffice($user)->getQuery()->getResult();
-            yield MenuItem::linkToCrud('Site', 'fa fa-building', Site::class)
-                ->setBadge(count($nbSite));
-
-            $nbCar = $this->carRepository->getCarsByUser($user)->getQuery()->getResult();
-            yield MenuItem::linkToCrud('Voitures', 'fa fa-car', Car::class)
-                ->setBadge(count($nbCar));
-
-            $nbKey = $this->keyRepository->getKeysByUser($user)->getQuery()->getResult();
-            yield MenuItem::linkToCrud('Clés', 'fa fa-key', Key::class)
-                ->setBadge(count($nbKey));
-
-            $nbBorrow = $this->borrowRepository->getBorrowByUser($user)->getQuery()->getResult();
-            yield MenuItem::linkToCrud('Emprunts', 'fa fa-route', Borrow::class)
-                ->setBadge(count($nbBorrow));
-
-            $nbAccident = $this->accidentRepository->getAccidentByUser($user)->getQuery()->getResult();
-            yield MenuItem::linkToCrud('Accidents', 'fa fa-car-crash', Accident::class)
-                ->setBadge(count($nbAccident), 'danger');
-
-
-            $nbAdmin = $this->administrator->getAdmin($user)->getQuery()->getResult();
-            $nbEmployed = $this->userEmployed->getEmployees($user)->getQuery()->getResult();
-
-            $subItems = [
-                MenuItem::linkToCrud('Administrateurs Site', null, UserAdministratorSite::class)
-                    ->setBadge(count($nbAdmin)),
-                MenuItem::linkToCrud('Employé(e)s', null, UserEmployed::class)
-                    ->setBadge(count($nbEmployed)),
-            ];
-
-            if (in_array(Role::ROLE_ADMINISTRATOR_SITE->name, $user?->getRoles(), true)) {
-                $nbSuperAdmin = $this->userAdministratorHeadOffice->getSuperAdmin($user)->getQuery()->getResult();
-                array_unshift($subItems,
-                    MenuItem::linkToCrud('Administrateurs général', null, UserAdministratorHeadOffice::class)
-                        ->setBadge(count($nbSuperAdmin))
-                );
-            }
-
-            yield MenuItem::subMenu('Utilisateurs', 'fas fa-users')->setSubItems($subItems);
+            yield from $this->getMenuItemsForOtherRoles($user);
         }
 
         yield MenuItem::section('Paramètres du compte');
         yield MenuItem::linkToLogout('Déconnexion', 'fa fa-sign-out');
         yield MenuItem::linkToRoute('Annuler l\'abonnement', 'fa fa-xmark', 'app_profile_cancel_subscription');
+    }
+
+    /**
+     * @return iterable
+     */
+    private function getMenuItemsForSuperAdmin(): iterable
+    {
+        yield MenuItem::linkToCrud('Siège Social', 'fa fa-building', HeadOffice::class);
+        yield MenuItem::linkToCrud('Site', 'fa fa-building', Site::class);
+        yield MenuItem::linkToCrud('Voitures', 'fa fa-car', Car::class);
+        yield MenuItem::linkToCrud('Clés', 'fa fa-key', Key::class);
+        yield MenuItem::linkToCrud('Emprunts', 'fa fa-route', Borrow::class);
+        yield MenuItem::linkToCrud('Accidents', 'fa fa-car-crash', Accident::class);
+        yield MenuItem::subMenu('Utilisateurs', 'fas fa-users')->setSubItems([
+            MenuItem::linkToCrud('Administrateurs Site', null, UserAdministratorSite::class),
+            MenuItem::linkToCrud('Employé(e)s', null, UserEmployed::class),
+            MenuItem::linkToCrud('Administrateurs général', null, UserAdministratorHeadOffice::class)
+        ]);
+    }
+
+    /**
+     * @param AbstractUser $user
+     * @return iterable
+     */
+    private function getMenuItemsForOtherRoles(AbstractUser $user): iterable
+    {
+        if (in_array(Role::ROLE_ADMINISTRATOR_HEAD_OFFICE->name, $user?->getRoles(), true)) {
+            yield MenuItem::linkToCrud('Siège Social', 'fa fa-building', HeadOffice::class);
+        }
+
+        yield from $this->getMenuItemsForUser($user);
+
+        $subItems = $this->getSubMenuItemsForUser($user);
+
+        yield MenuItem::subMenu('Utilisateurs', 'fas fa-users')->setSubItems($subItems);
+    }
+
+    /**
+     * @param AbstractUser $user
+     * @return iterable
+     */
+    private function getMenuItemsForUser(AbstractUser $user): iterable
+    {
+        $nbSite = $this->siteRepository->getSitesByHeadOffice($user)->getQuery()->getResult();
+        yield MenuItem::linkToCrud('Site', 'fa fa-building', Site::class)
+            ->setBadge(count($nbSite));
+
+        $nbCar = $this->carRepository->getCarsByUser($user)->getQuery()->getResult();
+        yield MenuItem::linkToCrud('Voitures', 'fa fa-car', Car::class)
+            ->setBadge(count($nbCar));
+
+        $nbKey = $this->keyRepository->getKeysByUser($user)->getQuery()->getResult();
+        yield MenuItem::linkToCrud('Clés', 'fa fa-key', Key::class)
+            ->setBadge(count($nbKey));
+
+        $nbBorrow = $this->borrowRepository->getBorrowByUser($user)->getQuery()->getResult();
+        yield MenuItem::linkToCrud('Emprunts', 'fa fa-route', Borrow::class)
+            ->setBadge(count($nbBorrow));
+
+        $nbAccident = $this->accidentRepository->getAccidentByUser($user)->getQuery()->getResult();
+        yield MenuItem::linkToCrud('Accidents', 'fa fa-car-crash', Accident::class)
+            ->setBadge(count($nbAccident), 'danger');
+    }
+
+    /**
+     * @param AbstractUser $user
+     * @return array
+     */
+    private function getSubMenuItemsForUser(AbstractUser $user): array
+    {
+        $nbAdmin = $this->administrator->getAdmin($user)->getQuery()->getResult();
+        $nbEmployed = $this->userEmployed->getEmployees($user)->getQuery()->getResult();
+
+        $subItems = [
+            MenuItem::linkToCrud('Administrateurs Site', null, UserAdministratorSite::class)
+                ->setBadge(count($nbAdmin)),
+            MenuItem::linkToCrud('Employé(e)s', null, UserEmployed::class)
+                ->setBadge(count($nbEmployed)),
+        ];
+
+        if (in_array(Role::ROLE_ADMINISTRATOR_SITE->name, $user?->getRoles(), true)) {
+            $nbSuperAdmin = $this->userAdministratorHeadOffice->getSuperAdmin($user)->getQuery()->getResult();
+            array_unshift($subItems,
+                MenuItem::linkToCrud('Administrateurs général', null, UserAdministratorHeadOffice::class)
+                    ->setBadge(count($nbSuperAdmin))
+            );
+        }
+
+        return $subItems;
     }
 
     /**
