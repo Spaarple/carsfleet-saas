@@ -6,7 +6,6 @@ namespace App\Controller\Admin;
 
 use App\Entity\HeadOffice;
 use App\Entity\User\UserAdministratorHeadOffice;
-use App\Entity\User\UserSuperAdministrator;
 use App\Enum\Role;
 use App\Repository\HeadOfficeRepository;
 use Doctrine\ORM\QueryBuilder;

@@ -13,4 +13,17 @@ class KeyProvider
     {
         return array_rand(StatusKey::asArrayInverted());
     }
+
+    /**
+     * @return string
+     */
+    public function name(): string
+    {
+        $values = [
+            'Clé originale du véhicule',
+            'Clé en double'
+        ];
+
+        return $values[array_rand($values)];
+    }
 }

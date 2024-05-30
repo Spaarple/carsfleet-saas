@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity\User;
 
 use App\Enum\Role;
-use App\Enum\Service;
 use App\Repository\User\AbstractUserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;

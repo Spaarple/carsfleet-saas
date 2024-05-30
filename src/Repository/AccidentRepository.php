@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\Accident;
 use App\Entity\User\UserAdministratorSite;
 use App\Entity\User\UserAdministratorHeadOffice;
-use App\Entity\User\UserSuperAdministrator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;

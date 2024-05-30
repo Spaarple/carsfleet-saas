@@ -34,19 +34,4 @@ class CarController extends AbstractController
             'cars' => $cars,
         ]);
     }
-
-    /**
-     * @param string $id
-     * @param CarRepository $carRepository
-     *
-     * @return Response
-     */
-    #[Route('/{id}', name: '_detail')]
-    public function view(string $id, CarRepository $carRepository): Response
-    {
-        return $this->render('car/detail.html.twig', [
-            'car' => $carRepository->findOneBy(['id' => $id])
-        ]);
-    }
-
 }

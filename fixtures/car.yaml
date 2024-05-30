@@ -1,10 +1,10 @@
 App\Entity\Car:
   car{1..200}:
-    serial_number: '<numberBetween(100000, 900000)>'
+    serial_number: '<numberBetween(10000000000000000, 99999999999999999)>'
     brand: '<brand()>'
-    model: '<model()>'
+    model: '<model($brand)>'
     color: '<color()>'
-    registration_number: '<numberBetween(100000, 900000)>'
+    registration_number: '<registrationNumber()>'
     status: '<status()>'
     passenger_quantity: '<numberBetween(1, 5)>'
     site: '@site*'

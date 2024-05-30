@@ -5,7 +5,6 @@ namespace App\Controller\Admin;
 use App\Entity\Key;
 use App\Entity\User\UserAdministratorHeadOffice;
 use App\Entity\User\UserAdministratorSite;
-use App\Entity\User\UserSuperAdministrator;
 use App\Enum\Role;
 use App\Enum\StatusKey;
 use App\Form\Admin\Field\EnumField;
@@ -21,6 +20,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -100,6 +100,7 @@ class KeyCrudController extends AbstractCrudController
         $user = $this->security->getUser();
 
         return [
+            TextField::new('name', 'Nom de la clé'),
             AssociationField::new('car', 'Clé de la voiture')
                 ->setFormTypeOptions([
                     'query_builder' => function (EntityRepository $er) use ($user) {
@@ -123,8 +124,8 @@ class KeyCrudController extends AbstractCrudController
                 ])
                 ->formatValue(function ($value, $entity) {
                     return sprintf('%s - %s',
-                        $entity->getCar()->getModel(),
                         $entity->getCar()->getBrand(),
+                        $entity->getCar()->getModel(),
                     );
                 }),
             EnumField::setEnumClass(StatusKey::class)::new('status', 'Ou trouver la clé'),
