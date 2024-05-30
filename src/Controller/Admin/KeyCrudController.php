@@ -77,7 +77,8 @@ class KeyCrudController extends AbstractCrudController
     {
         return $crud
             ->setEntityLabelInSingular('Clé')
-            ->setEntityLabelInPlural('Clés');
+            ->setEntityLabelInPlural('Clés')
+            ->showEntityActionsInlined();
     }
 
     /**
