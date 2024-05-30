@@ -1,4 +1,5 @@
 App\Entity\Key:
-  accident{1..400}:
+  key{1..400}:
     car: '@car*'
     status: '<statusKey()>'
+    name: '<name()>'

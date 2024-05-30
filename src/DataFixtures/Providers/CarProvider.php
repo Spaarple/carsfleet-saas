@@ -3,6 +3,7 @@
 namespace App\DataFixtures\Providers;
 
 use App\Enum\StatusCars;
+use Random\RandomException;
 
 class CarProvider
 {
@@ -19,15 +20,18 @@ class CarProvider
      */
     public function brand(): string
     {
-        return $this->randomBrand()[(string) array_rand($this->randomBrand())];
+        $brands = array_keys($this->randomBrand());
+        return $brands[array_rand($brands)];
     }
 
     /**
+     * @param string $brand
      * @return string
      */
-    public function model(): string
+    public function model(string $brand): string
     {
-        return $this->randomModel()[(string) array_rand($this->randomModel())];
+        $brandModelPairs = $this->randomBrand();
+        return $brandModelPairs[$brand];
     }
 
     /**
@@ -44,35 +48,20 @@ class CarProvider
     private function randomBrand(): array
     {
         return [
-            'Renault',
-            'Peugeot',
-            'Citroën',
-            'Volkswagen',
-            'Mercedes',
-            'BMW',
-            'Audi',
+            'Renault' => 'Clio 2',
+            'Peugeot' => '205',
+            'Citroën' => 'DS3',
+            'Mercedes' => 'Classe A',
+            'Audi' => 'A1',
+            'Volkwagen' => 'Golf 7',
+            'BMW' => 'Série 1',
+            'Fiat' => '500',
+            'Ford' => 'Fiesta',
+            'Toyota' => 'Yaris',
         ];
     }
 
-    /**
-     * @return string[]
-     */
-    private function randomModel(): array
-    {
-        return [
-            'Clio',
-            'Megane',
-            '308',
-            '208',
-            'C3',
-            'Golf',
-            'A3',
-            'Série 1',
-            'Série 3',
-            'Classe A',
-            'Classe C',
-        ];
-    }
+
 
     /**
      * @return string[]
@@ -89,5 +78,37 @@ class CarProvider
             '#000000',
 
         ];
+    }
+
+    /**
+     * @return string
+     * @throws RandomException
+     */
+    public function registrationNumber(): string
+    {
+        return sprintf('%s-%s-%s',
+            $this->randomLetters(),
+            $this->randomNumbers(),
+            $this->randomLetters()
+        );
+    }
+
+    /**
+     * @return string
+     */
+    private function randomLetters(): string
+    {
+        $letters = range('A', 'Z');
+
+        return $letters[array_rand($letters)] . $letters[array_rand($letters)];
+    }
+
+    /**
+     * @return string
+     * @throws RandomException
+     */
+    private function randomNumbers(): string
+    {
+        return str_pad(random_int(0, 999), 3, '0', STR_PAD_LEFT);
     }
 }
