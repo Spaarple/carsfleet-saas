@@ -22,6 +22,7 @@ use App\Repository\SiteRepository;
 use App\Repository\User\UserAdministratorSiteRepository;
 use App\Repository\User\UserEmployedRepository;
 use App\Repository\User\UserAdministratorHeadOfficeRepository;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
@@ -38,6 +39,17 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ADMINISTRATOR_SITE')]
 class DashboardController extends AbstractDashboardController
 {
+    /**
+     * @param Security $security
+     * @param SiteRepository $siteRepository
+     * @param AccidentRepository $accidentRepository
+     * @param BorrowRepository $borrowRepository
+     * @param KeyRepository $keyRepository
+     * @param CarRepository $carRepository
+     * @param UserAdministratorHeadOfficeRepository $userAdministratorHeadOffice
+     * @param UserAdministratorSiteRepository $administrator
+     * @param UserEmployedRepository $userEmployed
+     */
     public function __construct(
         private readonly Security $security,
         private readonly SiteRepository $siteRepository,
@@ -52,21 +64,17 @@ class DashboardController extends AbstractDashboardController
     {
     }
 
+    public function configureAssets(): Assets
+    {
+        return Assets::new()->addCssFile('build/admin.css');
+    }
+
     /**
      * @return Response
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        if (!$this->isGranted(Role::ROLE_SUPER_ADMINISTRATOR->name)) {
-            return $this->redirect(
-                $adminUrlGenerator->setController(UserCrudController::class)->generateUrl()
-            );
-        }
-
         /* @var AbstractUser $user */
         $user = $this->security->getUser();
         if (in_array(Role::ROLE_SUPER_ADMINISTRATOR->name, $user->getRoles(), true)) {
@@ -104,6 +112,7 @@ class DashboardController extends AbstractDashboardController
     {
         return Dashboard::new()
             ->setTitle('CarsFleet')
+            ->generateRelativeUrls()
             ->setTranslationDomain('admin');
     }
 

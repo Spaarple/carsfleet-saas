@@ -23,6 +23,8 @@ Encore
     .addEntry('app', './assets/app.js')
     .addEntry('dashboard-ea', './assets/dashboard-ea.js')
 
+    .addStyleEntry('admin', './assets/styles/admin.css')
+
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 

@@ -103,20 +103,20 @@ class CarCrudController extends AbstractCrudController
             FormField::addColumn(6)->hideOnIndex(),
             TextField::new('brand', 'Marque'),
             EnumField::setEnumClass(StatusCars::class)::new('status', 'Statut'),
-            TextField::new('registrationNumber', 'Numéro d\'immatriculation')
+            TextField::new('registrationNumber', 'N° d\'immatriculation')
                 ->setTextAlign('center'),
-            NumberField::new('passengerQuantity', 'Quantité de passagers')
+            NumberField::new('passengerQuantity', 'Qté passagers')
                 ->setTextAlign('center'),
 
             FormField::addColumn(6)->hideOnIndex(),
             TextField::new('model', 'Modèle'),
-            TextField::new('serialNumber', 'Numéro de série'),
+            TextField::new('serialNumber', 'N° de série'),
             AssociationField::new('site', 'Site')
                 ->formatValue(function ($value, $entity) {
                     return $entity->getSite()?->getName();
                 }),
             ColorField::new('color', 'Couleur'),
-            CollectionField::new('carKeys', 'Nombre de clés')
+            CollectionField::new('carKeys', 'Nbre de clés')
                 ->setTextAlign('center')
                 ->hideOnForm()
                 ->formatValue(function ($value, $entity) {
