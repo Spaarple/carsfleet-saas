@@ -33,7 +33,7 @@
                             </div>
                             <div class="mb-5">
                                 <label for="service" class="text-base font-semibold leading-7 text-gray-900 required">Service</label>
-                                <input type="text" id="service" name="service" value="{{ app.user.service.name|lower }}" disabled
+                                <input type="text" id="service" name="service" value="{{ app.user.service.value|capitalize }}" disabled
                                        class="bg-neutral-200 border border-gray-300 text-gray-500 text-sm rounded-xl
                            focus:ring-neutral-900 focus:border-darkness-500 block w-full p-2.5 dark:bg-gray-700
                            dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
