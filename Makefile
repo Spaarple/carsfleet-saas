@@ -5,6 +5,7 @@
 SYMFONY = symfony
 PHP = php
 BIN_CONSOLE = bin/console
+PHP_BIN_CONSOLE = $(PHP) $(BIN_CONSOLE)
 SYMFONY_SERVER_START = $(SYMFONY) serve -d
 SYMFONY_SERVER_STOP = $(SYMFONY) server:stop
 SYMFONY_CONSOLE = $(SYMFONY) console
@@ -109,3 +110,26 @@ reset-db: ## Reset database.
 		$(SYMFONY_CONSOLE) hautelook:fixtures:load --append --no-interaction --env=dev; \
 	fi
 .PHONY: reset-db
+
+php-dc: ## Create symfony database.
+	$(PHP_BIN_CONSOLE) doctrine:database:create --if-not-exists
+.PHONY: php-dc
+
+php-dd: ## Drop symfony database.
+	$(PHP_BIN_CONSOLE) doctrine:database:drop --if-exists --force
+.PHONY: php-dd
+
+php-dmm: ## Migrate.
+	$(PHP_BIN_CONSOLE) doctrine:migrations:migrate --no-interaction
+.PHONY: php-dmm
+
+
+reset-db-prod: ## Reset database.
+	$(eval CONFIRM := $(shell read -p "Are you sure you want to reset the database? [y/N] " CONFIRM && echo $${CONFIRM:-N}))
+	@if [ "$(CONFIRM)" = "y" ]; then \
+		$(MAKE) php-dd; \
+		$(MAKE) php-dc; \
+		$(MAKE) php-dmm; \
+		$(PHP_BIN_CONSOLE) hautelook:fixtures:load --append --no-interaction --env=dev; \
+	fi
+.PHONY: reset-db-prod

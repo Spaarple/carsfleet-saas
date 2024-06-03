@@ -39,10 +39,29 @@
                                                 </td>
                                                 <td colspan="row">
                                                     <div class="md:flex">
-                                                        <div class="md:w-1/3 p-2">
+                                                        <div class="md:w-1/4 p-2">
+                                                            <a href="{{ path('app_borrow_detail', {'id': borrow_history.car.id }) }}" class="text-primary-900 flex items-center">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                     class="icon icon-tabler icon-tabler-map-pin text-azure mx-1"
+                                                                     width="24"
+                                                                     height="24"
+                                                                     viewBox="0 0 24 24"
+                                                                     stroke-width="2"
+                                                                     stroke="currentColor"
+                                                                     fill="none"
+                                                                     stroke-linecap="round"
+                                                                     stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                    <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
+                                                                    <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"></path>
+                                                                </svg>
+                                                                Consulter
+                                                            </a>
+                                                        </div>
+                                                        <div class="md:w-1/4 p-2">
                                                             <a href="#" data-modal-target="modal-small-{{ borrow_history.borrowMeet.id }}" data-modal-toggle="modal-small-{{ borrow_history.borrowMeet.id }}" class="text-blue-400 flex items-center">
                                                                 <svg xmlns="http://www.w3.org/2000/svg"
-                                                                     class="icon icon-tabler icon-tabler-map-pin text-azure"
+                                                                     class="icon icon-tabler icon-tabler-map-pin text-azure mx-1"
                                                                      width="24"
                                                                      height="24"
                                                                      viewBox="0 0 24 24"
@@ -98,10 +117,10 @@
                                                             </div>
                                                         </div>
                                                         {% if borrow_history.driver == app.user %}
-                                                            <div class="md:w-1/3 p-2">
+                                                            <div class="md:w-1/4 p-2">
                                                                 <a href="{{ path('app_accident_index', {'id': borrow_history.car.id}) }}" class="text-orange-500 flex items-center">
                                                                     <svg xmlns="http://www.w3.org/2000/svg"
-                                                                         class="icon icon-tabler icon-tabler-car-crash text-warning"
+                                                                         class="icon icon-tabler icon-tabler-car-crash text-warning mx-1"
                                                                          width="24"
                                                                          height="24"
                                                                          viewBox="0 0 24 24"
@@ -121,10 +140,10 @@
                                                                     <span class="ml-2">Déclarer un accident</span>
                                                                 </a>
                                                             </div>
-                                                            <div class="md:w-1/3 p-2">
+                                                            <div class="md:w-1/4 p-2">
                                                                 <a href="#" data-modal-target="modal-cancel-{{ borrow_history.id }}" data-modal-toggle="modal-cancel-{{ borrow_history.id }}" class="text-red-600 flex items-center">
                                                                     <svg xmlns="http://www.w3.org/2000/svg"
-                                                                         class="icon icon-tabler icon-tabler-circle-minus text-danger"
+                                                                         class="icon icon-tabler icon-tabler-circle-minus text-danger mx-1"
                                                                          width="24"
                                                                          height="24"
                                                                          viewBox="0 0 24 24"

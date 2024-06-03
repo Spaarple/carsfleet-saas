@@ -108,15 +108,17 @@ class BorrowRepository extends ServiceEntityRepository
      */
     public function findCurrentBorrowsByUserSite(UserEmployed $user): array
     {
-        return
-            $this->createQueryBuilder('b')
-                ->join('b.car', 'c')
-                ->where('c.site = :site')
-                ->andWhere('c.status = :status')
-                ->andWhere('b.startDate >= CURRENT_DATE()')
-                ->andWhere('c.passengerQuantity > SIZE(b.userEmployed)')
-                ->setParameter('status', StatusCars::AVAILABLE)
-                ->setParameter('site', $user->getSite()?->getId(), UuidType::NAME)
-                ->getQuery()->getResult();
+        return $this->createQueryBuilder('b')
+            ->join('b.car', 'c')
+            ->leftJoin('b.userEmployed', 'u')
+            ->where('c.site = :site')
+            ->andWhere('c.status = :status')
+            ->andWhere('b.startDate >= CURRENT_DATE()')
+            ->andWhere('c.passengerQuantity > SIZE(b.userEmployed)')
+            ->andWhere('u.id != :userId OR u.id IS NULL')
+            ->setParameter('status', StatusCars::AVAILABLE)
+            ->setParameter('site', $user->getSite()?->getId(), UuidType::NAME)
+            ->setParameter('userId', $user->getId(), UuidType::NAME)
+            ->getQuery()->getResult();
     }
 }
