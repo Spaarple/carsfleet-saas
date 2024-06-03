@@ -210,7 +210,7 @@ class DashboardController extends AbstractDashboardController
                 ->setBadge(count($nbEmployed)),
         ];
 
-        if (in_array(Role::ROLE_ADMINISTRATOR_SITE->name, $user?->getRoles(), true)) {
+        if (in_array(Role::ROLE_ADMINISTRATOR_HEAD_OFFICE->name, $user?->getRoles(), true)) {
             $nbSuperAdmin = $this->userAdministratorHeadOffice->getSuperAdmin($user)->getQuery()->getResult();
             array_unshift($subItems,
                 MenuItem::linkToCrud('Administrateurs général', null, UserAdministratorHeadOffice::class)

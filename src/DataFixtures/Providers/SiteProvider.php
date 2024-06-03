@@ -17,49 +17,34 @@ class SiteProvider
     /**
      * @return string
      */
-    public function nameSite(): string
-    {
-        return $this->randomNames()[(string) array_rand($this->randomNames())];
-    }
-
-    /**
-     * @return string
-     */
     public function region(): string
     {
-        return $this->randomRegion()[(string) array_rand($this->randomRegion())];
+        $region = array_keys($this->randomRegionAndName());
+        return $region[array_rand($region)];
+    }
+
+    /**
+     * @param string $region
+     * @return string
+     */
+    public function nameSite(string $region): string
+    {
+        $regionPairNameSite = $this->randomRegionAndName();
+        return $regionPairNameSite[$region];
     }
 
     /**
      * @return string[]
      */
-    private function randomRegion(): array
+    private function randomRegionAndName(): array
     {
         return [
-            'Region de PDL',
-            'Region de IDF',
-            'Region de Auvergne',
-            'Region de Est',
-            'Region de Nord',
-            'Region de Sud',
-            'Region de Paris',
-            'Region de Marseille',
-        ];
-    }
-
-    /**
-     * @return string[]
-     */
-    private function randomNames(): array
-    {
-        return [
-            'Site de Nantes',
-            'Site de Rennes',
-            'Site de Bordeaux',
-            'Site de Paris',
-            'Site de Lille',
-            'Site de Lyon',
-            'Site de Marseille',
+            'Region Pays de la Loire ' => 'Site de Nantes',
+            'Region Bretagne' => 'Site de Rennes',
+            'Region Hauts de France' => 'Site de Lille',
+            'Region Grand Est' => 'Site de Strasbourg',
+            'Region Occitanie' => 'Site de Toulouse',
+            'Region Ile de France' => 'Site de Paris',
         ];
     }
 }
