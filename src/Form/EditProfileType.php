@@ -45,6 +45,8 @@ class EditProfileType extends AbstractType
             ->add('service', EnumType::class, [
                 'label' => 'Service',
                 'class' => Service::class,
+                'choice_label' => 'value',
+                'choice_value' => 'name',
                 'disabled' => true,
             ])
             ->add('site', EntityType::class, [
