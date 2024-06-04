@@ -33,7 +33,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .air-datepicker {
-    border: none;
+    border: 1px solid #4B5563!important;
     min-width: var(--adp-width);
     width: unset;
 }
@@ -43,11 +43,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .air-datepicker-nav--title:hover {
-    background-color: var(--bs-primary-light);
-}
-
-.air-datepicker-nav--action:hover {
-    background-color: var(--bs-primary-light);
+    background-color: #D1D5DB;
 }
 
 .air-datepicker--navigation {
@@ -77,13 +73,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .air-datepicker-cell.-current- {
-    color: #4263EB;
+    color: #10B981;
     font-weight: bold;
 }
 
 .air-datepicker-cell.-weekend-,
 .air-datepicker-cell.-disabled- {
-    background-color: #F5F5F5 !important;
+    background-color: #F3F4F6 !important;
     border-radius:0;
     color: black !important;
     cursor: default;
@@ -91,18 +87,19 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .air-datepicker-cell.-day-.-other-month-,
 .air-datepicker-cell.-day-.-disabled- {
-    color: gray;
+    color: #0876DD;
+    font-weight: bolder;
 }
 
 .air-datepicker-cell.-selected-:not(.-weekend-):not(.-disabled-),
 .air-datepicker-cell.-selected-:hover:not(.-weekend-):not(.-disabled-) {
-    background-color: #216AC4;
+    background-color: #1F2937;
     color: white;
 }
 
 .air-datepicker-cell.-selected-.-current-:not(.-weekend-):not(.-disabled-),
 .air-datepicker-cell.-selected-:hover.-current-:not(.-weekend-):not(.-disabled-) {
-    background-color: #216AC4;
+    background-color: #1F2937;
     color: white;
 }
 
