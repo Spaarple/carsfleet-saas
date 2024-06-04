@@ -2,17 +2,44 @@
 
 namespace App\DataFixtures\Providers;
 
+use App\Enum\Fuel;
+use App\Enum\GearBox;
 use App\Enum\StatusCars;
+use DateTimeImmutable;
+use Faker\Factory;
+use Faker\Generator;
 use Random\RandomException;
 
 class CarProvider
 {
+    private Generator $faker;
+
+    public function __construct() {
+        $this->faker = Factory::create('fr_FR');
+    }
+
     /**
      * @return int|string
      */
     public function status(): int|string
     {
         return array_rand(StatusCars::asArrayInverted());
+    }
+
+    /**
+     * @return int|string
+     */
+    public function fuel(): int|string
+    {
+        return array_rand(Fuel::asArrayInverted());
+    }
+
+    /**
+     * @return int|string
+     */
+    public function gearbox(): int|string
+    {
+        return array_rand(GearBox::asArrayInverted());
     }
 
     /**
@@ -61,8 +88,6 @@ class CarProvider
         ];
     }
 
-
-
     /**
      * @return string[]
      */
@@ -110,5 +135,26 @@ class CarProvider
     private function randomNumbers(): string
     {
         return str_pad(random_int(0, 999), 3, '0', STR_PAD_LEFT);
+    }
+
+    /**
+     * @return DateTimeImmutable
+     */
+    public function yearProduction(): DateTimeImmutable
+    {
+        $yearProduction = '2015-01-01';
+        $maxDate = 'now';
+
+        return DateTimeImmutable::createFromMutable($this->faker->dateTimeBetween($yearProduction, $maxDate));
+    }
+
+    /**
+     * @param DateTimeImmutable $yearProduction
+     * @return DateTimeImmutable
+     */
+    public function circulationDate(DateTimeImmutable $yearProduction): DateTimeImmutable
+    {
+        $daysToAdd = $this->faker->numberBetween(90, 1000);
+        return $yearProduction->modify("+$daysToAdd days");
     }
 }

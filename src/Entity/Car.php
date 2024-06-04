@@ -2,8 +2,12 @@
 
 namespace App\Entity;
 
+use App\Enum\Fuel;
+use App\Enum\GearBox;
 use App\Enum\StatusCars;
 use App\Repository\CarRepository;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -92,6 +96,27 @@ class Car
     )]
     #[ORM\OneToMany(mappedBy: 'car', targetEntity: Key::class)]
     private Collection $carKeys;
+
+    #[ORM\Column(type: Types::STRING, length: 255, enumType: Fuel::class)]
+    private ?Fuel $fuel = null;
+
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    private ?DateTimeImmutable $yearOfProduction = null;
+
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $kilometers = null;
+
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    private ?DateTimeImmutable $circulationDate = null;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $fiscalHorsePower = null;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $horsePower = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, enumType: GearBox::class)]
+    private ?GearBox $gearbox = null;
 
     public function __construct()
     {
@@ -354,7 +379,7 @@ class Car
     public function addCarKey(Key $carKey): static
     {
         if (count($this->carKeys) >= 2) {
-            throw new Exception('Un véhicule ne peut avoir que 2 clés au maximum');
+            throw new \RuntimeException('Un véhicule ne peut avoir que 2 clés au maximum');
         }
 
         if (!$this->carKeys->contains($carKey)) {
@@ -374,6 +399,139 @@ class Car
         if ($this->carKeys->removeElement($carKey) && $carKey->getCar() === $this) {
             $carKey->setCar(null);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Fuel|null
+     */
+    public function getFuel(): ?Fuel
+    {
+        return $this->fuel;
+    }
+
+    /**
+     * @param Fuel $fuel
+     * @return $this
+     */
+    public function setFuel(Fuel $fuel): static
+    {
+        $this->fuel = $fuel;
+
+        return $this;
+    }
+
+    /**
+     * @return DateTimeImmutable
+     */
+    public function getYearOfProduction(): DateTimeImmutable
+    {
+        return $this->yearOfProduction;
+    }
+
+    /**
+     * @param DateTimeImmutable $yearOfProduction
+     * @return $this
+     */
+    public function setYearOfProduction(DateTimeImmutable $yearOfProduction): static
+    {
+        $this->yearOfProduction = $yearOfProduction;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getKilometers(): ?int
+    {
+        return $this->kilometers;
+    }
+
+    /**
+     * @param int $kilometers
+     * @return $this
+     */
+    public function setKilometers(int $kilometers): static
+    {
+        $this->kilometers = $kilometers;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getCirculationDate(): ?\DateTimeInterface
+    {
+        return $this->circulationDate;
+    }
+
+    /**
+     * @param \DateTimeInterface $circulationDate
+     * @return $this
+     */
+    public function setCirculationDate(\DateTimeInterface $circulationDate): static
+    {
+        $this->circulationDate = $circulationDate;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getFiscalHorsePower(): ?int
+    {
+        return $this->fiscalHorsePower;
+    }
+
+    /**
+     * @param int $fiscalHorsePower
+     * @return $this
+     */
+    public function setFiscalHorsePower(int $fiscalHorsePower): static
+    {
+        $this->fiscalHorsePower = $fiscalHorsePower;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getHorsePower(): ?int
+    {
+        return $this->horsePower;
+    }
+
+    /**
+     * @param int $horsePower
+     * @return $this
+     */
+    public function setHorsePower(int $horsePower): static
+    {
+        $this->horsePower = $horsePower;
+
+        return $this;
+    }
+
+    /**
+     * @return GearBox|null
+     */
+    public function getGearbox(): ?GearBox
+    {
+        return $this->gearbox;
+    }
+
+    /**
+     * @param GearBox $gearbox
+     * @return $this
+     */
+    public function setGearbox(GearBox $gearbox): static
+    {
+        $this->gearbox = $gearbox;
 
         return $this;
     }
