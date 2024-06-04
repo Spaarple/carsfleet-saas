@@ -75,6 +75,7 @@ class BorrowController extends AbstractController
 
             $fullDate = $request->request->all()['borrow_form']['startDate'];
             $extractDate = explode(' - ', $fullDate);
+
             $dateStart= new DateTimeImmutable($extractDate[0]);
             $dateEnd = new DateTimeImmutable($extractDate[1]);
 
