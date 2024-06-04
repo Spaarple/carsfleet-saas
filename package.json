@@ -27,6 +27,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "air-datepicker": "^3.5.3",
         "apexcharts": "^3.49.1",
         "flowbite": "^2.3.0"
     }

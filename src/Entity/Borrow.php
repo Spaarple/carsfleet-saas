@@ -22,6 +22,7 @@ class Borrow
     private ?Uuid $id = null;
 
     #[Assert\NotBlank]
+    #[Assert\NotNull]
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $startDate = null;
 
