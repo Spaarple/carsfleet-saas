@@ -1,5 +1,5 @@
 App\Entity\Car:
-  car{1..200}:
+  car{1..250}:
     serial_number: '<numberBetween(10000000000000000, 99999999999999999)>'
     brand: '<brand()>'
     model: '<model($brand)>'

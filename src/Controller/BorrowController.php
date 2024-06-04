@@ -9,6 +9,7 @@ use App\Form\BorrowFormType;
 use App\Repository\BorrowRepository;
 use App\Repository\CarRepository;
 use App\Service\AlertServiceInterface;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -60,6 +61,7 @@ class BorrowController extends AbstractController
      * @param UserEmployed $employed
      *
      * @return Response
+     * @throws \Exception
      */
     #[Route('/create/{id}', name: '_index')]
     public function create(string $id, Request $request, #[CurrentUser] UserEmployed $employed): Response {
@@ -71,8 +73,13 @@ class BorrowController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $borrow->setStartDate($form->get('startDate')->getData())
-                ->setEndDate($form->get('endDate')->getData())
+            $fullDate = $request->request->all()['borrow_form']['startDate'];
+            $extractDate = explode(' - ', $fullDate);
+            $dateStart= new DateTimeImmutable($extractDate[0]);
+            $dateEnd = new DateTimeImmutable($extractDate[1]);
+
+            $borrow->setStartDate($dateStart)
+                ->setEndDate($dateEnd)
                 ->setDriver($employed)
                 ->addUserEmployed($employed);
 
