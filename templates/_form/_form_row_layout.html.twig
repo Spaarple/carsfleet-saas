@@ -11,27 +11,36 @@
     {%- set row_class = row_class|default(row_attr.class|default('mb-5')|trim) -%}
     {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
     <{{ element|default('div') }}{% with {attr: row_attr|merge({class: row_class})} %}{{ block('attributes') }}{% endwith %}>
+
+
+    {# If class airdpcalendar add to class already exist #}
+    {% set add_class_form = form.vars.attr.class|default('') %}
+    {% if 'airdpcalendar' not in add_class_form %}
+        {% set add_class_form = add_class_form ~ ' airdpcalendar' %}
+    {% endif %}
+
     {%- if 'form-floating' in row_class -%}
         {{- form_widget(form, widget_attr|merge({attr:
-            {'class': disabled_class ~ 'border border-gray-300 text-sm rounded-lg
+            {'class': add_class_form ~ ' ' ~ disabled_class ~ ' border border-gray-300 text-sm rounded-lg
                            focus:ring-neutral-900 focus:border-darkness-500 block w-full p-2.5 dark:bg-gray-700
                            dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
                            dark:focus:ring-blue-500 dark:focus:border-blue-500'
             }
         })) -}}
+
         {%- block form_label -%}
             {% if label is not same as(false) -%}
                 {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' text-base font-semibold leading-7 text-gray-900' ~ (required ? ' required' : ''))|trim}) %}
                 <label for="{{ form.vars.id }}" {% with {attr: label_attr} %}{{ block('attributes') }}{% endwith %}>{{ label|trans({}, translation_domain) }}</label>
             {%- endif -%}
         {%- endblock form_label %}
-    {%- else -%}
     {%- endif -%}
     {{- form_help(form) -}}
     {{- form_errors(form) -}}
     {{- form_label(form) -}}
+
     {{- form_widget(form, widget_attr|merge({attr: {
-        'class': disabled_class ~ 'border border-gray-300 text-sm rounded-lg
+        'class': disabled_class ~ ' ' ~ add_class_form ~ ' border border-gray-300 text-sm rounded-lg
                            focus:ring-neutral-900 focus:border-darkness-500 block w-full p-2.5 dark:bg-gray-700
                            dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
                            dark:focus:ring-blue-500 dark:focus:border-blue-500'

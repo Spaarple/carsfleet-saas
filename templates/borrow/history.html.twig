@@ -29,18 +29,19 @@
                                                 <td colspan="row" class="px-2">{{ borrow_history.car.brand }} - {{ borrow_history.car.model }}</td>
                                                 <td colspan="row">
                                                     <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                                        {{ borrow_history.startDate|date('d/m/y') }}
+                                                        {{ borrow_history.startDate|date('d/m/y H:i') }}
                                                     </span>
                                                 </td>
                                                 <td colspan="row">
                                                    <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                                        {{ borrow_history.startDate|date('d/m/y') }}
+                                                        {{ borrow_history.startDate|date('d/m/y H:i') }}
                                                     </span>
                                                 </td>
                                                 <td colspan="row">
                                                     <div class="md:flex">
-                                                        <div class="md:w-1/4 p-2">
-                                                            <a href="{{ path('app_borrow_detail', {'id': borrow_history.car.id }) }}" class="text-primary-900 flex items-center">
+                                                        <div class="md:w-1/4 p-2 flex items-center">
+                                                            <a href="{{ path('app_borrow_detail', {'id': borrow_history.car.id }) }}"
+                                                               class="text-primary-900 inline-flex align-bottom">
                                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                                      class="icon icon-tabler icon-tabler-map-pin text-azure mx-1"
                                                                      width="24"
@@ -140,7 +141,7 @@
                                                                     <span class="ml-2">Déclarer un accident</span>
                                                                 </a>
                                                             </div>
-                                                            <div class="md:w-1/4 p-2">
+                                                            <div class="md:w-1/4 p-2 flex items-center">
                                                                 <a href="#" data-modal-target="modal-cancel-{{ borrow_history.id }}" data-modal-toggle="modal-cancel-{{ borrow_history.id }}" class="text-red-600 flex items-center">
                                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                                          class="icon icon-tabler icon-tabler-circle-minus text-danger mx-1"

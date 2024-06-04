@@ -22,11 +22,11 @@ class Borrow
     private ?Uuid $id = null;
 
     #[Assert\NotBlank]
-    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    #[Assert\NotNull]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $startDate = null;
 
-    #[Assert\NotBlank]
-    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $endDate = null;
 
     #[ORM\ManyToOne(inversedBy: 'borrows')]
