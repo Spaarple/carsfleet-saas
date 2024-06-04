@@ -72,9 +72,9 @@ class BorrowController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $fullDate = $request->request->all()['borrow_form']['startDate'];
             $extractDate = explode(' - ', $fullDate);
+
             $dateStart= new DateTimeImmutable($extractDate[0]);
             $dateEnd = new DateTimeImmutable($extractDate[1]);
 
@@ -98,8 +98,10 @@ class BorrowController extends AbstractController
 
             return $this->redirectToRoute('app_car_index');
         }
+
         return $this->render('borrow/index.html.twig', [
             'form' => $form->createView(),
+            'available_dates' => json_encode($this->borrowRepository->findBorrowsByCar($id), JSON_THROW_ON_ERROR),
         ]);
     }
 

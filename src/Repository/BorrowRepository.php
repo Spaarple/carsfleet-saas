@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Borrow;
+use App\Entity\Car;
+use App\Entity\Site;
 use App\Entity\User\UserAdministratorSite;
 use App\Entity\User\UserEmployed;
 use App\Entity\User\UserAdministratorHeadOffice;
@@ -120,5 +122,29 @@ class BorrowRepository extends ServiceEntityRepository
             ->setParameter('site', $user->getSite()?->getId(), UuidType::NAME)
             ->setParameter('userId', $user->getId(), UuidType::NAME)
             ->getQuery()->getResult();
+    }
+
+    /**
+     * @param string $car
+     * @return array
+     */
+    public function findBorrowsByCar(string $car): array
+    {
+        $borrows = $this->createQueryBuilder('b')
+            ->select('b.startDate', 'b.endDate')
+            ->join('b.car', 'c')
+            ->where('c.id = :carId')
+            ->setParameter('carId', $car, UuidType::NAME)
+            ->getQuery()->getResult();
+
+        $borrowDates = [];
+        foreach ($borrows as $borrow) {
+            $borrowDates[] = [
+                'start' => $borrow['startDate']->format('Y-m-d'),
+                'end' => $borrow['endDate']->format('Y-m-d'),
+            ];
+        }
+
+        return $borrowDates;
     }
 }

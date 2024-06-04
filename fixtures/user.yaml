@@ -25,7 +25,7 @@ App\Entity\User\UserAdministratorSite:
     site: '@site*'
 
 App\Entity\User\UserEmployed:
-  employed{1..100}:
+  employed{1..600}:
     email: '<email()>'
     password: '<hashPassword("123abcABC%", "ROLE_EMPLOYED")>'
     first_name: '<fr_FR:firstname()>'

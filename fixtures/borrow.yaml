@@ -1,5 +1,5 @@
 App\Entity\Borrow:
-  borrow{1..150}:
+  borrow{1..250}:
     startDate: '<startDate()>'
     endDate: '<endDate($startDate)>'
     car: '@car*'

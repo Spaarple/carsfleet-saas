@@ -78,6 +78,24 @@ class CarCrudController extends AbstractCrudController
     {
         return $crud
             ->setEntityLabelInSingular('Voiture')
+            ->setPageTitle(
+                'detail',
+                fn (Car $car) => sprintf(
+                    '%s %s : %s',
+                    $car->getBrand(),
+                    $car->getModel(),
+                    $car->getRegistrationNumber()
+                )
+            )
+            ->setPageTitle(
+                'edit',
+                fn (Car $car) => sprintf(
+                    '%s %s : %s',
+                    $car->getBrand(),
+                    $car->getModel(),
+                    $car->getRegistrationNumber()
+                )
+            )
             ->setEntityLabelInPlural('Voitures');
     }
 
@@ -100,6 +118,7 @@ class CarCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
+            FormField::addTab('Informations Générales')->setIcon('info'),
             FormField::addColumn(6)->hideOnIndex(),
             TextField::new('brand', 'Marque'),
             TextField::new('model', 'Modèle'),
@@ -121,6 +140,14 @@ class CarCrudController extends AbstractCrudController
                 ->hideOnForm()
                 ->formatValue(function ($value, $entity) {
                     return $entity->getCarKeys()->count();
+                }),
+
+            FormField::addTab('Carnet')->setIcon('car'),
+            CollectionField::new('accidents', '')
+                ->onlyOnDetail()
+                ->setTemplatePath('admin/accidents.html.twig')
+                ->formatValue(function ($value, $entity) {
+                    return $entity->getAccidents();
                 }),
         ];
     }

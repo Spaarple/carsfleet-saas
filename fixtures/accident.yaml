@@ -1,7 +1,7 @@
 App\Entity\Accident:
-  accident{1..50}:
+  accident{1..75}:
     car: '@car*'
     description: '<text(200)>'
-    date: '<dateTimeBetween("-1 year", "now")>'
+    date: '<dateTimeBetween("-3 year", "now")>'
     userEmployed: '@employed*'
 

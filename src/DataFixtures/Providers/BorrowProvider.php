@@ -8,7 +8,6 @@ use Faker\Generator;
 
 class BorrowProvider
 {
-
     private Generator $faker;
 
     public function __construct() {

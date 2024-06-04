@@ -24,6 +24,7 @@ module.exports = {
       black: "#000000",
       red: {
         100: "#E63946",
+        200: "#FCA5A5",
         600: "#EF4444",
       },
       success: {

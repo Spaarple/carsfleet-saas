@@ -1,5 +1,5 @@
 App\Entity\Car:
-  car{1..250}:
+  car{1..550}:
     serial_number: '<numberBetween(10000000000000000, 99999999999999999)>'
     brand: '<brand()>'
     model: '<model($brand)>'
@@ -8,3 +8,10 @@ App\Entity\Car:
     status: '<status()>'
     passenger_quantity: '<numberBetween(1, 5)>'
     site: '@site*'
+    fuel: '<fuel()>'
+    year_of_production: '<yearProduction()>'
+    circulation_date: '<circulationDate($year_of_production)>'
+    kilometers: '<numberBetween(0, 400000)>'
+    fiscal_horse_power: '<numberBetween(4, 10)>'
+    horse_power: '<numberBetween(85, 130)>'
+    gearbox: '<gearbox()>'

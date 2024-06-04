@@ -28,13 +28,15 @@
                                             <tr class="bg-white text-neutral-800 border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                                 <td colspan="row" class="px-2">{{ borrow_history.car.brand }} - {{ borrow_history.car.model }}</td>
                                                 <td colspan="row">
-                                                    <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                                    <span class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5
+                                                           rounded-xl ring-1 ring-inset ring-green-800/20">
                                                         {{ borrow_history.startDate|date('d/m/y H:i') }}
                                                     </span>
                                                 </td>
                                                 <td colspan="row">
-                                                   <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                                                        {{ borrow_history.startDate|date('d/m/y H:i') }}
+                                                    <span class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5
+                                                           rounded-xl ring-1 ring-inset ring-green-800/20">
+                                                        {{ borrow_history.endDate|date('d/m/y H:i') }}
                                                     </span>
                                                 </td>
                                                 <td colspan="row">

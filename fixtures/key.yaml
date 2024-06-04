@@ -1,5 +1,5 @@
 App\Entity\Key:
-  key{1..400}:
+  key{1..500}:
     car: '@car*'
     status: '<statusKey()>'
     name: '<name()>'
