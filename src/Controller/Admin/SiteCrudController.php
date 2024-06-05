@@ -97,9 +97,7 @@ class SiteCrudController extends AbstractCrudController
             ->add(Crud::PAGE_INDEX, $edit)
             ->add(Crud::PAGE_INDEX, $view);
 
-        if ($this->isGranted(Role::ROLE_ADMINISTRATOR_HEAD_OFFICE->name)) {
-            $actions->add(Crud::PAGE_INDEX, Action::DELETE);
-        } else {
+        if (!$this->isGranted(Role::ROLE_ADMINISTRATOR_HEAD_OFFICE->name)) {
             $actions->remove(Crud::PAGE_INDEX, Action::DELETE);
         }
 
