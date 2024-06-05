@@ -1,0 +1,45 @@
+{{ encore_entry_link_tags('app') }}
+
+{% macro badge(value) %}
+    {% set default_fuel = [
+        constant('App\\Enum\\Fuel::E10').name,
+        constant('App\\Enum\\Fuel::E5_SP95').name,
+        constant('App\\Enum\\Fuel::E5_SP98').name,
+        constant('App\\Enum\\Fuel::B7_GAZOLE').name,
+        constant('App\\Enum\\Fuel::LPG').name,
+        constant('App\\Enum\\Fuel::HYBRID').name,
+        constant('App\\Enum\\Fuel::HYDROGEN').name,
+        constant('App\\Enum\\Fuel::ETHANOL').name,
+    ] %}
+
+    {% if (value.name == constant('App\\Enum\\Fuel::ELECTRIC').name) or
+        (value.name == constant('App\\Enum\\StatusCars::REPAIR').name) %}
+        <span class="rounded-xl bg-yellow-50 font-medium me-2 px-2.5 py-0.5
+             text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
+             {{ value.value }}
+        </span>
+
+    {% elseif value.name == constant('App\\Enum\\StatusCars::DELETED').name %}
+        <span class="rounded-xl bg-red-50 text-sm font-medium me-2 px-2.5 py-0.5
+             text-red-800 ring-1 ring-inset ring-red-600/20">
+             {{ value.value }}
+        </span>
+
+    {% elseif value.name in default_fuel %}
+        <span class="rounded-xl bg-purple-50 text-sm font-medium me-2 px-2.5 py-0.5
+             text-purple-800 ring-1 ring-inset ring-purple-600/20">
+             {{ value.value }}
+        </span>
+
+    {% else %}
+        <span class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5
+              rounded-xl ring-1 ring-inset ring-green-800/20">
+              {{ value.value }}
+        </span>
+    {% endif %}
+{% endmacro %}
+
+{{ _self.badge(field.value) }}
+
+
+

@@ -73,6 +73,7 @@ class SiteCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
+            ->showEntityActionsInlined()
             ->setEntityLabelInSingular('Sites');
     }
 
@@ -83,8 +84,24 @@ class SiteCrudController extends AbstractCrudController
      */
     public function configureActions(Actions $actions): Actions
     {
-        return $actions
-            ->add(Crud::PAGE_INDEX, Action::DETAIL);
+        $edit = Action::new('edit-custom', '')
+            ->setIcon('fa fa-pencil')
+            ->linkToCrudAction(Crud::PAGE_EDIT);
+
+        $view = Action::new('view-custom', '')
+            ->setIcon('fa fa-eye')
+            ->linkToCrudAction(Crud::PAGE_DETAIL);
+
+        $actions
+            ->remove(Crud::PAGE_INDEX, Action::EDIT)
+            ->add(Crud::PAGE_INDEX, $edit)
+            ->add(Crud::PAGE_INDEX, $view);
+
+        if (!$this->isGranted(Role::ROLE_ADMINISTRATOR_HEAD_OFFICE->name)) {
+            $actions->remove(Crud::PAGE_INDEX, Action::DELETE);
+        }
+
+        return $actions;
     }
 
     /**

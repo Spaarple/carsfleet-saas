@@ -80,6 +80,7 @@ class UserAdminCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
+            ->showEntityActionsInlined()
             ->setEntityLabelInSingular('Administrateur du site')
             ->setEntityLabelInPlural('Administrateurs du/de vos sites');
     }
@@ -91,8 +92,18 @@ class UserAdminCrudController extends AbstractCrudController
      */
     public function configureActions(Actions $actions): Actions
     {
+        $view = Action::new('view-custom', '')
+            ->setIcon('fa fa-eye')
+            ->linkToCrudAction(Crud::PAGE_DETAIL);
+
+        $edit = Action::new('edit-custom', '')
+            ->setIcon('fa fa-pencil')
+            ->linkToCrudAction(Crud::PAGE_EDIT);
+
         return $actions
-            ->add(Crud::PAGE_INDEX, Action::DETAIL);
+            ->remove(Crud::PAGE_INDEX, Action::EDIT)
+            ->add(Crud::PAGE_INDEX, $edit)
+            ->add(Crud::PAGE_INDEX, $view);
     }
 
     /**
@@ -105,14 +116,14 @@ class UserAdminCrudController extends AbstractCrudController
         return [
             FormField::addColumn(6),
             TextField::new('firstName', 'Prénom'),
-            EmailField::new('email', 'Email'),
+            TextField::new('lastName', 'Nom'),
             AssociationField::new('site', 'Site')
                 ->formatValue(function ($value, $entity) {
                     return $entity->getSite()?->getName();
                 }),
 
             FormField::addColumn(6),
-            TextField::new('lastName', 'Nom'),
+            EmailField::new('email', 'Email'),
             ChoiceField::new('roles', 'Roles')
                 ->setValue(Role::ROLE_ADMINISTRATOR_SITE->name)
                 ->allowMultipleChoices()

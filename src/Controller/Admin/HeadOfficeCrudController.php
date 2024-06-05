@@ -92,11 +92,23 @@ class HeadOfficeCrudController extends AbstractCrudController
      */
     public function configureActions(Actions $actions): Actions
     {
+        $edit = Action::new('edit-custom', '')
+            ->setIcon('fa fa-pencil')
+            ->linkToCrudAction(Crud::PAGE_EDIT);
+
+        $view = Action::new('view-custom', '')
+            ->setIcon('fa fa-eye')
+            ->linkToCrudAction(Crud::PAGE_DETAIL);
+
         $actions
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ->add(Crud::PAGE_INDEX, $edit)
+            ->add(Crud::PAGE_INDEX, $view)
             ->remove(Crud::PAGE_INDEX, Action::NEW)
             ->remove(Crud::PAGE_INDEX, Action::DELETE)
-            ->remove(Crud::PAGE_DETAIL, Action::DELETE);
+            ->remove(Crud::PAGE_DETAIL, Action::DELETE)
+            ->remove(Crud::PAGE_INDEX, Action::DETAIL)
+            ->remove(Crud::PAGE_INDEX, Action::EDIT);
 
         if ($this->isGranted(Role::ROLE_ADMINISTRATOR_SITE->name)) {
             $actions->remove(Crud::PAGE_DETAIL, Action::EDIT);

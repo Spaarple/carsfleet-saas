@@ -83,8 +83,12 @@ class AccidentCrudController extends AbstractCrudController
      */
     public function configureActions(Actions $actions): Actions
     {
+        $view = Action::new('view-custom', '')
+            ->setIcon('fa fa-eye')
+            ->linkToCrudAction(Crud::PAGE_DETAIL);
+
         return $actions
-            ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ->add(Crud::PAGE_INDEX, $view)
             ->remove(Crud::PAGE_INDEX, Action::NEW)
             ->remove(Crud::PAGE_INDEX, Action::DELETE)
             ->remove(Crud::PAGE_INDEX, Action::EDIT)
