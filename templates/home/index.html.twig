@@ -10,16 +10,16 @@
             <div class="flex flex-col items-start gap-10 lg:col-span-6">
                 <div class="flex flex-col gap-4 lg:pr-0 md:pr-24 relative">
                     <h3 class="md:text-display-2xl text-display-md font-semibold">
-                        Get your own CarsFleet space
+                        Maîtrisez votre parc Automobile
                     </h3>
                     <p class="md:text-body-lg text-body-md font-normal text-neutral-700">
-                        Manage your event registrations hassle free and without any
-                        dependency with the technical team. Isn’t it sounds amazing?
+                        Découvrez une nouvelle ère de mobilité : Empruntez, Partagez, et Explorez avec CarsFleet,
+                        la plateforme de gestion de flotte tout-en-un.
                     </p>
                 </div>
                 <a class="button flex items-center justify-center rounded-xl bg-neutral-800 text-white font-semibold px-4 py-3 text-body-md"
-                   href="#">
-                    Get Started
+                   href="{{ path('app_register_index') }}">
+                    Démarrez votre voyage
                 </a>
             </div>
             <div class="flex flex-col gap-10 lg:col-span-6 relative">
@@ -35,17 +35,17 @@
                 <div class="xl:col-span-8 flex flex-col gap-12 justify-center">
                     <div class="flex flex-col gap-2 text-center">
                         <h3 class="lg:text-display-xl md:text-display-lg text-display-md font-semibold">
-                            All-in-one Platform
+                            Découvrez la en action
                         </h3>
                         <p class="md:text-body-lg text-body-md font-normal text-neutral-700">
-                            Deliver an exceptional event experience
+                            Voyez comment CarsFleet simplifie la gestion de votre flotte en un clin d'œil
                         </p>
                     </div>
                     <div class="flex flex-col items-center relative">
-                        <img src="{{ asset('build/images/video-thumbnail.avif') }}" alt="Thumbnail" class="relative rounded-lg"/>
+                        <img src="{{ asset('build/images/preview-web-site.png') }}" alt="Thumbnail" class="relative rounded-lg"/>
                         <div class="flex flex-row items-center md:py-4 py-3 md:pl-4 pl-3 md:pr-5 pr-4 gap-3 bg-white shadow-md rounded-full absolute md:-bottom-7 -bottom-6">
                             <span class="md:text-body-md text-body-sm font-medium">
-                                Discover now CarsFleet
+                                Découvrir
                             </span>
                         </div>
                     </div>
@@ -54,8 +54,8 @@
             </div>
             <div class="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 md:gap-8 gap-0 md:pt-10 md:pb-6 items-center">
                 <div class="flex md:flex-col flex-row self-start md:items-center md:gap-6 gap-4 lg:p-6 md:p-0 py-6">
-                    <img src="{{ asset('build/images/icon-dashboard.svg') }}" alt="Feature Icon"
-                         width="88" height="88" class="md:w-22 md:h-22 w-14 h-14"/>
+                    <img src="{{ asset('build/images/rental-car.png') }}" alt="Feature Icon"
+                          class="md:w-80 md:h-80 w-22 h-22"/>
                     <div class="flex flex-col gap-2 xl:items-center md:text-center">
                         <p class="md:text-display-xs text-body-xl font-semibold">Tableau de bord dynamique</p>
                         <p class="md:text-body-md text-body-sm font-normal text-neutral-700">
@@ -64,8 +64,8 @@
                     </div>
                 </div>
                 <div class="flex md:flex-col flex-row self-start md:items-center md:gap-6 gap-4 lg:p-6 md:p-0 py-6">
-                    <img src="{{ asset('build/images/icon-stack.svg') }}" alt="Feature Icon"
-                         width="88" height="88" class="md:w-22 md:h-22 w-14 h-14"/>
+                    <img src="{{ asset('build/images/dashboard.png') }}" alt="Feature Icon"
+                         class="md:w-80 md:h-80 w-22 h-22"/>
                     <div class="flex flex-col gap-2 xl:items-center md:text-center">
                         <p class="md:text-display-xs text-body-xl font-semibold">Gestion de toute votre flotte</p>
                         <p class="md:text-body-md text-body-sm font-normal text-neutral-700">
@@ -74,8 +74,8 @@
                     </div>
                 </div>
                 <div class="flex md:flex-col flex-row self-start md:items-center md:gap-6 gap-4 lg:p-6 md:p-0 py-6">
-                    <img src="{{ asset('build/images/icon-list.svg') }}" alt="Feature Icon"
-                         width="88" height="88" class="md:w-22 md:h-22 w-14 h-14"/>
+                    <img src="{{ asset('build/images/building-company.png') }}" alt="Feature Icon"
+                         class="md:w-80 md:h-80 w-22 h-22"/>
                     <div class="flex flex-col gap-2 xl:items-center md:text-center">
                         <p class="md:text-display-xs text-body-xl font-semibold">Un espace dédié</p>
                         <p class="md:text-body-md text-body-sm font-normal text-neutral-700">
@@ -83,38 +83,6 @@
                         </p>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container mx-auto xl:pb-40 pb-12">
-        <div class="grid xl:grid-cols-2 grid-cols-1 xl:gap-8 gap-10 xl:py-18 md:py-12 pt-12 pb-6 xl:px-0 md:px-12 px-0 items-center border-t border-neutral-200 relative">
-            <div class="absolute xl:block flex justify-center xl:left-8 inset-x-0 top-0 -z-30">
-                <svg width="760"
-                     height="760"
-                     viewBox="0 0 760 760"
-                     fill="none"
-                     xmlns="http://www.w3.org/2000/svg"
-                     class="md:w-[624px] md:h-[624px] w-[304px] h-[304px]">
-                    <circle cx="380" cy="380" r="380" fill="#CFFAFE" class="fill-neutral-400"></circle>
-                </svg>
-            </div>
-            <div class="flex flex-col gap-4 relative xl:text-left text-center">
-                <h3 class="lg:text-display-xl md:text-display-lg text-display-md font-semibold">
-                    Integrate with your favorite tools
-                </h3>
-                <p class="md:text-body-lg text-body-md font-normal text-neutral-700">
-                    Connect RegiM with your most favorite sales and marketing tools
-                </p>
-            </div>
-            <div class="flex flex-row flex-wrap xl:gap-18 lg:gap-12 md:gap-18 gap-8 items-center justify-center justify-items-center relative">
-                <img src="{{ asset('build/images/icon-dashboard.svg') }}" alt="Feature Icon" class="shadow-xl rounded-full md:w-20 md:h-20 w-14 h-14"/>
-                <img src="{{ asset('build/images/icon-dashboard.svg') }}" alt="Feature Icon" class="shadow-xl rounded-full md:w-20 md:h-20 w-14 h-14"/>
-                <img src="{{ asset('build/images/icon-dashboard.svg') }}" alt="Feature Icon" class="shadow-xl rounded-full md:w-20 md:h-20 w-14 h-14"/>
-                <img src="{{ asset('build/images/icon-dashboard.svg') }}" alt="Feature Icon" class="shadow-xl rounded-full md:w-20 md:h-20 w-14 h-14"/>
-                <img src="{{ asset('build/images/icon-dashboard.svg') }}" alt="Feature Icon" class="shadow-xl rounded-full md:w-20 md:h-20 w-14 h-14"/>
-                <img src="{{ asset('build/images/icon-dashboard.svg') }}" alt="Feature Icon" class="shadow-xl rounded-full md:w-20 md:h-20 w-14 h-14"/>
-                <img src="{{ asset('build/images/icon-dashboard.svg') }}" alt="Feature Icon" class="shadow-xl rounded-full md:w-20 md:h-20 w-14 h-14"/>
             </div>
         </div>
     </div>
