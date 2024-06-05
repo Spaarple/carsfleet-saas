@@ -80,6 +80,7 @@ class UserAdministratorHeadOfficeCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
+            ->showEntityActionsInlined()
             ->setEntityLabelInSingular('Administrateur de l\'Entreprise')
             ->setEntityLabelInPlural('Administrateurs de l\'Entreprise');
     }
@@ -91,8 +92,18 @@ class UserAdministratorHeadOfficeCrudController extends AbstractCrudController
      */
     public function configureActions(Actions $actions): Actions
     {
+        $view = Action::new('view-custom', '')
+            ->setIcon('fa fa-eye')
+            ->linkToCrudAction(Crud::PAGE_DETAIL);
+
+        $edit = Action::new('edit-custom', '')
+            ->setIcon('fa fa-pencil')
+            ->linkToCrudAction(Crud::PAGE_EDIT);
+
         return $actions
-            ->add(Crud::PAGE_INDEX, Action::DETAIL);
+            ->remove(Crud::PAGE_INDEX, Action::EDIT)
+            ->add(Crud::PAGE_INDEX, $edit)
+            ->add(Crud::PAGE_INDEX, $view);
     }
 
     /**
