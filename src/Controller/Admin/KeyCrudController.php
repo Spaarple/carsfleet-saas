@@ -88,8 +88,19 @@ class KeyCrudController extends AbstractCrudController
      */
     public function configureActions(Actions $actions): Actions
     {
+        $edit = Action::new('edit-custom', '')
+            ->setIcon('fa fa-pencil')
+            ->linkToCrudAction(Crud::PAGE_EDIT);
+
+        $view = Action::new('view-custom', '')
+            ->setIcon('fa fa-eye')
+            ->linkToCrudAction(Crud::PAGE_DETAIL);
+
         return $actions
-            ->add(Crud::PAGE_INDEX, Action::DETAIL);
+            ->remove(Crud::PAGE_INDEX, Action::EDIT)
+            ->add(Crud::PAGE_INDEX, $edit)
+            ->add(Crud::PAGE_INDEX, $view);
+
     }
     /**
      * @param string $pageName

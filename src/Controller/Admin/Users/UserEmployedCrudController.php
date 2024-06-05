@@ -87,6 +87,7 @@ class UserEmployedCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
+            ->showEntityActionsInlined()
             ->setEntityLabelInSingular('Employé')
             ->setEntityLabelInPlural('Employés');
     }
@@ -98,8 +99,18 @@ class UserEmployedCrudController extends AbstractCrudController
      */
     public function configureActions(Actions $actions): Actions
     {
+        $edit = Action::new('edit-custom', '')
+            ->setIcon('fa fa-pencil')
+            ->linkToCrudAction(Crud::PAGE_EDIT);
+
+        $view = Action::new('view-custom', '')
+            ->setIcon('fa fa-eye')
+            ->linkToCrudAction(Crud::PAGE_DETAIL);
+
         return $actions
-            ->add(Crud::PAGE_INDEX, Action::DETAIL);
+            ->remove(Crud::PAGE_INDEX, Action::EDIT)
+            ->add(Crud::PAGE_INDEX, $edit)
+            ->add(Crud::PAGE_INDEX, $view);
     }
 
     /**
@@ -123,7 +134,7 @@ class UserEmployedCrudController extends AbstractCrudController
         return [
             FormField::addColumn(6),
             TextField::new('firstName', 'Prénom'),
-            EmailField::new('email', 'Email'),
+            TextField::new('lastName', 'Nom'),
             AssociationField::new('site', 'Site')
                 ->formatValue(function ($value, $entity) {
                     return $entity->getSite()?->getName();
@@ -133,10 +144,7 @@ class UserEmployedCrudController extends AbstractCrudController
             BooleanField::new('drivingLicense', 'Permis de conduire (B)')->setDisabled(),
 
             FormField::addColumn(6),
-            TextField::new('lastName', 'Nom'),
-            ChoiceField::new('roles', 'Roles')
-                ->allowMultipleChoices()
-                ->setChoices(Role::asArrayInverted()),
+            EmailField::new('email', 'Email'),
             EnumField::setEnumClass(Service::class)::new('service', 'Service'),
         ];
     }

@@ -108,6 +108,7 @@ class DashboardController extends AbstractDashboardController
     {
         return Dashboard::new()
             ->setTitle('CarsFleet')
+            ->disableDarkMode()
             ->generateRelativeUrls()
             ->setTranslationDomain('admin');
     }
