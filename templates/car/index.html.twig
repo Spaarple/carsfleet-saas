@@ -20,9 +20,6 @@
                                 <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white"> {{ car.brand }} - {{ car.model }}</h5>
                                 <span class="text-sm text-gray-500 dark:text-gray-400">Nombre de passager: {{ car.passengerQuantity }}</span>
                                 <span class="w-10 h-10 rounded-xl my-5 border-2 border-neutral-200" style="background-color: {{ car.color }}"></span>
-                                <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-xl ring-1 ring-inset ring-green-800/20">
-                                    {{ car.status.value }}
-                                </span>
                                 <div class="flex md:flex-col lg:flex-row mt-4 md:mt-6 md:gap-4 gap-1">
                                     <button data-drawer-target="drawer-navigation-{{ car.id }}"
                                        data-drawer-show="drawer-navigation-{{ car.id }}"
@@ -69,4 +66,5 @@
         </div>
     </div>
 </div>
+    {{ knp_pagination_render(cars) }}
 {% endblock %}
