@@ -20,7 +20,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class CarController extends AbstractController
 {
     /**
-     * @param Request $request
      * @param CarRepository $carRepository
      * @param UserEmployed $employed
      * @param PaginatorInterface $paginator
