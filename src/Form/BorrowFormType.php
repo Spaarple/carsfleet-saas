@@ -25,6 +25,7 @@ class BorrowFormType extends AbstractType
                 'input' => 'datetime_immutable',
                 'required' => true,
                 'data-range' => true,
+                'data-timepicker' => true,
                 'data-view-inline' => true,
                 'data-min-date' => date('Y-m-d'),
                 'data-max-date' => date('Y-m-d', strtotime('+6 months')),

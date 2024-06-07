@@ -4,6 +4,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    {{ encore_entry_script_tags('borrow') }}
     <script>
         let borrowDates = JSON.parse('{{ available_dates|raw }}');
     </script>

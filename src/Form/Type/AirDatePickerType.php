@@ -35,6 +35,7 @@ class AirDatePickerType extends AbstractType
             'data-min-date' => date('Y-m-d'),
             'data-max-date' => null,
             'data-range' => false,
+            'data-timepicker' => false,
         ]);
 
         $resolver->setAllowedTypes('data-view-inline', ['false', 'boolean']);
@@ -43,6 +44,7 @@ class AirDatePickerType extends AbstractType
         $resolver->setAllowedTypes('data-min-date', ['null', 'string']);
         $resolver->setAllowedTypes('data-max-date', ['null', 'string']);
         $resolver->setAllowedTypes('data-range', ['false', 'boolean']);
+        $resolver->setAllowedTypes('data-timepicker', ['false', 'boolean']);
 
         $resolver->setNormalizer('data-view-calendar', static function (Options $options, $viewCalendar) {
             if (null === $viewCalendar) {
@@ -82,6 +84,10 @@ class AirDatePickerType extends AbstractType
 
         if (null !== $options['data-range']) {
             $view->vars['attr']['data-range'] = $options['data-range'];
+        }
+
+        if (null !== $options['data-timepicker']) {
+            $view->vars['attr']['data-timepicker'] = $options['data-timepicker'];
         }
 
         if (null !== $options['data-view-calendar']) {

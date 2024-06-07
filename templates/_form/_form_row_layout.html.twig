@@ -12,12 +12,8 @@
     {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
     <{{ element|default('div') }}{% with {attr: row_attr|merge({class: row_class})} %}{{ block('attributes') }}{% endwith %}>
 
-
     {# If class airdpcalendar add to class already exist #}
     {% set add_class_form = form.vars.attr.class|default('') %}
-    {% if 'airdpcalendar' not in add_class_form %}
-        {% set add_class_form = add_class_form ~ ' airdpcalendar' %}
-    {% endif %}
 
     {%- if 'form-floating' in row_class -%}
         {{- form_widget(form, widget_attr|merge({attr:

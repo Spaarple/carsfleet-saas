@@ -22,6 +22,8 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('dashboard-ea', './assets/dashboard-ea.js')
+    .addEntry('borrow', './assets/borrow.js')
+    .addEntry('search', './assets/search-car.js')
 
     .addStyleEntry('admin', './assets/styles/admin.css')
 

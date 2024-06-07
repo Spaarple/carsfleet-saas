@@ -17,7 +17,7 @@ export class Calendar {
             maxDate: Date.parse(item.dataset.maxDate),
             range: item.dataset.range,
             multipleDatesSeparator: ' - ',
-            timepicker: true,
+            timepicker: item.dataset.timepicker,
             minView: 'months',
 
             locale: LocalFr,

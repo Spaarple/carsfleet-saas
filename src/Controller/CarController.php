@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\DTO\SearchCarDTO;
 use App\Entity\User\UserEmployed;
 use App\Enum\StatusCars;
+use App\Form\SearchFormType;
 use App\Repository\CarRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,10 +20,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class CarController extends AbstractController
 {
     /**
-     * @param Request $request
      * @param CarRepository $carRepository
      * @param UserEmployed $employed
-     * @param PaginatorInterface $pagination
+     * @param PaginatorInterface $paginator
      * @return Response
      */
     #[Route('/', name: '_index')]
@@ -29,24 +30,27 @@ class CarController extends AbstractController
         Request $request,
         CarRepository $carRepository,
         #[CurrentUser] UserEmployed $employed,
-        PaginatorInterface $pagination
+        PaginatorInterface $paginator
     ): Response {
-        $cars = $carRepository->findBy(
-            [
-                'status' => StatusCars::AVAILABLE,
-                'site' => $employed->getSite(),
-            ]
-        );
+        $search = new SearchCarDTO();
+        $form = $this->createForm(SearchFormType::class, $search);
+        $form->handleRequest($request);
 
-        /** @var PaginatorInterface $pagination */
-        $pagination = $pagination->paginate(
-            $cars,
-            $request->query->getInt('page', 1),
-            9
-        );
+        if ($form->isSubmitted() && $form->isValid()) {
+            $carsQuery = $carRepository->findSearchCar($search, $employed->getSite());
+        } else {
+            $carsQuery = $carRepository->findBy(
+                [
+                    'status' => StatusCars::AVAILABLE,
+                    'site' => $employed->getSite(),
+                ]
+            );
+        }
+        $cars = $paginator->paginate($carsQuery, $request->query->getInt('page', 1), 9);
 
         return $this->render('car/index.html.twig', [
-            'cars' => $pagination,
+            'cars' => $cars,
+            'form' => $form->createView(),
         ]);
     }
 }
