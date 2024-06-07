@@ -48,6 +48,9 @@
             "fixtures/.gitignore"
         ]
     },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v6.4.0"
+    },
     "nelmio/alice": {
         "version": "3.13",
         "recipe": {
