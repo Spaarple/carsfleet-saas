@@ -23,6 +23,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ColorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -181,6 +182,18 @@ class CarCrudController extends AbstractCrudController
                 ->formatValue(function ($value, $entity) {
                     return $entity->getAccidents();
                 }),
+            FormField::addTab('Image(s)')->setIcon('image'),
+
+            AssociationField::new('pictures', 'Image(s)')
+                ->setTemplatePath('admin/pictures.html.twig')
+                ->onlyOnDetail()->setColumns(8),
+
+            CollectionField::new('pictures', 'Image(s)')
+                ->useEntryCrudForm(PictureCrudController::class)
+                ->allowDelete()
+                ->setFormTypeOption('by_reference', false)
+                ->onlyWhenUpdating()
+                ->setColumns(10)
         ];
     }
 }

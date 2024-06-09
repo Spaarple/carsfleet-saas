@@ -69,8 +69,8 @@ class Car
 
     #[Assert\NotBlank]
     #[Assert\Length(
-        min: 7,
-        max: 7,
+        min: 9,
+        max: 9,
         minMessage: 'Immatriculation incorrect {{ limit }}',
         maxMessage: 'Immatriculation incorrect {{ limit }}',
     )]
@@ -120,7 +120,12 @@ class Car
     /**
      * @var Collection<int, Picture>
      */
-    #[ORM\OneToMany(mappedBy: 'car', targetEntity: Picture::class)]
+    #[ORM\OneToMany(
+        mappedBy: 'car',
+        targetEntity: Picture::class,
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true
+    )]
     private Collection $pictures;
 
     public function __construct()
