@@ -38,6 +38,7 @@
                     {% for car in cars %}
                     <div>
                         <div class="w-full max-w-sm bg-white border border-gray-200 rounded-xl shadow-2xl dark:bg-gray-800 dark:border-gray-700">
+                            <img src="{{ asset('build/images/citadine.webp') }}" alt="" class="rounded-t-xl">
                             <div class="flex flex-col items-center pb-5 mt-10">
                                 <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white"> {{ car.brand }} - {{ car.model }}</h5>
                                 <span class="text-sm text-gray-500 dark:text-gray-400">Nombre de passager: {{ car.passengerQuantity }}</span>
