@@ -53,6 +53,10 @@ jobs:
           --health-timeout=5s
           --health-retries=3
           --publish=3306:3306  # Expose MySQL port to host
+          -e MYSQL_ROOT_PASSWORD=toor
+          -e MYSQL_DATABASE=carsfleet
+          -e MYSQL_USER=carsfleet
+          -e MYSQL_PASSWORD=carsfleet
     env:
       DATABASE_URL: 'mysql://root:toor@localhost:3306/carsfleet?serverVersion=5.7&charset=utf8mb4'
 
