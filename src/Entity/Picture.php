@@ -24,6 +24,11 @@ class Picture
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $name = null;
 
+    public function __toString()
+    {
+        return 'Image référence de la voiture';
+    }
+
     /**
      * @return Uuid|null
      */

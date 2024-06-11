@@ -117,9 +117,6 @@ class Car
     #[ORM\Column(type: Types::STRING, length: 255, enumType: GearBox::class)]
     private ?GearBox $gearbox = null;
 
-    /**
-     * @var Collection<int, Picture>
-     */
     #[ORM\OneToMany(
         mappedBy: 'car',
         targetEntity: Picture::class,
