@@ -119,6 +119,7 @@ jobs:
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USERNAME }}
+          passphrase: ${{ secrets.SERVER_PASSPHRASE }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd public_html/carsfleet-saas/
