@@ -54,7 +54,7 @@ jobs:
           --health-retries=3
           --publish=3306:3306  # Expose MySQL port to host
     env:
-      DATABASE_URL: 'mysql://root:toor@mysql:3306/carsfleet?serverVersion=5.7&charset=utf8mb4'
+      DATABASE_URL: 'mysql://carsfleet:carsfleet@localhost:3306/carsfleet?serverVersion=5.7&charset=utf8mb4'
 
     steps:
       - name: Checkout code
