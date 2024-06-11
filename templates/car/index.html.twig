@@ -14,35 +14,86 @@
     <h2 class="text-body-lg font-semibold mb-5">
         Filtrer les voitures
     </h2>
-    <div class="md:flex">
-
-        {{ form_start(form) }}
+    <div class="flex flex-col xl:flex-row 2xl:flex-col gap-4">
+        <div class="order-0 lg:order-0 2xl:order-0">
+            {{ form_start(form) }}
             {{ form_row(form.from) }}
             {{ form_row(form.to) }}
             {{ form_row(form.gearbox) }}
             <button type="submit" class="transform hover:scale-110 transition-transform duration-200
-            hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-900
-            pl-5 pr-4 px-4 py-3 rounded-xl flex flex-row gap-1 items-center justify-center">
+                hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-900
+                pl-5 pr-4 px-4 py-3 rounded-xl flex flex-row gap-1 items-center justify-center">
                 Rechercher
             </button>
-        {{ form_end(form) }}
+            {{ form_end(form) }}
+        </div>
 
-        <div class="flex-1 px-6 pb-6 text-medium dark:text-gray-400 dark:bg-gray-800 rounded-xl w-full">
+        <div class="flex-1 sm:px-6 sm:pb-6 text-medium dark:text-gray-400 dark:bg-gray-800 rounded-xl w-full">
             <h1 class="text-display-xs font-semibold">
                 Voitures du site :
                 <span class="bg-neutral-500 text-neutral-50 text-sm font-medium me-2 px-2.5 py-0.5
                 rounded-2xl ring-1 ring-inset ring-neutral-900/20">{{ cars.getTotalItemCount }}</span>
             </h1>
             <div class="sm:mx-auto sm:w-full sm:max-w-5xl">
-                <div class="mt-5 grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-3">
+                <div class="mt-5 grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 lg:grid-cols-3 gap-x-6 gap-y-6">
                     {% for car in cars %}
                     <div>
                         <div class="w-full max-w-sm bg-white border border-gray-200 rounded-xl shadow-2xl dark:bg-gray-800 dark:border-gray-700">
+                            {% if car.pictures is not empty %}
+                                <div id="indicators-carousel" class="relative w-full z-10" data-carousel="static">
+                                    <div class="relative h-72 overflow-hidden rounded-t-xl">
+                                        {% for picture in car.pictures %}
+                                            <div class="hidden duration-700 ease-in-out" data-carousel-item="{{ loop.first ? 'active' : '' }}">
+                                                <img src="{{ asset('build/images/car-picture/'~picture.name) }}"
+                                                     class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                                                     alt="Image de la voiture {{ car.brand }} {{ car.model }}">
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="absolute z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse bottom-5 left-1/2">
+                                        {% for picture in car.pictures %}
+                                            <button type="button"
+                                                    class="w-3 h-3 rounded-full"
+                                                    aria-current="{{ loop.first ? 'true' : 'false' }}"
+                                                    aria-label="Slide {{ loop.index }}"
+                                                    data-carousel-slide-to="{{ loop.index0 }}">
+                                            </button>
+                                        {% endfor %}
+                                    </div>
+                                    <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+                                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-neutral-900/30 dark:bg-gray-900/30 group-hover:bg-black/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-black dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                            <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                                <path stroke="currentColor"
+                                                      stroke-linecap="round"
+                                                      stroke-linejoin="round"
+                                                      stroke-width="2" d="M5 1 1 5l4 4">
+                                                </path>
+                                            </svg>
+                                            <span class="sr-only">Previous</span>
+                                        </span>
+                                    </button>
+                                    <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+                                            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-neutral-900/30 dark:bg-neutral-900/30 group-hover:bg-black/50 dark:group-hover:bg-neutral-900/60 group-focus:ring-4 group-focus:ring-black dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                                <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                                    <path stroke="currentColor"
+                                                          stroke-linecap="round"
+                                                          stroke-linejoin="round"
+                                                          stroke-width="2" d="m1 9 4-4-4-4">
+                                                    </path>
+                                                </svg>
+                                                <span class="sr-only">Next</span>
+                                            </span>
+                                        </button>
+                                </div>
+                            {% else %}
+                                <img src="{{ asset('build/images/citadine.webp') }}" alt="Image de voiture par défaut"
+                                     class="rounded-t-xl h-72 w-full">
+                            {% endif %}
                             <div class="flex flex-col items-center pb-5 mt-10">
                                 <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white"> {{ car.brand }} - {{ car.model }}</h5>
                                 <span class="text-sm text-gray-500 dark:text-gray-400">Nombre de passager: {{ car.passengerQuantity }}</span>
                                 <span class="w-10 h-10 rounded-xl my-5 border-2 border-neutral-200" style="background-color: {{ car.color }}"></span>
-                                <div class="flex md:flex-col lg:flex-row mt-4 md:mt-6 md:gap-4 gap-1">
+                                <div class="grid grid-cols-2 md:grid-cols-2 2xl:grid-cols-3 gap-4 lg:gap-2">
                                     <button data-drawer-target="drawer-navigation-{{ car.id }}"
                                        data-drawer-show="drawer-navigation-{{ car.id }}"
                                        aria-controls="drawer-navigation-{{ car.id }}"
@@ -57,7 +108,6 @@
                                         </svg>
                                         Consulter
                                     </button>
-
                                     <a href="{{ path('app_borrow_index', {'id': car.id }) }}"
                                        class="transform hover:scale-110 transition-transform duration-200 text-body-sm font-semibold text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 hover:underline pl-5 pr-4 px-4 py-3 rounded-xl flex flex-row gap-1 items-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg"

@@ -7,7 +7,6 @@ use App\Enum\GearBox;
 use App\Enum\StatusCars;
 use App\Repository\CarRepository;
 use DateTimeImmutable;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -37,7 +36,7 @@ class Car
 
     #[Assert\NotBlank]
     #[Assert\Length(
-        min: 3,
+        min: 2,
         max: 20,
         minMessage: 'Nom de marque trop court {{ limit }}',
         maxMessage: 'Nom de marque trop long {{ limit }}',
@@ -47,7 +46,7 @@ class Car
 
     #[Assert\NotBlank]
     #[Assert\Length(
-        min: 3,
+        min: 2,
         max: 20,
         minMessage: 'Nom de modèle trop court {{ limit }}',
         maxMessage: 'Nom de modèle trop long {{ limit }}',
@@ -70,8 +69,8 @@ class Car
 
     #[Assert\NotBlank]
     #[Assert\Length(
-        min: 7,
-        max: 7,
+        min: 9,
+        max: 9,
         minMessage: 'Immatriculation incorrect {{ limit }}',
         maxMessage: 'Immatriculation incorrect {{ limit }}',
     )]
@@ -118,11 +117,20 @@ class Car
     #[ORM\Column(type: Types::STRING, length: 255, enumType: GearBox::class)]
     private ?GearBox $gearbox = null;
 
+    #[ORM\OneToMany(
+        mappedBy: 'car',
+        targetEntity: Picture::class,
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true
+    )]
+    private Collection $pictures;
+
     public function __construct()
     {
         $this->borrows = new ArrayCollection();
         $this->accidents = new ArrayCollection();
         $this->carKeys = new ArrayCollection();
+        $this->pictures = new ArrayCollection();
     }
 
     /**
@@ -532,6 +540,41 @@ class Car
     public function setGearbox(GearBox $gearbox): static
     {
         $this->gearbox = $gearbox;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Picture>
+     */
+    public function getPictures(): Collection
+    {
+        return $this->pictures;
+    }
+
+    /**
+     * @param Picture $picture
+     * @return $this
+     */
+    public function addPicture(Picture $picture): static
+    {
+        if (!$this->pictures->contains($picture)) {
+            $this->pictures->add($picture);
+            $picture->setCar($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Picture $picture
+     * @return $this
+     */
+    public function removePicture(Picture $picture): static
+    {
+        if ($this->pictures->removeElement($picture) && $picture->getCar() === $this) {
+            $picture->setCar(null);
+        }
 
         return $this;
     }

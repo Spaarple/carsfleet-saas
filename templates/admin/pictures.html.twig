@@ -1,0 +1,17 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    {% for document in entity.instance.pictures %}
+    <div>
+        <img class="max-w-full rounded-lg w-48 h-48"
+             src="{{ asset('build/images/car-picture/' ~ document.name) }}"
+             alt="">
+    </div>
+    {% else %}
+        <div>
+            <span class="rounded-xl bg-red-50 text-sm font-medium
+        me-2 px-2.5 py-0.5 align-middle
+        text-red-800 ring-1 ring-inset ring-red-600/20">
+             Aucune photo du véhicule
+        </span>
+        </div>
+    {% endfor %}
+</div>
