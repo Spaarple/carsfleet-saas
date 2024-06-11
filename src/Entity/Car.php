@@ -36,7 +36,7 @@ class Car
 
     #[Assert\NotBlank]
     #[Assert\Length(
-        min: 3,
+        min: 2,
         max: 20,
         minMessage: 'Nom de marque trop court {{ limit }}',
         maxMessage: 'Nom de marque trop long {{ limit }}',
@@ -46,7 +46,7 @@ class Car
 
     #[Assert\NotBlank]
     #[Assert\Length(
-        min: 3,
+        min: 2,
         max: 20,
         minMessage: 'Nom de modèle trop court {{ limit }}',
         maxMessage: 'Nom de modèle trop long {{ limit }}',
