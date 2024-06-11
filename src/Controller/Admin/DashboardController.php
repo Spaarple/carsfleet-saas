@@ -110,6 +110,7 @@ class DashboardController extends AbstractDashboardController
             ->setTitle('CarsFleet')
             ->disableDarkMode()
             ->generateRelativeUrls()
+            ->setFaviconPath('build/images/carsfleet-code-vanguard.png')
             ->setTranslationDomain('admin');
     }
 
