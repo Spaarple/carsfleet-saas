@@ -14,32 +14,33 @@
     <h2 class="text-body-lg font-semibold mb-5">
         Filtrer les voitures
     </h2>
-    <div class="md:flex">
-
-        {{ form_start(form) }}
+    <div class="flex flex-col xl:flex-row 2xl:flex-col gap-4">
+        <div class="order-0 lg:order-0 2xl:order-0">
+            {{ form_start(form) }}
             {{ form_row(form.from) }}
             {{ form_row(form.to) }}
             {{ form_row(form.gearbox) }}
             <button type="submit" class="transform hover:scale-110 transition-transform duration-200
-            hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-900
-            pl-5 pr-4 px-4 py-3 rounded-xl flex flex-row gap-1 items-center justify-center">
+                hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-900
+                pl-5 pr-4 px-4 py-3 rounded-xl flex flex-row gap-1 items-center justify-center">
                 Rechercher
             </button>
-        {{ form_end(form) }}
+            {{ form_end(form) }}
+        </div>
 
-        <div class="flex-1 px-6 pb-6 text-medium dark:text-gray-400 dark:bg-gray-800 rounded-xl w-full">
+        <div class="flex-1 sm:px-6 sm:pb-6 text-medium dark:text-gray-400 dark:bg-gray-800 rounded-xl w-full">
             <h1 class="text-display-xs font-semibold">
                 Voitures du site :
                 <span class="bg-neutral-500 text-neutral-50 text-sm font-medium me-2 px-2.5 py-0.5
                 rounded-2xl ring-1 ring-inset ring-neutral-900/20">{{ cars.getTotalItemCount }}</span>
             </h1>
             <div class="sm:mx-auto sm:w-full sm:max-w-5xl">
-                <div class="mt-5 grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-3">
+                <div class="mt-5 grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 lg:grid-cols-3 gap-x-6 gap-y-6">
                     {% for car in cars %}
                     <div>
                         <div class="w-full max-w-sm bg-white border border-gray-200 rounded-xl shadow-2xl dark:bg-gray-800 dark:border-gray-700">
                             {% if car.pictures is not empty %}
-                                <div id="indicators-carousel" class="relative w-full" data-carousel="static">
+                                <div id="indicators-carousel" class="relative w-full z-10" data-carousel="static">
                                     <div class="relative h-72 overflow-hidden rounded-t-xl">
                                         {% for picture in car.pictures %}
                                             <div class="hidden duration-700 ease-in-out" data-carousel-item="{{ loop.first ? 'active' : '' }}">
@@ -92,7 +93,7 @@
                                 <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white"> {{ car.brand }} - {{ car.model }}</h5>
                                 <span class="text-sm text-gray-500 dark:text-gray-400">Nombre de passager: {{ car.passengerQuantity }}</span>
                                 <span class="w-10 h-10 rounded-xl my-5 border-2 border-neutral-200" style="background-color: {{ car.color }}"></span>
-                                <div class="flex md:flex-col lg:flex-row mt-4 md:mt-6 md:gap-4 gap-1">
+                                <div class="grid grid-cols-2 md:grid-cols-2 2xl:grid-cols-3 gap-4 lg:gap-2">
                                     <button data-drawer-target="drawer-navigation-{{ car.id }}"
                                        data-drawer-show="drawer-navigation-{{ car.id }}"
                                        aria-controls="drawer-navigation-{{ car.id }}"
@@ -107,7 +108,6 @@
                                         </svg>
                                         Consulter
                                     </button>
-
                                     <a href="{{ path('app_borrow_index', {'id': car.id }) }}"
                                        class="transform hover:scale-110 transition-transform duration-200 text-body-sm font-semibold text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 hover:underline pl-5 pr-4 px-4 py-3 rounded-xl flex flex-row gap-1 items-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg"
