@@ -3,10 +3,10 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - '**'  # Déclenche le workflow sur toutes les branches
+      - 'develop'
   pull_request:
     branches:
-      - '**'  # Déclenche le workflow sur toutes les branches de la pull request
+      - '**'
 
 jobs:
   security-checker:
@@ -38,6 +38,7 @@ jobs:
         run: local-php-security-checker --path=./composer.lock
 
   doctrine-schema-validate:
+    needs: security-checker
     runs-on: ubuntu-latest
     services:
       mysql:
@@ -83,8 +84,8 @@ jobs:
         run: php bin/console doctrine:schema:validate
 
   twig-lint:
+    needs: doctrine-schema-validate
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
