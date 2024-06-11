@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - '**'  # Déclenche le workflow sur tous les branches
+      - '**'  # Déclenche le workflow sur toutes les branches
   pull_request:
     branches:
       - '**'  # Déclenche le workflow sur toutes les branches de la pull request
@@ -16,11 +16,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: exif, mysqli, pdo, pdo_mysql, zip, gd
+
       - name: Install dependencies
         run: |
           sudo apt-get update && sudo apt-get install -y curl git libzip-dev libwebp-dev libjpeg-dev libpng-dev libxpm-dev
           curl -sSk https://getcomposer.org/installer | php -- --disable-tls && sudo mv composer.phar /usr/local/bin/composer
-          docker-php-ext-install exif mysqli pdo pdo_mysql zip gd
           composer install -o
 
       - name: Install PHP Security Checker
@@ -55,11 +60,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: exif, mysqli, pdo, pdo_mysql, zip, gd
+
       - name: Install dependencies
         run: |
           sudo apt-get update && sudo apt-get install -y curl git libzip-dev libwebp-dev libjpeg-dev libpng-dev libxpm-dev
           curl -sSk https://getcomposer.org/installer | php -- --disable-tls && sudo mv composer.phar /usr/local/bin/composer
-          docker-php-ext-install exif mysqli pdo pdo_mysql zip gd
           composer install -o
           php bin/console doctrine:database:drop --force
           php bin/console doctrine:database:create
@@ -75,11 +85,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: exif, mysqli, pdo, pdo_mysql, zip, gd
+
       - name: Install dependencies
         run: |
           sudo apt-get update && sudo apt-get install -y curl git libzip-dev libwebp-dev libjpeg-dev libpng-dev libxpm-dev
           curl -sSk https://getcomposer.org/installer | php -- --disable-tls && sudo mv composer.phar /usr/local/bin/composer
-          docker-php-ext-install exif mysqli pdo pdo_mysql zip gd
           composer install -o
 
       - name: Lint Twig templates
