@@ -58,7 +58,7 @@ jobs:
           -e MYSQL_USER=carsfleet
           -e MYSQL_PASSWORD=carsfleet
     env:
-      DATABASE_URL: 'mysql://root:toor@mysql:3306/carsfleet?serverVersion=5.7&charset=utf8mb4'
+      DATABASE_URL: 'mysql://root:toor@127.0.0.1:3306/carsfleet?serverVersion=5.7&charset=utf8mb4'
 
     steps:
       - name: Checkout code
