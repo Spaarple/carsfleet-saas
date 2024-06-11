@@ -5,8 +5,13 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.2",
+        "ext-http": "*",
         "ext-ctype": "*",
+        "ext-exif": "*",
+        "ext-gd": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
+        "ext-zip": "*",
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^2.17",
@@ -50,8 +55,7 @@
         "symfonycasts/reset-password-bundle": "^1.20",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/string-extra": "^3.10",
-        "twig/twig": "^2.12|^3.0",
-      "ext-http": "*"
+        "twig/twig": "^2.12|^3.0"
     },
     "config": {
         "allow-plugins": {
