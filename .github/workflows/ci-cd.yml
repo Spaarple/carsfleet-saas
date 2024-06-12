@@ -114,6 +114,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Afficher l'adresse IP du serveur
+        run: |
+          echo "L'adresse IP du serveur est: ${{ secrets.SERVER_IP }}"
+
       - name: Test Network Connectivity
         run: ping -c 4 ${{ secrets.SERVER_IP }}
 
