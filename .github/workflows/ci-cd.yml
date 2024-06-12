@@ -106,34 +106,30 @@ jobs:
         run: php bin/console lint:twig ./templates
     continue-on-error: true
 
-  deploy:
-    needs: twig-lint
-    runs-on: ubuntu-latest
-    environment: prod
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Afficher l'adresse IP du serveur
-        run: |
-          echo "L'adresse IP du serveur est: ${{ secrets.SERVER_IP }}"
-
-      - name: Test Network Connectivity
-        run: ping -c 4 ${{ secrets.SERVER_IP }}
-
-      - name: Deploy to server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          passphrase: ${{ secrets.SERVER_PASSPHRASE }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          port: 22
-          script: |
-            cd public_html/carsfleet-saas/
-            git pull develop
-            composer install --no-dev
-            php bin/console doctrine:migration:migrate --no-interaction
-            yarn && yarn build
-            php bin/console cache:clear
-          timeout: 60s
+#  deploy:
+#    needs: twig-lint
+#    runs-on: ubuntu-latest
+#    environment: prod
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v4
+#
+#      - name: Test Network Connectivity
+#        run: ping -c 4 ${{ secrets.SERVER_IP }}
+#
+#      - name: Deploy to server
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.SERVER_IP }}
+#          username: ${{ secrets.SERVER_USERNAME }}
+#          passphrase: ${{ secrets.SERVER_PASSPHRASE }}
+#          key: ${{ secrets.SERVER_SSH_KEY }}
+#          port: 22
+#          script: |
+#            cd public_html/carsfleet-saas/
+#            git pull develop
+#            composer install --no-dev
+#            php bin/console doctrine:migration:migrate --no-interaction
+#            yarn && yarn build
+#            php bin/console cache:clear
+#          timeout: 60s
