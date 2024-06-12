@@ -122,6 +122,7 @@ deploy: ## deploy command
 	@if [ "$(CONFIRM)" = "y" ]; then \
   		git pull; \
 		$(COMPOSER_INSTALL); \
+		$(COMPOSER_UPDATE); \
 		yarn && yarn build; \
 	fi
 .PHONY: deploy
