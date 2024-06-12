@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Entity\Site;
 use App\Entity\User\AbstractUser;
 use App\Enum\Service;
-use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -46,6 +45,8 @@ class EditProfileType extends AbstractType
             ->add('service', EnumType::class, [
                 'label' => 'Service',
                 'class' => Service::class,
+                'choice_label' => 'value',
+                'choice_value' => 'name',
                 'disabled' => true,
             ])
             ->add('site', EntityType::class, [

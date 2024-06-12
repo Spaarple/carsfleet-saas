@@ -1,23 +1,31 @@
 App\Entity\User\UserSuperAdministrator:
-  superAdministrator{1..10}:
+  superAdministrator{1..2}:
     email: '<email()>'
     password: '<hashPassword("123abcABC%", "ROLE_SUPER_ADMINISTRATOR")>'
     first_name: '<fr_FR:firstname()>'
     last_name: '<fr_FR:lastname()>'
     roles: [ROLE_SUPER_ADMINISTRATOR]
-    head_office: '@headOffice*'
 
-App\Entity\User\UserAdministrator:
-  administrator{1..20}:
+App\Entity\User\UserAdministratorHeadOffice:
+  aministratorHeadOffice{1..10}:
     email: '<email()>'
-    password: '<hashPassword("123abcABC%", "ROLE_ADMINISTRATOR")>'
+    password: '<hashPassword("123abcABC%", "ROLE_ADMINISTRATOR_HEAD_OFFICE")>'
     first_name: '<fr_FR:firstname()>'
     last_name: '<fr_FR:lastname()>'
-    roles: [ROLE_ADMINISTRATOR]
+    roles: [ROLE_ADMINISTRATOR_HEAD_OFFICE]
+    head_office: '@headOffice*'
+
+App\Entity\User\UserAdministratorSite:
+  administratorSite{1..20}:
+    email: '<email()>'
+    password: '<hashPassword("123abcABC%", "ROLE_ADMINISTRATOR_SITE")>'
+    first_name: '<fr_FR:firstname()>'
+    last_name: '<fr_FR:lastname()>'
+    roles: [ROLE_ADMINISTRATOR_SITE]
     site: '@site*'
 
 App\Entity\User\UserEmployed:
-  employed{1..100}:
+  employed{1..600}:
     email: '<email()>'
     password: '<hashPassword("123abcABC%", "ROLE_EMPLOYED")>'
     first_name: '<fr_FR:firstname()>'

@@ -3,157 +3,84 @@
 {% block title %}CarsFleet{% endblock %}
 
 {% block body %}
-    <div class="page-body">
-        <div class="container-xl">
-            <div class="px-4 pt-5 my-5 text-center">
-                <h1 class="display-4 fw-bold text-body-emphasis">Votre parc devient magique avec Carsfleet</h1>
-                <div class="col-lg-6 mx-auto">
-                    <p class="lead mb-4">Optimisez votre flotte pour vos sites. Notre boîte à outils est incontournable.</p>
+    <div class="container mx-auto relative">
+        <div class=" overflow-x-hidden md:w-[700px] md:h-[700px] w-[400px] h-[400px] rounded-full bg-neutral-800 absolute block lg:-right-20 md:-right-10 lg:-top-56 md:top-72 top-80 -right-7 -z-50"></div>
+        <div class=" rounded-full bg-secondary-100 absolute block lg:-right-40 md:-right-20 lg:-top-56 md:top-72 top-80 -right-14 -z-50"></div>
+        <div class="grid lg:grid-cols-12 grid-cols-1 lg:gap-8 md:gap-y-16 gap-y-18 pt-8 pb-20 items-center relative border-b border-neutral-200">
+            <div class="flex flex-col items-start gap-10 lg:col-span-6">
+                <div class="flex flex-col gap-4 lg:pr-0 md:pr-24 relative">
+                    <h3 class="md:text-display-2xl text-display-md font-semibold">
+                        Maîtrisez votre parc Automobile
+                    </h3>
+                    <p class="md:text-body-lg text-body-md font-normal text-neutral-700">
+                        Découvrez une nouvelle ère de mobilité : Empruntez, Partagez, et Explorez avec CarsFleet,
+                        la plateforme de gestion de flotte tout-en-un.
+                    </p>
                 </div>
-                <div class="overflow-hidden" style="max-height: 40vh;">
-                    <div class="container px-5">
-                        <img src="{{ asset('images/preview-web-site.png') }}" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Interface d'administrateur" loading="lazy">
-                    </div>
-                </div>
+                <a class="button flex items-center justify-center rounded-xl bg-neutral-800 text-white font-semibold px-4 py-3 text-body-md"
+                   href="{{ path('app_register_index') }}">
+                    Démarrez votre voyage
+                </a>
             </div>
+            <div class="flex flex-col gap-10 lg:col-span-6 relative">
+                <img src="{{ asset('build/images/mockup.svg') }}" alt="Mockup" />
+            </div>
+        </div>
+    </div>
 
-            <div class="container px-4 py-5">
-                <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-                    <div class="col-10 col-sm-8 col-lg-6">
-                        <img src="{{ asset('images/preview-web-site.png') }}" class="d-block mx-lg-auto img-fluid" alt="preview app" width="500" height="500" loading="lazy">
+    <div class="container mx-auto">
+        <div class="flex flex-col gap-12 md:py-24 py-12">
+            <div class="grid xl:grid-cols-12 grid-cols-1 gap-8 text-center">
+                <div class="xl:col-span-2 xl:block hidden"></div>
+                <div class="xl:col-span-8 flex flex-col gap-12 justify-center">
+                    <div class="flex flex-col gap-2 text-center">
+                        <h3 class="lg:text-display-xl md:text-display-lg text-display-md font-semibold">
+                            Découvrez la en action
+                        </h3>
+                        <p class="md:text-body-lg text-body-md font-normal text-neutral-700">
+                            Voyez comment CarsFleet simplifie la gestion de votre flotte en un clin d'œil
+                        </p>
                     </div>
-                    <div class="col-lg-6">
-                        <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Rien ne vous arrête. Surtout pas nous.</h1>
-                        <p class="lead">
-                            Transformez votre flotte automobile en un atout stratégique pour vos multiples
-                            sites avec notre boîte à outils personnalisée, conçue pour répondre à vos besoins spécifiques.
-                            Découvrez pourquoi elle est plébiscitée par tant d'utilisateurs et prenez dès maintenant
-                            une longueur d'avance.
+                    <div class="flex flex-col items-center relative">
+                        <img src="{{ asset('build/images/preview-web-site.png') }}" alt="Thumbnail" class="relative rounded-lg"/>
+                        <div class="flex flex-row items-center md:py-4 py-3 md:pl-4 pl-3 md:pr-5 pr-4 gap-3 bg-white shadow-md rounded-full absolute md:-bottom-7 -bottom-6">
+                            <span class="md:text-body-md text-body-sm font-medium">
+                                Découvrir
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="xl:col-span-2 xl:block hidden"></div>
+            </div>
+            <div class="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 md:gap-8 gap-0 md:pt-10 md:pb-6 items-center">
+                <div class="flex md:flex-col flex-row self-start md:items-center md:gap-6 gap-4 lg:p-6 md:p-0 py-6">
+                    <img src="{{ asset('build/images/rental-car.png') }}" alt="Feature Icon"
+                          class="md:w-80 md:h-80 w-22 h-22"/>
+                    <div class="flex flex-col gap-2 xl:items-center md:text-center">
+                        <p class="md:text-display-xs text-body-xl font-semibold">Tableau de bord dynamique</p>
+                        <p class="md:text-body-md text-body-sm font-normal text-neutral-700">
+                            Track your ticket sales, attendees count and more with much ease.
                         </p>
                     </div>
                 </div>
-            </div>
-
-            <div id="tarification" class="my-5 py-2 bg-white rounded-5">
-                <div class="text-center">
-                    <div class="container py-5">
-                        <h1 class="display-6 fw-bold text-body-emphasis lh-1 mb-3">Vous allez en avoir pour votre temps.</h1>
-                        <div class="display-6 fw-bold my-3">19.99 € /mois</div>
-                        <ul class="list-unstyled lh-lg">
-                            <li>
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="icon me-1 text-success"
-                                     width="24"
-                                     height="24"
-                                     viewBox="0 0 24 24"
-                                     stroke-width="2"
-                                     stroke="currentColor"
-                                     fill="none"
-                                     stroke-linecap="round"
-                                     stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                    <path d="M5 12l5 5l10 -10"></path>
-                                </svg>
-                                Utilisateurs <strong>illimité</strong>
-                            </li>
-                            <li>
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="icon me-1 text-success"
-                                     width="24"
-                                     height="24"
-                                     viewBox="0 0 24 24"
-                                     stroke-width="2"
-                                     stroke="currentColor"
-                                     fill="none"
-                                     stroke-linecap="round"
-                                     stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                    <path d="M5 12l5 5l10 -10"></path>
-                                </svg>
-                                Gestion des accès par rôle
-                            </li>
-                            <li>
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="icon me-1 text-success"
-                                     width="24"
-                                     height="24"
-                                     viewBox="0 0 24 24"
-                                     stroke-width="2"
-                                     stroke="currentColor"
-                                     fill="none"
-                                     stroke-linecap="round"
-                                     stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                    <path d="M5 12l5 5l10 -10"></path>
-                                </svg>
-                                Sites <strong>illimité</strong>
-                            </li>
-                            <li>
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="icon me-1 text-success"
-                                     width="24"
-                                     height="24"
-                                     viewBox="0 0 24 24"
-                                     stroke-width="2"
-                                     stroke="currentColor"
-                                     fill="none"
-                                     stroke-linecap="round"
-                                     stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                    <path d="M5 12l5 5l10 -10"></path>
-                                </svg>
-                                Voitures <strong>illimité</strong>
-                            </li>
-                            <li>
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="icon me-1 text-success"
-                                     width="24"
-                                     height="24"
-                                     viewBox="0 0 24 24"
-                                     stroke-width="2"
-                                     stroke="currentColor"
-                                     fill="none"
-                                     stroke-linecap="round"
-                                     stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                    <path d="M5 12l5 5l10 -10"></path>
-                                </svg>
-                                Gestion des clés
-                            </li>
-                            <li>
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="icon me-1 text-success"
-                                     width="24"
-                                     height="24"
-                                     viewBox="0 0 24 24"
-                                     stroke-width="2"
-                                     stroke="currentColor"
-                                     fill="none"
-                                     stroke-linecap="round"
-                                     stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                    <path d="M5 12l5 5l10 -10"></path>
-                                </svg>
-                                Gestion des accidents
-                            </li>
-                            <li>
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="icon me-1 text-success"
-                                     width="24"
-                                     height="24"
-                                     viewBox="0 0 24 24"
-                                     stroke-width="2"
-                                     stroke="currentColor"
-                                     fill="none"
-                                     stroke-linecap="round"
-                                     stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                    <path d="M5 12l5 5l10 -10"></path>
-                                </svg>
-                                Gestion des emprunts de véhicules & des trajets professionnels
-                            </li>
-                        </ul>
-                        <a href="{{ path('app_register_index') }}" class="btn btn-outline-primary">S'abonner a Carsfleet</a>
+                <div class="flex md:flex-col flex-row self-start md:items-center md:gap-6 gap-4 lg:p-6 md:p-0 py-6">
+                    <img src="{{ asset('build/images/dashboard.png') }}" alt="Feature Icon"
+                         class="md:w-80 md:h-80 w-22 h-22"/>
+                    <div class="flex flex-col gap-2 xl:items-center md:text-center">
+                        <p class="md:text-display-xs text-body-xl font-semibold">Gestion de toute votre flotte</p>
+                        <p class="md:text-body-md text-body-sm font-normal text-neutral-700">
+                            Track your ticket sales, attendees count and more with much ease.
+                        </p>
+                    </div>
+                </div>
+                <div class="flex md:flex-col flex-row self-start md:items-center md:gap-6 gap-4 lg:p-6 md:p-0 py-6">
+                    <img src="{{ asset('build/images/building-company.png') }}" alt="Feature Icon"
+                         class="md:w-80 md:h-80 w-22 h-22"/>
+                    <div class="flex flex-col gap-2 xl:items-center md:text-center">
+                        <p class="md:text-display-xs text-body-xl font-semibold">Un espace dédié</p>
+                        <p class="md:text-body-md text-body-sm font-normal text-neutral-700">
+                            Track your ticket sales, attendees count and more with much ease.
+                        </p>
                     </div>
                 </div>
             </div>

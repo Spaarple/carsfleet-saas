@@ -1,0 +1,35 @@
+{{ encore_entry_link_tags('app') }}
+
+{% for accident in entity.instance.accidents %}
+    <div class="relative overflow-x-auto rounded-xl">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">Référence</th>
+                <th scope="col" class="px-6 py-3">Date</th>
+                <th scope="col" class="px-6 py-3">Description</th>
+                <th scope="col" class="px-6 py-3">Employé(e)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ accident.id|u.truncate(8) }}
+                </th>
+                <td class="px-6 py-4">
+                    <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-1 rounded-xl ring-1 ring-inset ring-gray-800/20">
+                        {{ accident.date|date('d/m/Y') }}
+                    </span>
+                </td>
+                <td class="px-6 py-4">{{ accident.description }}</td>
+                <td class="px-6 py-4">{{ accident.userEmployed.firstName ~ ' ' ~ accident.userEmployed.lastName }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <p>Aucun Accident</p>
+{% endfor %}
+
+
+

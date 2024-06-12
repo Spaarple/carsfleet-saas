@@ -11,7 +11,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class GeneratePasswordHelper implements GeneratePasswordInterfaceHelper
+readonly class GeneratePasswordHelper implements GeneratePasswordInterfaceHelper
 {
 
     /**
@@ -20,9 +20,9 @@ class GeneratePasswordHelper implements GeneratePasswordInterfaceHelper
      * @param ParameterBagInterface $parameterBag
      */
     public function __construct(
-        private readonly UserPasswordHasherInterface $passwordHasher,
-        private readonly MailerInterface $mailer,
-        private readonly ParameterBagInterface $parameterBag
+        private UserPasswordHasherInterface $passwordHasher,
+        private MailerInterface             $mailer,
+        private ParameterBagInterface       $parameterBag
     ) {
     }
 

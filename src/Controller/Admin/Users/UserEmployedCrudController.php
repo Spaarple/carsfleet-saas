@@ -33,7 +33,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_ADMINISTRATOR')]
+#[IsGranted('ROLE_ADMINISTRATOR_SITE')]
 class UserEmployedCrudController extends AbstractCrudController
 {
 
@@ -64,6 +64,9 @@ class UserEmployedCrudController extends AbstractCrudController
     ): QueryBuilder
     {
         $user = $this->security->getUser();
+        if (in_array(Role::ROLE_SUPER_ADMINISTRATOR->name, $user?->getRoles(), true)) {
+            return $this->userEmployedRepository->createQueryBuilder('u');
+        }
 
         return $this->userEmployedRepository->getEmployees($user);
     }
@@ -84,8 +87,9 @@ class UserEmployedCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Utilisateur')
-            ->setEntityLabelInPlural('Utilisateurs');
+            ->showEntityActionsInlined()
+            ->setEntityLabelInSingular('Employé')
+            ->setEntityLabelInPlural('Employés');
     }
 
     /**
@@ -95,8 +99,18 @@ class UserEmployedCrudController extends AbstractCrudController
      */
     public function configureActions(Actions $actions): Actions
     {
+        $edit = Action::new('edit-custom', '')
+            ->setIcon('fa fa-pencil')
+            ->linkToCrudAction(Crud::PAGE_EDIT);
+
+        $view = Action::new('view-custom', '')
+            ->setIcon('fa fa-eye')
+            ->linkToCrudAction(Crud::PAGE_DETAIL);
+
         return $actions
-            ->add(Crud::PAGE_INDEX, Action::DETAIL);
+            ->remove(Crud::PAGE_INDEX, Action::EDIT)
+            ->add(Crud::PAGE_INDEX, $edit)
+            ->add(Crud::PAGE_INDEX, $view);
     }
 
     /**
@@ -120,7 +134,7 @@ class UserEmployedCrudController extends AbstractCrudController
         return [
             FormField::addColumn(6),
             TextField::new('firstName', 'Prénom'),
-            EmailField::new('email', 'Email'),
+            TextField::new('lastName', 'Nom'),
             AssociationField::new('site', 'Site')
                 ->formatValue(function ($value, $entity) {
                     return $entity->getSite()?->getName();
@@ -130,10 +144,7 @@ class UserEmployedCrudController extends AbstractCrudController
             BooleanField::new('drivingLicense', 'Permis de conduire (B)')->setDisabled(),
 
             FormField::addColumn(6),
-            TextField::new('lastName', 'Nom'),
-            ChoiceField::new('roles', 'Roles')
-                ->allowMultipleChoices()
-                ->setChoices(Role::asArrayInverted()),
+            EmailField::new('email', 'Email'),
             EnumField::setEnumClass(Service::class)::new('service', 'Service'),
         ];
     }

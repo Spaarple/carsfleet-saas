@@ -19,12 +19,24 @@ class Key
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'carKeys')]
+    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'carKeys')]
     private ?Car $car = null;
 
     #[Assert\NotBlank]
     #[ORM\Column(type: Types::STRING, length: 255, enumType: StatusKey::class)]
     private ?StatusKey $status = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->name ?? 'New Key';
+    }
 
     /**
      * @return Uuid|null
@@ -68,6 +80,25 @@ class Key
     public function setStatus(StatusKey $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return $this
+     */
+    public function setName(string $name): static
+    {
+        $this->name = $name;
 
         return $this;
     }

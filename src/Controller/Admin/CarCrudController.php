@@ -3,6 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Car;
+use App\Enum\Fuel;
+use App\Enum\GearBox;
+use App\Enum\Role;
 use App\Enum\StatusCars;
 use App\Form\Admin\Field\EnumField;
 use App\Repository\CarRepository;
@@ -18,13 +21,15 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ColorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_ADMINISTRATOR')]
+#[IsGranted('ROLE_ADMINISTRATOR_SITE')]
 class CarCrudController extends AbstractCrudController
 {
 
@@ -53,6 +58,9 @@ class CarCrudController extends AbstractCrudController
     ): QueryBuilder
     {
         $user = $this->security->getUser();
+        if (in_array(Role::ROLE_SUPER_ADMINISTRATOR->name, $user?->getRoles(), true)) {
+            return $this->carRepository->createQueryBuilder('c');
+        }
 
         return $this->carRepository->getCarsByUser($user);
     }
@@ -73,7 +81,26 @@ class CarCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
+            ->showEntityActionsInlined()
             ->setEntityLabelInSingular('Voiture')
+            ->setPageTitle(
+                'detail',
+                fn (Car $car) => sprintf(
+                    '%s %s : %s',
+                    $car->getBrand(),
+                    $car->getModel(),
+                    $car->getRegistrationNumber()
+                )
+            )
+            ->setPageTitle(
+                'edit',
+                fn (Car $car) => sprintf(
+                    '%s %s : %s',
+                    $car->getBrand(),
+                    $car->getModel(),
+                    $car->getRegistrationNumber()
+                )
+            )
             ->setEntityLabelInPlural('Voitures');
     }
 
@@ -84,10 +111,19 @@ class CarCrudController extends AbstractCrudController
      */
     public function configureActions(Actions $actions): Actions
     {
-        return $actions
-            ->add(Crud::PAGE_INDEX, Action::DETAIL);
-    }
+        $edit = Action::new('edit-custom', '')
+            ->setIcon('fa fa-pencil')
+            ->linkToCrudAction(Crud::PAGE_EDIT);
 
+        $view = Action::new('view-custom', '')
+            ->setIcon('fa fa-eye')
+            ->linkToCrudAction(Crud::PAGE_DETAIL);
+
+        return $actions
+            ->remove(Crud::PAGE_INDEX, Action::EDIT)
+            ->add(Crud::PAGE_INDEX, $edit)
+            ->add(Crud::PAGE_INDEX, $view);
+    }
 
     /**
      * @param string $pageName
@@ -96,28 +132,68 @@ class CarCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
+            FormField::addTab('Informations Générales')->setIcon('info'),
             FormField::addColumn(6)->hideOnIndex(),
             TextField::new('brand', 'Marque'),
-            EnumField::setEnumClass(StatusCars::class)::new('status', 'Statut'),
-            TextField::new('registrationNumber', 'Numéro d\'immatriculation')
+            TextField::new('model', 'Modèle'),
+            NumberField::new('passengerQuantity', 'Qté passagers')
                 ->setTextAlign('center'),
-            NumberField::new('passengerQuantity', 'Quantité de passagers')
+            NumberField::new('kilometers', 'Kilométrage')
+                ->setTextAlign('center')->hideOnIndex(),
+
+            TextField::new('registrationNumber', 'N° d\'immatriculation')
                 ->setTextAlign('center'),
 
+            DateTimeField::new('circulationDate', 'Date de mise en circulation')
+                ->setFormat('dd/MM/yyyy')
+                ->setTextAlign('center')->hideOnIndex(),
+            DateTimeField::new('yearOfProduction', 'Date de fabrication')
+                ->setFormat('dd/MM/yyyy')
+                ->setTextAlign('center')->hideOnIndex(),
+            ColorField::new('color', 'Couleur'),
+            CollectionField::new('carKeys', 'Nbre de clés')
+                ->setTextAlign('center')
+                ->hideOnForm()->hideOnIndex()
+                ->formatValue(function ($value, $entity) {
+                    return $entity->getCarKeys()->count();
+                }),
+            EnumField::setEnumClass(Fuel::class)::new('fuel', 'Carburant')
+                ->hideOnIndex()->setTemplatePath('admin/badge.html.twig'),
+            EnumField::setEnumClass(GearBox::class)::new('gearbox', 'Boîte de vitesse')
+                ->hideOnIndex()->setTemplatePath('admin/badge.html.twig'),
+
             FormField::addColumn(6)->hideOnIndex(),
-            TextField::new('model', 'Modèle'),
-            TextField::new('serialNumber', 'Numéro de série'),
+            EnumField::setEnumClass(StatusCars::class)::new('status', 'Statut')
+                ->setTemplatePath('admin/badge.html.twig'),
+            TextField::new('serialNumber', 'N° de série')->hideOnIndex(),
             AssociationField::new('site', 'Site')
                 ->formatValue(function ($value, $entity) {
                     return $entity->getSite()?->getName();
                 }),
-            ColorField::new('color', 'Couleur'),
-            CollectionField::new('carKeys', 'Nombre de clés')
-                ->setTextAlign('center')
-                ->hideOnForm()
+            NumberField::new('fiscalHorsePower', 'Puissance Fiscale')
+                ->setTextAlign('center')->hideOnIndex(),
+            NumberField::new('horsePower', 'Puissance')
+                ->setTextAlign('center')->hideOnIndex(),
+
+            FormField::addTab('Carnet')->setIcon('car'),
+            CollectionField::new('accidents', '')
+                ->onlyOnDetail()
+                ->setTemplatePath('admin/accidents.html.twig')
                 ->formatValue(function ($value, $entity) {
-                    return $entity->getCarKeys()->count();
+                    return $entity->getAccidents();
                 }),
+            FormField::addTab('Image(s)')->setIcon('image'),
+
+            AssociationField::new('pictures', 'Image(s)')
+                ->setTemplatePath('admin/pictures.html.twig')
+                ->onlyOnDetail()->setColumns(8),
+
+            CollectionField::new('pictures', 'Image(s)')
+                ->useEntryCrudForm(PictureCrudController::class)
+                ->allowDelete()
+                ->setFormTypeOption('by_reference', false)
+                ->onlyWhenUpdating()
+                ->setColumns(10)
         ];
     }
 }

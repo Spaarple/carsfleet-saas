@@ -1,0 +1,98 @@
+{% macro sideBar(car) %}
+    <div id="drawer-navigation-{{ car.id }}"
+         class="fixed top-0 right-0 z-40 w-96 h-screen p-4 overflow-y-auto transition-transform
+          -translate-x-full  bg-white dark:bg-gray-800"
+         tabindex="-1"
+         aria-labelledby="drawer-navigation-{{ car.id }}-label">
+
+        <h5 id="drawer-navigation-{{ car.id }}-label" class="text-neutral-900 text-base font-semibold uppercase dark:text-gray-400">
+            Information du véhicule
+        </h5>
+        <button type="button" data-drawer-hide="drawer-navigation-{{ car.id }}" aria-controls="drawer-navigation-{{ car.id }}"
+                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 end-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" >
+            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            <span class="sr-only">Close menu</span>
+        </button>
+        <div class="py-4 overflow-y-auto overflow-x-hidden">
+            <div class="mt-4 lg:row-span-3 lg:mt-0">
+                <div class="mt-5">
+                    <div class="my-10">
+                        <div class="flex items-center justify-between my-3">
+                            <p class="text-sm text-neutral-800">Marque du véhicule</p>
+                            <p class="text-sm text-neutral-800">{{ car.brand }}</p>
+                        </div>
+                        <div class="flex items-center justify-between my-3">
+                            <p class="text-sm text-neutral-800">Modèle</p>
+                            <p class="text-sm text-neutral-800">{{ car.model }}</p>
+                        </div>
+                        <div class="flex items-center justify-between my-3">
+                            <p class="text-sm text-neutral-800">Quantité de passager</p>
+                            <span class="bg-gray-100 text-gray-800 text-sm font-medium me-2 px-2.5 py-0.5
+                         rounded-xl dark:bg-gray-700 dark:text-gray-300">{{ car.passengerQuantity }}
+                        </span>
+                        </div>
+                        <div class="flex items-center justify-between my-3">
+                            <p class="text-sm text-neutral-800">Couleur du véhicule</p>
+                            <div class="flex items-center space-x-3">
+                                <label class="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full
+                            p-0.5 focus:outline-none ring-gray-400">
+                                <span  class="h-8 w-8 rounded-full border border-black border-opacity-10"
+                                       style="background-color: {{ car.color }}">
+                                </span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between my-3">
+                            <p class="text-sm text-neutral-800">Carburant</p>
+                            <span class="rounded-xl bg-yellow-50 text-sm font-medium me-2 px-2.5 py-0.5
+                            text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
+                                {{ car.fuel.value }}
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between my-3">
+                            <p class="text-sm text-neutral-800">Transmission</p>
+                            <span class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5
+                                rounded-xl ring-1 ring-inset ring-green-800/20">{{ car.gearBox.value }}
+                            </span>
+                        </div>
+                        <p class="text-neutral-500 text-xs font-semibold uppercase mt-10">
+                            Information complémentaires
+                        </p>
+                        <div class="flex items-center justify-between my-3">
+                            <p class="text-sm text-neutral-800">Numéro de série</p>
+                            <span class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5
+                                rounded-xl ring-1 ring-inset ring-green-800/20">{{ car.serialNumber }}
+                        </span>
+                        </div>
+                        <div class="flex items-center justify-between my-3">
+                            <p class="text-sm text-neutral-800">Plaque d'immatriculation</p>
+                            <span class="bg-indigo-100 text-indigo-800 text-sm font-medium me-2 px-2.5 py-0.5
+                                rounded-xl ring-1 ring-inset ring-indigo-800/20">{{ car.registrationNumber }}
+                        </span>
+                        </div>
+                        <div class="flex items-center justify-between my-3">
+                            <p class="text-sm text-neutral-800">Kilomètrage</p>
+                            <span class="bg-indigo-100 text-indigo-800 text-sm font-medium me-2 px-2.5 py-0.5
+                                rounded-xl ring-1 ring-inset ring-indigo-800/20">{{ car.kilometers }}
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between my-3">
+                            <p class="text-sm text-neutral-800">Puissance (HP)</p>
+                            <p class="text-sm text-neutral-800">{{ car.horsePower }}</p>
+                        </div>
+                        <div class="flex items-center justify-between my-3">
+                            <p class="text-sm text-neutral-800">Puissance fiscale (HP)</p>
+                            <p class="text-sm text-neutral-800">{{ car.fiscalHorsePower }}</p>
+                        </div>
+                        <div class="flex items-center justify-between my-3">
+                            <p class="text-sm text-neutral-800">Date de mise en circulation</p>
+                            <span class="bg-purple-100 text-purple-800 text-sm font-medium me-2 px-2.5 py-0.5
+                                rounded-xl ring-1 ring-inset ring-purple-800/20">{{ car.circulationDate|date('d/m/Y') }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}

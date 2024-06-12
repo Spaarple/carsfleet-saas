@@ -14,7 +14,7 @@ RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     locale-gen
 
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
-RUN install-php-extensions pdo mysqli pdo_mysql gd opcache intl calendar dom mbstring zip xsl exif xdebug
+RUN install-php-extensions pdo mysqli pdo_mysql gd opcache intl calendar dom mbstring zip xsl exif xdebug http
 
 RUN curl -sS https://getcomposer.org/installer | php -- \
     && mv composer.phar /usr/local/bin/composer

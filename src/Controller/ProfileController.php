@@ -25,6 +25,9 @@ class ProfileController extends AbstractController
     )
     {}
 
+    /**
+     * @return Response
+     */
     #[IsGranted('ROLE_EMPLOYED')]
     #[Route('/', name: '_index')]
     public function index(): Response
@@ -93,7 +96,10 @@ class ProfileController extends AbstractController
         ]);
     }
 
-    #[IsGranted('ROLE_SUPER_ADMINISTRATOR')]
+    /**
+     * @return Response
+     */
+    #[IsGranted('ROLE_ADMINISTRATOR_HEAD_OFFICE')]
     #[Route('/cancel-subscription', name: '_cancel_subscription')]
     public function cancelSubscription(): Response
     {

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Repository\User;
 
-use App\Entity\User\UserAdministrator;
+use App\Entity\User\UserAdministratorSite;
 use App\Entity\User\UserEmployed;
-use App\Entity\User\UserSuperAdministrator;
+use App\Entity\User\UserAdministratorHeadOffice;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -31,15 +31,15 @@ class UserEmployedRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param UserSuperAdministrator|UserAdministrator $user
+     * @param UserAdministratorHeadOffice|UserAdministratorSite $user
      * @return QueryBuilder
      */
-    public function getEmployees(UserSuperAdministrator|UserAdministrator $user): QueryBuilder
+    public function getEmployees(UserAdministratorHeadOffice|UserAdministratorSite $user): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('u')
             ->innerJoin('u.site', 's');
 
-        if ($user instanceof UserSuperAdministrator) {
+        if ($user instanceof UserAdministratorHeadOffice) {
             $queryBuilder
                 ->innerJoin('s.headOffice', 'h')
                 ->where('h.id = :headOfficeId')
@@ -50,7 +50,7 @@ class UserEmployedRepository extends ServiceEntityRepository
                 );
         }
 
-        if ($user instanceof UserAdministrator) {
+        if ($user instanceof UserAdministratorSite) {
             $queryBuilder
                 ->where('s.id = :siteId')
                 ->setParameter(

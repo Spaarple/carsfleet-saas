@@ -3,8 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Key;
-use App\Entity\User\UserAdministrator;
-use App\Entity\User\UserSuperAdministrator;
+use App\Entity\User\UserAdministratorHeadOffice;
+use App\Entity\User\UserAdministratorSite;
+use App\Enum\Role;
 use App\Enum\StatusKey;
 use App\Form\Admin\Field\EnumField;
 use App\Repository\KeyRepository;
@@ -19,11 +20,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_ADMINISTRATOR')]
+#[IsGranted('ROLE_ADMINISTRATOR_SITE')]
 class KeyCrudController extends AbstractCrudController
 {
     /**
@@ -51,10 +53,16 @@ class KeyCrudController extends AbstractCrudController
     ): QueryBuilder
     {
         $user = $this->security->getUser();
+        if (in_array(Role::ROLE_SUPER_ADMINISTRATOR->name, $user?->getRoles(), true)) {
+            return $this->keyRepository->createQueryBuilder('k');
+        }
 
         return $this->keyRepository->getKeysByUser($user);
     }
 
+    /**
+     * @return string
+     */
     public static function getEntityFqcn(): string
     {
         return Key::class;
@@ -69,7 +77,8 @@ class KeyCrudController extends AbstractCrudController
     {
         return $crud
             ->setEntityLabelInSingular('Clé')
-            ->setEntityLabelInPlural('Clés');
+            ->setEntityLabelInPlural('Clés')
+            ->showEntityActionsInlined();
     }
 
     /**
@@ -79,8 +88,19 @@ class KeyCrudController extends AbstractCrudController
      */
     public function configureActions(Actions $actions): Actions
     {
+        $edit = Action::new('edit-custom', '')
+            ->setIcon('fa fa-pencil')
+            ->linkToCrudAction(Crud::PAGE_EDIT);
+
+        $view = Action::new('view-custom', '')
+            ->setIcon('fa fa-eye')
+            ->linkToCrudAction(Crud::PAGE_DETAIL);
+
         return $actions
-            ->add(Crud::PAGE_INDEX, Action::DETAIL);
+            ->remove(Crud::PAGE_INDEX, Action::EDIT)
+            ->add(Crud::PAGE_INDEX, $edit)
+            ->add(Crud::PAGE_INDEX, $view);
+
     }
     /**
      * @param string $pageName
@@ -91,10 +111,11 @@ class KeyCrudController extends AbstractCrudController
         $user = $this->security->getUser();
 
         return [
+            TextField::new('name', 'Nom de la clé'),
             AssociationField::new('car', 'Clé de la voiture')
                 ->setFormTypeOptions([
                     'query_builder' => function (EntityRepository $er) use ($user) {
-                        if ($user instanceof UserSuperAdministrator) {
+                        if ($user instanceof UserAdministratorHeadOffice) {
                             return $er->createQueryBuilder('c')
                                 ->innerJoin('c.site', 's')
                                 ->innerJoin('s.headOffice', 'h')
@@ -104,7 +125,7 @@ class KeyCrudController extends AbstractCrudController
                                 );
                         }
 
-                        if ($user instanceof UserAdministrator) {
+                        if ($user instanceof UserAdministratorSite) {
                             return $er->createQueryBuilder('c')
                                 ->innerJoin('c.site', 's')
                                 ->where('s.id = :siteId')
@@ -114,8 +135,8 @@ class KeyCrudController extends AbstractCrudController
                 ])
                 ->formatValue(function ($value, $entity) {
                     return sprintf('%s - %s',
-                        $entity->getCar()->getModel(),
                         $entity->getCar()->getBrand(),
+                        $entity->getCar()->getModel(),
                     );
                 }),
             EnumField::setEnumClass(StatusKey::class)::new('status', 'Ou trouver la clé'),

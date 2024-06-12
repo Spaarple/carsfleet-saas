@@ -23,6 +23,9 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
+    /**
+     * @param UrlGeneratorInterface $urlGenerator
+     */
     public function __construct(private readonly UrlGeneratorInterface $urlGenerator)
     {
     }
@@ -61,7 +64,7 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         if ($user = $token->getUser()) {
-            if ($user->getRoles()[0] === Role::ROLE_ADMINISTRATOR->name || $user->getRoles()[0] === Role::ROLE_SUPER_ADMINISTRATOR->name) {
+            if ($user->getRoles()[0] === Role::ROLE_ADMINISTRATOR_SITE->name || $user->getRoles()[0] === Role::ROLE_ADMINISTRATOR_HEAD_OFFICE->name || $user->getRoles()[0] === Role::ROLE_SUPER_ADMINISTRATOR->name) {
                 return new RedirectResponse($this->urlGenerator->generate('admin'));
             }
         }

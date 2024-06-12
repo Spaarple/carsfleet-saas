@@ -1,10 +1,17 @@
 App\Entity\Car:
-  car{1..200}:
-    serial_number: '<numberBetween(100000, 900000)>'
+  car{1..1500}:
+    serial_number: '<numberBetween(10000000000000000, 99999999999999999)>'
     brand: '<brand()>'
-    model: '<model()>'
+    model: '<model($brand)>'
     color: '<color()>'
-    registration_number: '<numberBetween(100000, 900000)>'
+    registration_number: '<registrationNumber()>'
     status: '<status()>'
     passenger_quantity: '<numberBetween(1, 5)>'
     site: '@site*'
+    fuel: '<fuel()>'
+    year_of_production: '<yearProduction()>'
+    circulation_date: '<circulationDate($year_of_production)>'
+    kilometers: '<numberBetween(0, 400000)>'
+    fiscal_horse_power: '<numberBetween(4, 10)>'
+    horse_power: '<numberBetween(85, 130)>'
+    gearbox: '<gearbox()>'

@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Borrow;
+use App\Enum\Role;
 use App\Repository\BorrowRepository;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -19,7 +20,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_ADMINISTRATOR')]
+#[IsGranted('ROLE_ADMINISTRATOR_SITE')]
 class BorrowCrudController extends AbstractCrudController
 {
     /**
@@ -47,6 +48,9 @@ class BorrowCrudController extends AbstractCrudController
     ): QueryBuilder
     {
         $user = $this->security->getUser();
+        if (in_array(Role::ROLE_SUPER_ADMINISTRATOR->name, $user?->getRoles(), true)) {
+            return $this->borrowRepository->createQueryBuilder('b');
+        }
 
         return $this->borrowRepository->getBorrowByUser($user);
     }
@@ -79,8 +83,12 @@ class BorrowCrudController extends AbstractCrudController
      */
     public function configureActions(Actions $actions): Actions
     {
+        $view = Action::new('view-custom', '')
+            ->setIcon('fa fa-eye')
+            ->linkToCrudAction(Crud::PAGE_DETAIL);
+
         return $actions
-            ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ->add(Crud::PAGE_INDEX, $view)
             ->remove(Crud::PAGE_INDEX, Action::NEW)
             ->remove(Crud::PAGE_INDEX, Action::DELETE)
             ->remove(Crud::PAGE_INDEX, Action::EDIT)
@@ -121,12 +129,12 @@ class BorrowCrudController extends AbstractCrudController
                     return implode(', ', $passengers);
                 }),
             AssociationField::new('borrowMeet', 'Lieu de départ')
-                 ->formatValue(function ($value, $entity) {
-                     return sprintf('%s', $entity->getBorrowMeet()->getSite()->getName());
-                 }),
+                ->formatValue(function ($value, $entity) {
+                    return $entity->getBorrowMeet()->getSite()->getName();
+                }),
             AssociationField::new('borrowMeet', 'Destination')
                 ->formatValue(function ($value, $entity) {
-                    return sprintf('%s', $entity->getBorrowMeet()->getTripDestination()->getName());
+                    return $entity->getBorrowMeet()->getTripDestination()->getName();
                 }),
         ];
     }

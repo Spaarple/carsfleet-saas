@@ -1,87 +1,49 @@
-<div class="container">
-    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-        <div class="col-md-3 mb-2 mb-md-0">
-            <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-                <img src="{{ asset('images/carsfleet-code-vanguard.png') }}" width="32" height="32" alt=""/>
-            </a>
-        </div>
-
-        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#about" class="nav-link px-2">A propos</a></li>
-            <li><a href="#tarification" class="nav-link px-2">Tarification</a></li>
-        </ul>
-
-        <div class="col-md-3 text-end">
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-               {% if is_granted('ROLE_EMPLOYED') %}
-                   <a href="{{ path('app_profile_index') }}" class="btn btn-outline-primary me-2">
-                       <svg xmlns="http://www.w3.org/2000/svg"
-                            class="icon icon-tabler icon-tabler-user"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            stroke-width="2"
-                            stroke="currentColor"
-                            fill="none"
-                            stroke-linecap="round"
-                            stroke-linejoin="round">
-                           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                           <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
-                           <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
-                       </svg>
-                       Mon compte
-                   </a>
-                   {% else %}
-                       <a href="{{ path('admin') }}" class="btn btn-outline-primary me-2">
-                           <svg xmlns="http://www.w3.org/2000/svg"
-                                class="icon icon-tabler icon-tabler-tool"
-                                width="24" height="24" viewBox="0 0 24 24"
-                                stroke-width="2" stroke="currentColor"
-                                fill="none" stroke-linecap="round"
-                                stroke-linejoin="round">
-                               <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                               <path d="M7 10h3v-3l-3.5 -3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1 -3 3l-6 -6a6 6 0 0 1 -8 -8l3.5 3.5"></path>
-                           </svg>
-                           Panneau d'administration
-                       </a>
-                   {% endif %}
-            {% else %}
-                <a href="{{ path('app_login') }}" class="btn btn-outline-primary me-2">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         class="icon icon-tabler icon-tabler-key"
-                         width="24"
-                         height="24"
-                         viewBox="0 0 24 24"
-                         stroke-width="2"
-                         stroke="currentColor"
-                         fill="none"
-                         stroke-linecap="round"
-                         stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <path d="M16.555 3.843l3.602 3.602a2.877 2.877 0 0 1 0 4.069l-2.643 2.643a2.877 2.877 0 0 1 -4.069 0l-.301 -.301l-6.558 6.558a2 2 0 0 1 -1.239 .578l-.175 .008h-1.172a1 1 0 0 1 -.993 -.883l-.007 -.117v-1.172a2 2 0 0 1 .467 -1.284l.119 -.13l.414 -.414h2v-2h2v-2l2.144 -2.144l-.301 -.301a2.877 2.877 0 0 1 0 -4.069l2.643 -2.643a2.877 2.877 0 0 1 4.069 0z"></path>
-                        <path d="M15 9h.01"></path>
-                    </svg>
-                    Se connecter
+<header class="fixed top-0 left-0 right-0 z-50 overflow-hidden bg-white/80 backdrop-blur-lg dark:bg-gray-950/75">
+    <div class="container mx-auto">
+        <div class="flex  justify-between items-center">
+            <div class="flex flex-row gap-8 items-center">
+                <a href="{{ path('app_home') }}">
+                    <img src="{{ asset('build/images/carsfleet-code-vanguard.png') }}" alt="" title="Carsfleet identité numérique" height="75" width="75">
                 </a>
-                <a href="{{ path('app_register_index') }}" class="btn btn-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         class="icon icon-tabler icon-tabler-user-circle"
-                         width="24"
-                         height="24"
-                         viewBox="0 0 24 24"
-                         stroke-width="2"
-                         stroke="currentColor"
-                         fill="none"
-                         stroke-linecap="round"
-                         stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
-                        <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
-                        <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855"></path>
-                    </svg>
-                    S'enregistrer
-                </a>
-            {% endif %}
+            </div>
+            <div class="flex flex-row gap-6">
+                <div class="md:flex hidden flex-row gap-6 items-center">
+                    <a href="{{ path('app_about') }}" class="text-body-sm font-medium text-neutral-700 hover:text-neutral-900 px-4 hover:underline">
+                        A propos
+                    </a>
+                    <a href="{{ path('app_pricing') }}" class="text-body-sm font-medium text-neutral-700 hover:text-neutral-900 px-4 hover:underline">
+                        Tarification
+                    </a>
+                    <a href="#" class="text-body-sm font-medium text-neutral-700 hover:text-neutral-900 px-4 hover:underline">
+                        Fonctionnalités
+                    </a>
+                    <a href="{{ path('app_faq') }}" class="text-body-sm font-medium text-neutral-700 hover:text-neutral-900 px-4 hover:underline">
+                        FAQ
+                    </a>
+                </div>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {% if is_granted('ROLE_EMPLOYED') %}
+                        <a href="{{ path('app_profile_index') }}"
+                           class="transform hover:scale-110 transition-transform duration-200 hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-900 pl-5 pr-4  px-4 py-3 rounded-xl flex flex-row gap-2 items-center justify-center">
+                           Mon compte
+                        </a>
+                    {% else %}
+                        <a href="{{ path('admin') }}"
+                           class="transform hover:scale-110 transition-transform duration-200 hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-900 pl-5 pr-4  px-4 py-3 rounded-xl flex flex-row gap-2 items-center justify-center">
+                            Panneau d'administration
+                        </a>
+                    {% endif %}
+                {% else %}
+                    <a href="{{ path('app_login') }}"
+                       class="transform hover:scale-110 transition-transform duration-200 hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-900 pl-5 pr-4  px-4 py-3 rounded-xl flex flex-row gap-2 items-center justify-center">
+                        Se connecter
+                    </a>
+                    <a href="{{ path('app_register_index') }}"
+                       class="transform hover:scale-110 transition-transform duration-200 hover:bg-neutral-800 text-body-sm font-semibold text-white bg-neutral-700 pl-5 pr-4  px-4 py-3 rounded-xl flex flex-row gap-2 items-center justify-center">
+                        S'inscrire
+                    </a>
+                {% endif %}
+            </div>
         </div>
-    </header>
-</div>
+    </div>
+</header>

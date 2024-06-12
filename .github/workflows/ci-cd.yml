@@ -1,0 +1,135 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - 'develop'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  security-checker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: exif, mysqli, pdo, pdo_mysql, zip, gd, http
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update && sudo apt-get install -y curl git libzip-dev libwebp-dev libjpeg-dev libpng-dev libxpm-dev
+          curl -sSk https://getcomposer.org/installer | php -- --disable-tls && sudo mv composer.phar /usr/local/bin/composer
+          composer install -o
+
+      - name: Install PHP Security Checker
+        run: |
+          curl -o /tmp/security_checker -L "https://github.com/fabpot/local-php-security-checker/releases/download/v2.0.5/local-php-security-checker_2.0.5_linux_amd64"
+          sudo mv /tmp/security_checker /usr/bin/local-php-security-checker
+          sudo chmod +x /usr/bin/local-php-security-checker
+
+      - name: Run security check
+        run: local-php-security-checker --path=./composer.lock
+
+  doctrine-schema-validate:
+    needs: security-checker
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: toor
+          MYSQL_DATABASE: carsfleet
+          MYSQL_USER: carsfleet
+          MYSQL_PASSWORD: carsfleet
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+          --publish=3306:3306
+          -e MYSQL_ROOT_PASSWORD=toor
+          -e MYSQL_DATABASE=carsfleet
+          -e MYSQL_USER=carsfleet
+          -e MYSQL_PASSWORD=carsfleet
+    env:
+      DATABASE_URL: 'mysql://root:toor@127.0.0.1:3306/carsfleet?serverVersion=5.7&charset=utf8mb4'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: exif, mysqli, pdo, pdo_mysql, zip, gd, http
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update && sudo apt-get install -y curl git libzip-dev libwebp-dev libjpeg-dev libpng-dev libxpm-dev
+          curl -sSk https://getcomposer.org/installer | php -- --disable-tls && sudo mv composer.phar /usr/local/bin/composer
+          composer install -o
+          php bin/console doctrine:database:drop --force
+          php bin/console doctrine:database:create
+          php bin/console doctrine:migration:migrate --no-interaction
+
+      - name: Validate schema
+        run: php bin/console doctrine:schema:validate
+
+  twig-lint:
+    needs: doctrine-schema-validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: exif, mysqli, pdo, pdo_mysql, zip, gd, http
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update && sudo apt-get install -y curl git libzip-dev libwebp-dev libjpeg-dev libpng-dev libxpm-dev
+          curl -sSk https://getcomposer.org/installer | php -- --disable-tls && sudo mv composer.phar /usr/local/bin/composer
+          composer install -o
+
+      - name: Lint Twig templates
+        run: php bin/console lint:twig ./templates
+    continue-on-error: true
+
+#  deploy:
+#    needs: twig-lint
+#    runs-on: ubuntu-latest
+#    environment: prod
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v4
+#
+#      - name: Test Network Connectivity
+#        run: ping -c 4 ${{ secrets.SERVER_IP }}
+#
+#      - name: Deploy to server
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.SERVER_IP }}
+#          username: ${{ secrets.SERVER_USERNAME }}
+#          passphrase: ${{ secrets.SERVER_PASSPHRASE }}
+#          key: ${{ secrets.SERVER_SSH_KEY }}
+#          port: 22
+#          script: |
+#            cd public_html/carsfleet-saas/
+#            git pull develop
+#            composer install --no-dev
+#            php bin/console doctrine:migration:migrate --no-interaction
+#            yarn && yarn build
+#            php bin/console cache:clear
+#          timeout: 60s

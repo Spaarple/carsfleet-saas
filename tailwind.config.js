@@ -22,13 +22,28 @@ module.exports = {
       current: "currentColor",
       white: "#FFFFFF",
       black: "#000000",
+      red: {
+        100: "#E63946",
+        200: "#FCA5A5",
+        600: "#EF4444",
+      },
+      success: {
+        500: "#10B981",
+      },
       primary: {
-        600: "#0876DD",
         100: "#E0F2FE",
+        300: "#00b4d8",
+        600: "#0876DD",
+        900: "#03045e"
       },
       secondary: {
         600: "#29D2D3",
         100: "#CFFAFE",
+      },
+      darkness: {
+        200: "#E3E3E5",
+        400: "#D0D0D0",
+        500: "#2B2B2B",
       },
       neutral: {
         900: "#111827",
@@ -141,5 +156,9 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin') ({
+      charts: true,
+    }),
+  ],
 };

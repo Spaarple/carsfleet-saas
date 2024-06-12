@@ -9,26 +9,20 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
 
     {% block stylesheets %}
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css">
+        {{ encore_entry_link_tags('app') }}
     {% endblock %}
 
     {% block javascripts %}
-        <script src="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>
-        {% block importmap %}
-            {{ importmap('app') }}
-        {% endblock %}
+        {{ encore_entry_script_tags('app') }}
     {% endblock %}
 </head>
 
-<body class="border-top-wide border-primary d-flex flex-column">
-{% include '_components/_header_app.html.twig' %}
-
-<div class="page-wrapper">
-    {% block body %}{% endblock %}
+<body>
+<div class="mb-20">
+    {% include '_components/_header_app.html.twig' %}
 </div>
-
+{% block body %}{% endblock %}
 {% include '_components/_footer.html.twig' %}
-
 </body>
 </html>
 

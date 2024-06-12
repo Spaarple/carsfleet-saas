@@ -8,7 +8,6 @@ use Faker\Generator;
 
 class BorrowProvider
 {
-
     private Generator $faker;
 
     public function __construct() {
@@ -20,7 +19,10 @@ class BorrowProvider
      */
     public function startDate(): DateTimeImmutable
     {
-        return DateTimeImmutable::createFromMutable($this->faker->dateTime('now'));
+        $startDate = '2020-01-01';
+        $endDate = 'now';
+
+        return DateTimeImmutable::createFromMutable($this->faker->dateTimeBetween($startDate, $endDate));
     }
 
     /**

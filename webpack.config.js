@@ -21,6 +21,11 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
+    .addEntry('dashboard-ea', './assets/dashboard-ea.js')
+    .addEntry('borrow', './assets/borrow.js')
+    .addEntry('search', './assets/search-car.js')
+
+    .addStyleEntry('admin', './assets/styles/admin.css')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -51,6 +56,16 @@ Encore
     .configureBabelPresetEnv((config) => {
         config.useBuiltIns = 'usage';
         config.corejs = '3.23';
+    })
+
+    .copyFiles({
+        from: './assets/images',
+        to: 'images/[path][name].[hash:8].[ext]',
+    })
+
+    .copyFiles({
+        from: './assets/images/car-picture',
+        to: 'images/car-picture/[path][name].[hash:8].[ext]',
     })
 
     // enables Sass/SCSS support

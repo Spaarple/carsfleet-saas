@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\DTO\SearchCarDTO;
 use App\Entity\User\UserEmployed;
 use App\Enum\StatusCars;
+use App\Form\SearchFormType;
 use App\Repository\CarRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
@@ -18,35 +22,35 @@ class CarController extends AbstractController
     /**
      * @param CarRepository $carRepository
      * @param UserEmployed $employed
+     * @param PaginatorInterface $paginator
      * @return Response
      */
     #[Route('/', name: '_index')]
-    public function index(CarRepository $carRepository, #[CurrentUser] UserEmployed $employed): Response
-    {
-        $cars = $carRepository->findBy(
-            [
-                'status' => StatusCars::AVAILABLE,
-                'site' => $employed->getSite(),
-            ]
-        );
+    public function index(
+        Request $request,
+        CarRepository $carRepository,
+        #[CurrentUser] UserEmployed $employed,
+        PaginatorInterface $paginator
+    ): Response {
+        $search = new SearchCarDTO();
+        $form = $this->createForm(SearchFormType::class, $search);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $carsQuery = $carRepository->findSearchCar($search, $employed->getSite());
+        } else {
+            $carsQuery = $carRepository->findBy(
+                [
+                    'status' => StatusCars::AVAILABLE,
+                    'site' => $employed->getSite(),
+                ]
+            );
+        }
+        $cars = $paginator->paginate($carsQuery, $request->query->getInt('page', 1), 9);
 
         return $this->render('car/index.html.twig', [
             'cars' => $cars,
+            'form' => $form->createView(),
         ]);
     }
-
-    /**
-     * @param string $id
-     * @param CarRepository $carRepository
-     *
-     * @return Response
-     */
-    #[Route('/{id}', name: '_detail')]
-    public function view(string $id, CarRepository $carRepository): Response
-    {
-        return $this->render('car/detail.html.twig', [
-            'car' => $carRepository->findOneBy(['id' => $id])
-        ]);
-    }
-
 }

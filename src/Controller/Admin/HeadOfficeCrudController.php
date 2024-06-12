@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Entity\HeadOffice;
-use App\Entity\User\UserSuperAdministrator;
+use App\Entity\User\UserAdministratorHeadOffice;
+use App\Enum\Role;
 use App\Repository\HeadOfficeRepository;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
@@ -21,7 +22,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_ADMINISTRATOR')]
+#[IsGranted('ROLE_ADMINISTRATOR_SITE')]
 class HeadOfficeCrudController extends AbstractCrudController
 {
     /**
@@ -58,8 +59,12 @@ class HeadOfficeCrudController extends AbstractCrudController
     {
         $user = $this->security->getUser();
 
-        if(!$user instanceof UserSuperAdministrator) {
+        if(!$user instanceof UserAdministratorHeadOffice) {
             $this->redirectToRoute('admin');
+        }
+
+        if (in_array(Role::ROLE_SUPER_ADMINISTRATOR->name, $user?->getRoles(), true)) {
+            return $this->headOfficeRepository->createQueryBuilder('h');
         }
 
         return $this->headOfficeRepository->getHeadOfficeByUser($user);
@@ -81,20 +86,36 @@ class HeadOfficeCrudController extends AbstractCrudController
         ->setPageTitle('edit', 'Modification du siège social');
     }
 
+    /**
+     * @param Actions $actions
+     * @return Actions
+     */
     public function configureActions(Actions $actions): Actions
     {
+        $edit = Action::new('edit-custom', '')
+            ->setIcon('fa fa-pencil')
+            ->linkToCrudAction(Crud::PAGE_EDIT);
+
+        $view = Action::new('view-custom', '')
+            ->setIcon('fa fa-eye')
+            ->linkToCrudAction(Crud::PAGE_DETAIL);
+
         $actions
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ->add(Crud::PAGE_INDEX, $edit)
+            ->add(Crud::PAGE_INDEX, $view)
             ->remove(Crud::PAGE_INDEX, Action::NEW)
             ->remove(Crud::PAGE_INDEX, Action::DELETE)
-            ->remove(Crud::PAGE_DETAIL, Action::DELETE);
+            ->remove(Crud::PAGE_DETAIL, Action::DELETE)
+            ->remove(Crud::PAGE_INDEX, Action::DETAIL)
+            ->remove(Crud::PAGE_INDEX, Action::EDIT);
 
-        if ($this->isGranted('ROLE_ADMINISTRATOR')) {
+        if ($this->isGranted(Role::ROLE_ADMINISTRATOR_SITE->name)) {
             $actions->remove(Crud::PAGE_DETAIL, Action::EDIT);
             $this->redirectToRoute('admin');
         }
 
-        if ($this->isGranted('ROLE_SUPER_ADMINISTRATOR')) {
+        if ($this->isGranted(Role::ROLE_ADMINISTRATOR_HEAD_OFFICE->name)) {
             $actions->add(Crud::PAGE_DETAIL, Action::EDIT);
             $this->redirectToRoute('admin');
         }

@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Entity\User\UserAdministrator;
+use App\Entity\User\UserAdministratorSite;
 use App\Entity\User\UserEmployed;
 use App\Repository\SiteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -53,8 +53,8 @@ class Site
     #[ORM\OneToMany(mappedBy: 'site', targetEntity: UserEmployed::class, orphanRemoval: true)]
     private Collection $employees;
 
-    #[ORM\OneToMany(mappedBy: 'site', targetEntity: UserAdministrator::class, orphanRemoval: true)]
-    private Collection $administrators;
+    #[ORM\OneToMany(mappedBy: 'site', targetEntity: UserAdministratorSite::class, orphanRemoval: true)]
+    private Collection $userAdministratorSite;
 
     #[ORM\OneToMany(mappedBy: 'site', targetEntity: Car::class, orphanRemoval: true)]
     private Collection $cars;
@@ -68,7 +68,7 @@ class Site
     public function __construct()
     {
         $this->employees = new ArrayCollection();
-        $this->administrators = new ArrayCollection();
+        $this->userAdministratorSite = new ArrayCollection();
         $this->cars = new ArrayCollection();
         $this->borrowMeets = new ArrayCollection();
         $this->borrowMeetsTripDestination = new ArrayCollection();
@@ -240,21 +240,21 @@ class Site
     }
 
     /**
-     * @return Collection<int, UserAdministrator>
+     * @return Collection<int, UserAdministratorSite>
      */
     public function getAdministrators(): Collection
     {
-        return $this->administrators;
+        return $this->userAdministratorSite;
     }
 
     /**
-     * @param UserAdministrator $administrator
+     * @param UserAdministratorSite $administrator
      * @return $this
      */
-    public function addAdministrator(UserAdministrator $administrator): static
+    public function addAdministrator(UserAdministratorSite $administrator): static
     {
-        if (!$this->administrators->contains($administrator)) {
-            $this->administrators->add($administrator);
+        if (!$this->userAdministratorSite->contains($administrator)) {
+            $this->userAdministratorSite->add($administrator);
             $administrator->setSite($this);
         }
 
@@ -262,12 +262,12 @@ class Site
     }
 
     /**
-     * @param UserAdministrator $administrator
+     * @param UserAdministratorSite $administrator
      * @return $this
      */
-    public function removeAdministrator(UserAdministrator $administrator): static
+    public function removeAdministrator(UserAdministratorSite $administrator): static
     {
-        if ($this->administrators->removeElement($administrator) && $administrator->getSite() === $this) {
+        if ($this->userAdministratorSite->removeElement($administrator) && $administrator->getSite() === $this) {
             $administrator->setSite(null);
         }
 

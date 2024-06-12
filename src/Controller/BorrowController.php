@@ -9,6 +9,7 @@ use App\Form\BorrowFormType;
 use App\Repository\BorrowRepository;
 use App\Repository\CarRepository;
 use App\Service\AlertServiceInterface;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -60,6 +61,7 @@ class BorrowController extends AbstractController
      * @param UserEmployed $employed
      *
      * @return Response
+     * @throws \Exception
      */
     #[Route('/create/{id}', name: '_index')]
     public function create(string $id, Request $request, #[CurrentUser] UserEmployed $employed): Response {
@@ -70,9 +72,14 @@ class BorrowController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $fullDate = $request->request->all()['borrow_form']['startDate'];
+            $extractDate = explode(' - ', $fullDate);
 
-            $borrow->setStartDate($form->get('startDate')->getData())
-                ->setEndDate($form->get('endDate')->getData())
+            $dateStart= new DateTimeImmutable($extractDate[0]);
+            $dateEnd = new DateTimeImmutable($extractDate[1]);
+
+            $borrow->setStartDate($dateStart)
+                ->setEndDate($dateEnd)
                 ->setDriver($employed)
                 ->addUserEmployed($employed);
 
@@ -91,8 +98,10 @@ class BorrowController extends AbstractController
 
             return $this->redirectToRoute('app_car_index');
         }
+
         return $this->render('borrow/index.html.twig', [
             'form' => $form->createView(),
+            'available_dates' => json_encode($this->borrowRepository->findBorrowsByCar($id), JSON_THROW_ON_ERROR),
         ]);
     }
 
@@ -153,6 +162,7 @@ class BorrowController extends AbstractController
      * @param MailerInterface $mailer
      * @param ParameterBagInterface $parameterBag
      * @param UrlGeneratorInterface $urlGenerator
+     * @param UserEmployed $currentUser
      * @return Response
      * @throws TransportExceptionInterface
      */
@@ -162,6 +172,7 @@ class BorrowController extends AbstractController
         MailerInterface $mailer,
         ParameterBagInterface $parameterBag,
         UrlGeneratorInterface $urlGenerator,
+        #[CurrentUser] UserEmployed $currentUser
     ): Response
     {
         $borrow = $this->borrowRepository->find($id);
@@ -170,32 +181,22 @@ class BorrowController extends AbstractController
             throw $this->createNotFoundException('Aucun emprunt trouvé pour cet id : ' . $id);
         }
 
-        foreach ($borrow->getUserEmployed() as $user) {
-
-            $email = (new TemplatedEmail())
-                ->from(new Address($parameterBag->get('mail.support'), 'Votre trajet a été annulé'))
-                ->to($user->getEmail())
-                ->subject('Annulation de votre réservation et instructions pour reprendre le trajet')
-                ->htmlTemplate('borrow/email/email.html.twig')
-                ->context([
-                    'info' => sprintf(
-                        'du %s départ du %s pour le %s',
-                        $borrow->getBorrowMeet()?->getDate()?->format('d/m/Y'),
-                        $borrow->getBorrowMeet()?->getSite(),
-                        $borrow->getBorrowMeet()?->getTripDestination()
-                    ),
-                    'link_to_reserve_new' => $urlGenerator->generate('app_borrow_passenger'),
-                ]);
-            $mailer->send($email);
-
-            $user->removeBorrow($borrow);
-        }
-        $borrowMeet = $borrow->getBorrowMeet()?->removeBorrow($borrow);
-
-        $this->entityManager->remove($borrow);
-
-        if ($borrowMeet->getBorrow()->isEmpty()) {
-            $this->entityManager->remove($borrowMeet);
+        if ($borrow->getDriver() === $currentUser) {
+            // Si l'utilisateur qui annule est le conducteur, supprimez le Borrow entièrement
+            foreach ($borrow->getUserEmployed() as $user) {
+                $this->sendCancellationEmail($user, $borrow, $mailer, $parameterBag, $urlGenerator);
+                $user->removeBorrow($borrow);
+            }
+            $borrowMeet = $borrow->getBorrowMeet()?->removeBorrow($borrow);
+            $this->entityManager->remove($borrow);
+            if ($borrowMeet->getBorrow()->isEmpty()) {
+                $this->entityManager->remove($borrowMeet);
+            }
+        } else {
+            // Si l'utilisateur qui annule est un passager, supprimez uniquement la relation entre le Borrow et l'utilisateur
+            $this->sendCancellationEmail($currentUser, $borrow, $mailer, $parameterBag, $urlGenerator);
+            $currentUser->removeBorrow($borrow);
+            $borrow->removeUserEmployed($currentUser);
         }
 
         $this->entityManager->flush();
@@ -203,5 +204,38 @@ class BorrowController extends AbstractController
         $this->alertService->success('L\'emprunt a été annulé avec succès');
 
         return $this->redirectToRoute('app_borrow_history');
+    }
+
+    /**
+     * @param UserEmployed $user
+     * @param Borrow $borrow
+     * @param MailerInterface $mailer
+     * @param ParameterBagInterface $parameterBag
+     * @param UrlGeneratorInterface $urlGenerator
+     * @return void
+     * @throws TransportExceptionInterface
+     */
+    private function sendCancellationEmail(
+        UserEmployed $user,
+        Borrow $borrow,
+        MailerInterface $mailer,
+        ParameterBagInterface $parameterBag,
+        UrlGeneratorInterface $urlGenerator
+    ): void {
+        $email = (new TemplatedEmail())
+            ->from(new Address($parameterBag->get('mail.support'), 'Votre trajet a été annulé'))
+            ->to($user->getEmail())
+            ->subject('Annulation de votre réservation et instructions pour reprendre le trajet')
+            ->htmlTemplate('borrow/email/email.html.twig')
+            ->context([
+                'info' => sprintf(
+                    'du %s départ du %s pour le %s',
+                    $borrow->getBorrowMeet()?->getDate()?->format('d/m/Y'),
+                    $borrow->getBorrowMeet()?->getSite(),
+                    $borrow->getBorrowMeet()?->getTripDestination()
+                ),
+                'link_to_reserve_new' => $urlGenerator->generate('app_borrow_passenger'),
+            ]);
+        $mailer->send($email);
     }
 }

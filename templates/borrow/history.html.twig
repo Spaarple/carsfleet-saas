@@ -3,196 +3,215 @@
 {% block title %}CarsFleet - Historique{% endblock %}
 
 {% block body %}
-    <div class="page-wrapper">
-        <div class="page-header d-print-none">
-            <div class="container-xl">
-                <div class="row g-2 align-items-center">
-                    <div class="col">
-                        <h2 class="page-title">
-                            Historique de mes emprunts
-                        </h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    <div class="page-body">
-        <div class="container-xl">
-            <div class="row row-cards">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="table-responsive">
-                            <table class="table table-vcenter card-table table-hover">
-                                <thead>
-                                <tr class="align-middle">
-                                    <th scope="col">Voitures</th>
-                                    <th scope="col">Date de début</th>
-                                    <th scope="col">Date de fin</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for borrow_history in borrows_history %}
-                                    <tr class="align-middle">
-                                        <td colspan="row">{{ borrow_history.car.brand }} - {{ borrow_history.car.model }}</td>
-                                        <td colspan="row">
-                                            <span class="status status-success">{{ borrow_history.startDate|date('d/m/y') }}
-                                            </span>
-                                        </td>
-                                        <td colspan="row">
-                                            <span class="status status-dark">{{ borrow_history.endDate|date('d/m/Y') }}
-                                            </span>
-                                        </td>
-                                        <td colspan="row">
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#modal-small-{{ borrow_history.borrowMeet.id }}">
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                     class="icon icon-tabler icon-tabler-map-pin text-azure"
-                                                     width="24"
-                                                     height="24"
-                                                     viewBox="0 0 24 24"
-                                                     stroke-width="2"
-                                                     stroke="currentColor"
-                                                     fill="none"
-                                                     stroke-linecap="round"
-                                                     stroke-linejoin="round">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                    <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
-                                                    <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"></path>
-                                                </svg>
-                                                Détail du rendez-vous
-                                            </a>
-
-                                            <div class="modal modal-blur fade" id="modal-small-{{ borrow_history.borrowMeet.id }}" tabindex="-1">
-                                                <div class="modal-dialog modal-sm" role="document">
-                                                    <div class="modal-content">
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        <div class="modal-status bg-azure"></div>
-                                                        <div class="modal-body text-center py-4">
-                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                 class="icon mb-2 text-azure icon-lg icon-tabler icon-tabler-clock-pin"
-                                                                 width="24" height="24"
-                                                                 viewBox="0 0 24 24"
-                                                                 stroke-width="1.5"
-                                                                 stroke="currentColor"
-                                                                 fill="none" stroke-linecap="round"
-                                                                 stroke-linejoin="round">
-                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                                <path d="M20.971 11.278a9 9 0 1 0 -8.313 9.698"></path>
-                                                                <path d="M12 7v5l1.5 1.5"></path>
-                                                                <path d="M21.121 20.121a3 3 0 1 0 -4.242 0c.418 .419 1.125 1.045 2.121 1.879c1.051 -.89 1.759 -1.516 2.121 -1.879z"></path>
-                                                                <path d="M19 18v.01"></path>
-                                                            </svg>
-                                                            <h3>Détail du rendez-vous</h3>
-                                                            <div class="text-secondary">
-                                                                <p class="fs-3">Votre rendez-vous est le : {{ borrow_history.borrowMeet.date|date('d/m/y H:i') }}</p>
-                                                                 <p class="fs-3">Point de départ : {{ borrow_history.borrowMeet.site.name }}</p>
-                                                                 <p class="fs-3">Destination: {{ borrow_history.borrowMeet.tripDestination.name }}</p>
-                                                            </div>
+    <div class="container mx-auto p-4 shadow rounded-xl">
+        <h1 class="text-display-xs font-semibold mb-5">
+            Historique de mes emprunts
+        </h1>
+        <div class="md:flex">
+            <div class="flex-1 py-3 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-xl w-full">
+                <div class="col-span-full relative overflow-x-scroll sm:overflow-x-auto ">
+                    <div class="flex flex-col">
+                        <div class="overflow-x-auto rounded-xl">
+                            <div class="block sm:inline-block min-w-full">
+                                <div class="shadow">
+                                    <table class="min-w-full divide-y divide-gray-200 table-auto dark:divide-gray-600">
+                                        <thead class="text-xs text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+                                        <tr>
+                                            <th scope="col" class="py-2 px-2 text-left">Voitures</th>
+                                            <th scope="col" class="py-2 px-2 text-left">Date de début</th>
+                                            <th scope="col" class="py-2 px-2 text-left">Date de fin</th>
+                                            <th scope="col" class="py-2 px-2 text-left">Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for borrow_history in borrows_history %}
+                                            <tr class="bg-white text-neutral-800 border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                                <td colspan="row" class="px-2">{{ borrow_history.car.brand }} - {{ borrow_history.car.model }}</td>
+                                                <td colspan="row">
+                                                    <span class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5
+                                                           rounded-xl ring-1 ring-inset ring-green-800/20">
+                                                        {{ borrow_history.startDate|date('d/m/y H:i') }}
+                                                    </span>
+                                                </td>
+                                                <td colspan="row">
+                                                    <span class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5
+                                                           rounded-xl ring-1 ring-inset ring-green-800/20">
+                                                        {{ borrow_history.endDate|date('d/m/y H:i') }}
+                                                    </span>
+                                                </td>
+                                                <td colspan="row">
+                                                    <div class="md:flex">
+                                                        <div class="md:w-1/4 p-2 flex items-center">
+                                                            <a href="{{ path('app_borrow_detail', {'id': borrow_history.car.id }) }}"
+                                                               class="text-primary-900 inline-flex align-bottom">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                     class="icon icon-tabler icon-tabler-map-pin text-azure mx-1"
+                                                                     width="24"
+                                                                     height="24"
+                                                                     viewBox="0 0 24 24"
+                                                                     stroke-width="2"
+                                                                     stroke="currentColor"
+                                                                     fill="none"
+                                                                     stroke-linecap="round"
+                                                                     stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                    <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
+                                                                    <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"></path>
+                                                                </svg>
+                                                                Consulter
+                                                            </a>
                                                         </div>
-                                                        <div class="modal-footer">
-                                                            <div class="w-100">
-                                                                <div class="row">
-                                                                    <div class="col">
-                                                                        <a href="#" class="btn w-100" data-bs-dismiss="modal">
-                                                                            Fermer
-                                                                        </a>
+                                                        <div class="md:w-1/4 p-2">
+                                                            <a href="#" data-modal-target="modal-small-{{ borrow_history.borrowMeet.id }}" data-modal-toggle="modal-small-{{ borrow_history.borrowMeet.id }}" class="text-blue-400 flex items-center">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                     class="icon icon-tabler icon-tabler-map-pin text-azure mx-1"
+                                                                     width="24"
+                                                                     height="24"
+                                                                     viewBox="0 0 24 24"
+                                                                     stroke-width="2"
+                                                                     stroke="currentColor"
+                                                                     fill="none"
+                                                                     stroke-linecap="round"
+                                                                     stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                    <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+                                                                    <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"></path>
+                                                                </svg>
+                                                                Détail du rendez-vous
+                                                            </a>
+                                                            <div  id="modal-small-{{ borrow_history.borrowMeet.id }}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                                                <div class="relative p-4 w-full max-w-md max-h-full">
+                                                                    <div class="relative bg-white rounded-xl shadow dark:bg-gray-700">
+                                                                        <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-xl text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                                                data-modal-hide="modal-small-{{ borrow_history.borrowMeet.id }}">
+                                                                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                                                            </svg>
+                                                                            <span class="sr-only">Close modal</span>
+                                                                        </button>
+                                                                        <div class="p-4 md:p-5 text-center">
+                                                                            <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+                                                                                 aria-hidden="true"
+                                                                                 xmlns="http://www.w3.org/2000/svg"
+                                                                                 fill="none"
+                                                                                 viewBox="0 0 22 22"
+                                                                                >
+                                                                                <path stroke-linecap="round"
+                                                                                      stroke-width="2"
+                                                                                      stroke="currentColor"
+                                                                                      stroke-linejoin="round"
+                                                                                      d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                                                                                />
+                                                                            </svg>
+                                                                            <h3 class="text-display-xs font-semibold mb-5">Détail du rendez-vous</h3>
+                                                                            <div class="text-secondary my-10">
+                                                                                <p class="fs-3">Votre rendez-vous est le : <b>{{ borrow_history.borrowMeet.date|date('d/m/y H:i') }}</b></p>
+                                                                                <p class="fs-3">Point de départ : <b>{{ borrow_history.borrowMeet.site.name }}</b></p>
+                                                                                <p class="fs-3">Destination: <b>{{ borrow_history.borrowMeet.tripDestination.name }}</b></p>
+                                                                            </div>
+                                                                            <button data-modal-hide="modal-small-{{ borrow_history.borrowMeet.id }}"
+                                                                                    type="button"
+                                                                                    class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-xl border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                                                                Fermer
+                                                                            </button>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {% if borrow_history.driver == app.user %}
-                                                <a href="{{ path('app_accident_index', {'id': borrow_history.car.id}) }}">
-                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                         class="icon icon-tabler icon-tabler-car-crash text-warning"
-                                                         width="24"
-                                                         height="24"
-                                                         viewBox="0 0 24 24"
-                                                         stroke-width="2"
-                                                         stroke="currentColor"
-                                                         fill="none"
-                                                         stroke-linecap="round"
-                                                         stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M10 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
-                                                        <path d="M7 6l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-5m0 -6h8m-6 0v-5m2 0h-4"></path>
-                                                        <path d="M14 8v-2"></path>
-                                                        <path d="M19 12h2"></path>
-                                                        <path d="M17.5 15.5l1.5 1.5"></path>
-                                                        <path d="M17.5 8.5l1.5 -1.5"></path>
-                                                    </svg>
-                                                    Déclarer un accident
-                                                </a>
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#modal-cancel-{{ borrow_history.id }}">
-                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                         class="icon icon-tabler icon-tabler-circle-minus text-danger"
-                                                         width="24"
-                                                         height="24"
-                                                         viewBox="0 0 24 24"
-                                                         stroke-width="2"
-                                                         stroke="currentColor"
-                                                         fill="none"
-                                                         stroke-linecap="round"
-                                                         stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
-                                                        <path d="M9 12l6 0"></path>
-                                                    </svg>
-                                                    Annuler
-                                                </a>
-                                            {% endif %}
-
-                                            <div class="modal modal-blur fade" id="modal-cancel-{{ borrow_history.id }}" tabindex="-1">
-                                                <div class="modal-dialog modal-sm" role="document">
-                                                    <div class="modal-content">
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        <div class="modal-status bg-danger"></div>
-                                                        <div class="modal-body text-center py-4">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg"
-                                                                 width="24" height="24" viewBox="0 0 24 24"
-                                                                 stroke-width="2"
-                                                                 stroke="currentColor"
-                                                                 fill="none"
-                                                                 stroke-linecap="round"
-                                                                 stroke-linejoin="round">
-                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                                <path d="M12 9v2m0 4v.01"></path>
-                                                                <path d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75"></path>
-                                                            </svg>
-                                                            <h3>Êtes vous sur ?</h3>
-                                                            <div class="text-secondary">Vous êtes sur le point d'annuler votre emprunt</div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <div class="w-100">
-                                                                <div class="row">
-                                                                    <div class="col">
-                                                                        <a href="#" class="btn w-100" data-bs-dismiss="modal">
-                                                                            Fermer
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="col">
-                                                                        <a href="{{ path('app_borrow_cancel', {'id': borrow_history.id}) }}" class="btn btn-danger w-100">
-                                                                           Annuler l'emprunt
-                                                                        </a>
+                                                        {% if borrow_history.driver == app.user %}
+                                                            <div class="md:w-1/4 p-2">
+                                                                <a href="{{ path('app_accident_index', {'id': borrow_history.car.id}) }}" class="text-orange-500 flex items-center">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                         class="icon icon-tabler icon-tabler-car-crash text-warning mx-1"
+                                                                         width="24"
+                                                                         height="24"
+                                                                         viewBox="0 0 24 24"
+                                                                         stroke-width="2"
+                                                                         stroke="currentColor"
+                                                                         fill="none"
+                                                                         stroke-linecap="round"
+                                                                         stroke-linejoin="round">
+                                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                        <path d="M10 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                                                        <path d="M7 6l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-5m0 -6h8m-6 0v-5m2 0h-4"></path>
+                                                                        <path d="M14 8v-2"></path>
+                                                                        <path d="M19 12h2"></path>
+                                                                        <path d="M17.5 15.5l1.5 1.5"></path>
+                                                                        <path d="M17.5 8.5l1.5 -1.5"></path>
+                                                                    </svg>
+                                                                    <span class="ml-2">Déclarer un accident</span>
+                                                                </a>
+                                                            </div>
+                                                            <div class="md:w-1/4 p-2 flex items-center">
+                                                                <a href="#" data-modal-target="modal-cancel-{{ borrow_history.id }}" data-modal-toggle="modal-cancel-{{ borrow_history.id }}" class="text-red-600 flex items-center">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                         class="icon icon-tabler icon-tabler-circle-minus text-danger mx-1"
+                                                                         width="24"
+                                                                         height="24"
+                                                                         viewBox="0 0 24 24"
+                                                                         stroke-width="2"
+                                                                         stroke="currentColor"
+                                                                         fill="none"
+                                                                         stroke-linecap="round"
+                                                                         stroke-linejoin="round">
+                                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+                                                                        <path d="M9 12l6 0"></path>
+                                                                    </svg>
+                                                                    Annuler
+                                                                </a>
+                                                                <div id="modal-cancel-{{ borrow_history.id }}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                                                    <div class="relative p-4 w-full max-w-md max-h-full">
+                                                                        <div class="relative bg-white rounded-xl shadow dark:bg-gray-700">
+                                                                            <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-xl text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="modal-cancel-{{ borrow_history.id }}">
+                                                                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
+                                                                                </svg>
+                                                                                <span class="sr-only">Close modal</span>
+                                                                            </button>
+                                                                            <div class="p-4 md:p-5 text-center">
+                                                                                <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+                                                                                     aria-hidden="true"
+                                                                                     xmlns="http://www.w3.org/2000/svg"
+                                                                                     fill="none" viewBox="0 0 20 20">
+                                                                                    <path stroke="currentColor"
+                                                                                          stroke-linecap="round"
+                                                                                          stroke-linejoin="round"
+                                                                                          stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path>
+                                                                                </svg>
+                                                                                <h3 class="text-display-xs font-semibold mb-5">Annuler votre emprunts ?</h3>
+                                                                                <div class="text-secondary my-5">
+                                                                                    <p class="fs-3">Cette action est irréversible</p>
+                                                                                </div>
+                                                                                <a href="{{ path('app_borrow_cancel', {'id': borrow_history.id}) }}"
+                                                                                        type="button"
+                                                                                        class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-xl text-sm inline-flex items-center px-5 py-2.5 text-center">
+                                                                                   Oui, annuler l'emprunt
+                                                                                </a>
+                                                                                <button data-modal-hide="modal-cancel-{{ borrow_history.id }}"
+                                                                                        type="button"
+                                                                                        class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-xl border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                                                                   Fermer
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        {% endif %}
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                {% else %}
-                                    <tr>
-                                        <td colspan="6" class="text-center fs-3">Aucun historique</td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
+                                                </td>
+                                            </tr>
+                                        {% else %}
+                                            <tr>
+                                                <td colspan="6" class="text-center fs-3">Aucun historique</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

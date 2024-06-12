@@ -1,0 +1,70 @@
+/* Admin button side bar ACTIVE BUTTON */
+#main-menu .menu .menu-item.active:not(.expanded)
+.menu-icon, #main-menu .menu .menu-item.active:not(.expanded) a {
+    color: #111827;
+}
+
+/* All links of Administration */
+div.field-value a, tbody tr td:not(.actions) a {
+    color: #0876DD;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+/* Custom action color */
+.action-view-custom {
+    color: #03045e;
+}
+
+.action-edit-custom {
+    color: #f77f00;
+}
+
+.action-view-custom:hover {
+    color: #03045e;
+}
+
+.action-edit-custom:hover {
+    color: #f77f00;
+}
+
+/* switch Button*/
+.form-switch .form-check-input:checked, .form-switch .form-check-input:checked {
+    background-color: #111827;
+    border-color: #111827;
+}
+
+/* Admin actions button New - saveAndReturn */
+/*a[data-action-name="new"], button[data-action-name="saveAndReturn"] {*/
+/*    background-color: #111827;*/
+/*}*/
+/*a[data-action-name="new"]:hover, button[data-action-name="saveAndReturn"]:hover {*/
+/*    background-color:#4B5563 !important;*/
+/*}*/
+/*!* Admin actions button Detail - Edit *!*/
+/*a[data-action-name="detail"], a[data-action-name="edit"] {*/
+/*    color: #111827;*/
+/*}*/
+/*a[data-action-name="detail"]:hover, a[data-action-name="edit"]:hover {*/
+/*    text-decoration: underline;*/
+/*    text-underline-offset: 4px;*/
+/*}*/
+
+/* Admin actions button Edit on page */
+/*div .page-actions a[data-action-name="edit"] {*/
+/*    background-color: #111827;*/
+/*    color: whitesmoke;*/
+/*}*/
+
+/*div .page-actions a[data-action-name="edit"]:hover {*/
+/*    text-decoration: none;*/
+/*    background-color:#4B5563 !important;*/
+/*    color: whitesmoke;*/
+/*}*/
+
+/*div.field-value a:hover, tbody tr td a:hover {*/
+/*    color: #00b4d8;*/
+/*    text-decoration: underline;*/
+/*    text-underline-offset: 4px;*/
+/*}*/
+
