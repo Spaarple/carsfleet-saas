@@ -121,6 +121,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           passphrase: ${{ secrets.SERVER_PASSPHRASE }}
           key: ${{ secrets.SERVER_SSH_KEY }}
+          timeout: 120
           script: |
             cd public_html/carsfleet-saas/
             git pull develop
