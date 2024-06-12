@@ -116,13 +116,3 @@ reset-db-prod: ## Reset database.
 		$(PHP_BIN_CONSOLE) hautelook:fixtures:load --append --no-interaction --env=dev; \
 	fi
 .PHONY: reset-db-prod
-
-deploy: ## deploy command
-	$(eval CONFIRM := $(shell read -p "Are you sure you want to deploy new version? [y/N] " CONFIRM && echo $${CONFIRM:-N}))
-	@if [ "$(CONFIRM)" = "y" ]; then \
-  		git pull; \
-		$(COMPOSER_INSTALL); \
-		$(COMPOSER_UPDATE); \
-		yarn && yarn build; \
-	fi
-.PHONY: deploy
