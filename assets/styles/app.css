@@ -78,8 +78,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .air-datepicker-cell.-weekend-,
-.air-datepicker-cell.-disabled- {
+.air-datepicker-cell.-disabled-:not(.already-borrowed) {
     background-color: #F3F4F6 !important;
+    border-radius:0;
+    color: black !important;
+    cursor: default;
+}
+
+.already-borrowed, .already-borrowed:hover {
+    background-color: #FCA5A5;
     border-radius:0;
     color: black !important;
     cursor: default;
