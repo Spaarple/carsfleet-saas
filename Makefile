@@ -1,7 +1,4 @@
-#---VARIABLES---------------------------------#
-#------------#
-
-#---SYMFONY--#
+#---VARIABLES--#
 SYMFONY = symfony
 PHP = php
 BIN_CONSOLE = bin/console
@@ -16,10 +13,6 @@ SYMFONY_LINT = $(SYMFONY_CONSOLE) lint:
 COMPOSER = composer
 COMPOSER_INSTALL = $(COMPOSER) install
 COMPOSER_UPDATE = $(COMPOSER) update
-#------------#
-
-#---PHPUNIT-#
-PHPUNIT = APP_ENV=test $(SYMFONY) php bin/phpunit
 #------------#
 
 ## === 🆘  HELP ==================================================
@@ -90,16 +83,6 @@ composer-update: ## Update composer dependencies.
 .PHONY: composer-update
 #---------------------------------------------#
 
-## === 🔎  TESTS =================================================
-tests: ## Run tests.
-	$(PHPUNIT) --testdox
-.PHONY: tests
-
-tests-coverage: ## Run tests with coverage.
-	XDEBUG_MODE=coverage $(PHPUNIT) --coverage-html var/coverage
-.PHONY: tests-coverage
-#---------------------------------------------#
-
 ## === ⭐  OTHER =================================================
 reset-db: ## Reset database.
 	$(eval CONFIRM := $(shell read -p "Are you sure you want to reset the database? [y/N] " CONFIRM && echo $${CONFIRM:-N}))
@@ -133,3 +116,12 @@ reset-db-prod: ## Reset database.
 		$(PHP_BIN_CONSOLE) hautelook:fixtures:load --append --no-interaction --env=dev; \
 	fi
 .PHONY: reset-db-prod
+
+deploy: ## deploy command
+	$(eval CONFIRM := $(shell read -p "Are you sure you want to deploy new version? [y/N] " CONFIRM && echo $${CONFIRM:-N}))
+	@if [ "$(CONFIRM)" = "y" ]; then \
+  		git pull; \
+		$(COMPOSER_INSTALL); \
+		yarn && yarn build; \
+	fi
+.PHONY: deploy
