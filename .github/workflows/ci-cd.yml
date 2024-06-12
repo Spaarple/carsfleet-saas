@@ -114,6 +114,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Test Network Connectivity
+        run: ping -c 4 ${{ secrets.SERVER_IP }}
+
       - name: Deploy to server
         uses: appleboy/ssh-action@master
         with:
@@ -121,7 +124,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           passphrase: ${{ secrets.SERVER_PASSPHRASE }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          timeout: 120s
+          port: 22
           script: |
             cd public_html/carsfleet-saas/
             git pull develop
@@ -129,3 +132,4 @@ jobs:
             php bin/console doctrine:migration:migrate --no-interaction
             yarn && yarn build
             php bin/console cache:clear
+          timeout: 60s
